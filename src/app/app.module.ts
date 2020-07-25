@@ -40,6 +40,17 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AuthGuardService } from './core/service/auth-guard.service';
+import { AuthService } from './core/service/auth.service';
+import { JwtModule } from '@auth0/angular-jwt';
+import { LogoutComponent } from './views/logout/logout.component';
+import { CoreModule } from './core/core.module';
+
+export function tokenGetter() {
+  return sessionStorage.getItem("access_token");
+}
 
 @NgModule({
   imports: [
@@ -54,7 +65,16 @@ import { ChartsModule } from 'ng2-charts';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+      },
+    }),
+    CoreModule
   ],
   declarations: [
     AppComponent,
@@ -62,12 +82,13 @@ import { ChartsModule } from 'ng2-charts';
     P404Component,
     P500Component,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    LogoutComponent
   ],
-  providers: [{
+  providers: [AuthGuardService, AuthService, {
     provide: LocationStrategy,
-    useClass: HashLocationStrategy
+    useClass: HashLocationStrategy,
   }],
-  bootstrap: [ AppComponent ]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
