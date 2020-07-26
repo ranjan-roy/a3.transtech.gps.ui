@@ -5,14 +5,22 @@ import { NotificationComponent } from './components/notification/notification.co
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ToasterModule } from 'angular2-toaster';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 
 @NgModule({
-  declarations: [NotificationComponent],
+  declarations: [NotificationComponent, LoginComponent,
+    RegisterComponent,
+    LogoutComponent,],
   imports: [
     CommonModule,
-    ToasterModule
+    ToasterModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [NotificationComponent],
   providers: [NotificationService, {

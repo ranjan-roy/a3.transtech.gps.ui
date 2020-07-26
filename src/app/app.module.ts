@@ -14,12 +14,12 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
 import { AppComponent } from './app.component';
 
 // Import containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from './layouts';
 
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+import { P404Component } from './core/components/error/404.component';
+import { P500Component } from './core/components/error/500.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { RegisterComponent } from './core/components/register/register.component';
 
 const APP_CONTAINERS = [
   DefaultLayoutComponent
@@ -45,7 +45,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthGuardService } from './core/service/auth-guard.service';
 import { AuthService } from './core/service/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
-import { LogoutComponent } from './views/logout/logout.component';
+import { LogoutComponent } from './core/components/logout/logout.component';
 import { CoreModule } from './core/core.module';
 
 export function tokenGetter() {
@@ -81,9 +81,7 @@ export function tokenGetter() {
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-    LoginComponent,
-    RegisterComponent,
-    LogoutComponent
+
   ],
   providers: [AuthGuardService, AuthService, {
     provide: LocationStrategy,

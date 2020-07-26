@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 // Import Containers
-import { DefaultLayoutComponent } from './containers';
+import { DefaultLayoutComponent } from './layouts';
 
-import { P404Component } from './views/error/404.component';
-import { P500Component } from './views/error/500.component';
-import { LoginComponent } from './views/login/login.component';
-import { RegisterComponent } from './views/register/register.component';
+import { P404Component } from './core/components/error/404.component';
+import { P500Component } from './core/components/error/500.component';
+import { LoginComponent } from './core/components/login/login.component';
+import { RegisterComponent } from './core/components/register/register.component';
 import { AuthGuardService } from './core/service/auth-guard.service';
-import { LogoutComponent } from './views/logout/logout.component';
+import { LogoutComponent } from './core/components/logout/logout.component';
 
 export const routes: Routes = [
   {
@@ -55,62 +55,15 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: 'base',
-        loadChildren: () => import('./views/base/base.module').then(m => m.BaseModule)
-      },
-      {
-        path: 'buttons',
-        loadChildren: () => import('./views/buttons/buttons.module').then(m => m.ButtonsModule)
-      },
-      {
-        path: 'charts',
-        loadChildren: () => import('./views/chartjs/chartjs.module').then(m => m.ChartJSModule)
-      },
-      {
         path: 'dashboard',
         canActivate: [AuthGuardService],
-        loadChildren: () => import('./views/dashboard/dashboard.module').then(m => m.DashboardModule)
+        loadChildren: () => import('./features/dashboard/dashboard.module').then(m => m.DashboardModule)
       },
       {
-        path: 'editors',
-        loadChildren: () => import('./views/editors/editors.module').then(m => m.EditorsModule)
+        path: 'vendor',
+        canActivate: [AuthGuardService],
+        loadChildren: () => import('./features/vendor/vendor.module').then(m => m.VendorModule)
       },
-      {
-        path: 'forms',
-        loadChildren: () => import('./views/forms/forms.module').then(m => m.FormsModule)
-      },
-      {
-        path: 'google-maps',
-        loadChildren: () => import('./views/google-maps/google-maps.module').then(m => m.GoogleMapsModule)
-      },
-      {
-        path: 'icons',
-        loadChildren: () => import('./views/icons/icons.module').then(m => m.IconsModule)
-      },
-      {
-        path: 'notifications',
-        loadChildren: () => import('./views/notifications/notifications.module').then(m => m.NotificationsModule)
-      },
-      {
-        path: 'plugins',
-        loadChildren: () => import('./views/plugins/plugins.module').then(m => m.PluginsModule)
-      },
-      {
-        path: 'tables',
-        loadChildren: () => import('./views/tables/tables.module').then(m => m.TablesModule)
-      },
-      {
-        path: 'theme',
-        loadChildren: () => import('./views/theme/theme.module').then(m => m.ThemeModule)
-      },
-      {
-        path: 'apps',
-        loadChildren: () => import('./views/apps/apps.module').then(m => m.AppsModule)
-      },
-      {
-        path: 'widgets',
-        loadChildren: () => import('./views/widgets/widgets.module').then(m => m.WidgetsModule)
-      }
     ]
   },
   {
