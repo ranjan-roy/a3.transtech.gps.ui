@@ -1,0 +1,97 @@
+<div class="animated fadeIn">
+  <!--/.card-->
+
+  <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Add Vendors
+        </div>
+        <div class="card-body">
+        	<form  novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+        <label class="col-form-label" for="firstName">Name</label>
+        	 	<input class="form-control"
+                         id="firstName"
+                         type="text"
+                         formControlName="firstName"
+                         placeholder=" Name"
+                         autocomplete="given-name"
+                         required
+                         autofocus
+                         />
+                          <label class="col-form-label" for="textarea-input">Description</label>
+            
+                <textarea id="textarea-input"style=" height: 100px;" name="textarea-input" rows="9" class="form-control" placeholder="Description.."></textarea>
+       
+                <div class="form-group">
+                  <label class="col-form-label" for="email">Email</label>
+                  <input class="form-control"
+                         id="email"
+                         type="text"
+                         formControlName="email"
+                         placeholder="Email"
+                         autocomplete="email"
+                         required
+                         />
+                  <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                    <div *ngIf="f['email'].errors.required">Email is required</div>
+                   
+                  </div>
+                </div>
+                 <fieldset class="form-group">
+            <label>Phone </label>
+            <div class="input-group">
+            
+          
+              <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-phone"></i></span></span>
+              <input type="text" class="form-control"  >
+        
+           </div>
+            <small class="text-muted">ex. (999) 999-9999</small>
+          </fieldset>
+          <fieldset class="form-group">
+            <label>Mobile </label>
+            <div class="input-group">
+            
+          
+              <span class="input-group-prepend"><span class="input-group-text"><i class="fa fa-phone"></i></span></span>
+              <input type="text" class="form-control"  >
+        
+           </div>
+            <small class="text-muted">ex. (+99) 9999999999</small>
+          </fieldset>
+          <label class="col-form-label" for="firstName">ImagePath</label>
+        	 	<input class="form-control"
+                         id="ImagePath"
+                         type="text"
+                         formControlName="imagepath"
+                         placeholder=" imagepath"
+                         autocomplete="given-name"
+                         required
+                         autofocus
+                         />
+          
+              <label class=" col-form-label" for="Timezone">Timezone</label>
+           
+                <select id="select1" name="Select Timezone" class="form-control">
+                  <option value="0">Select Timezone</option>
+                  <option value="1">Usa </option>
+                  <option value="2">Uk</option>
+                  <option value="3">Singapur</option>
+                </select>
+         
+        
+          
+        </form>
+    <div class="form-group">
+        <button type="button" class="btn btn-block btn-primary"style="width: 120px;margin-top: 30px">Submit</button>
+         <button type="reset" style="width: 120px;height:35px;margin-left:150px;margin-top: -60px;"class="btn btn-sm btn-danger">Reset</button>
+     </div>
+        	</div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
