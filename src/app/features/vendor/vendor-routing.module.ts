@@ -18,7 +18,7 @@ const routes: Routes = [
     data: {
       title: 'Vendors'
     }
-    
+
   }
 ];
 @NgModule({

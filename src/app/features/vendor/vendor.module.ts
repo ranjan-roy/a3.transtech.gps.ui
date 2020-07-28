@@ -9,15 +9,14 @@ import { AgGridModule } from 'ag-grid-angular';
 import { AddEditComponent } from './add-edit/add-edit.component';
 
 @NgModule({
-  declarations: [VendorListComponent,  AddEditComponent],
+  declarations: [VendorListComponent, AddEditComponent],
   imports: [
     CommonModule,
     VendorRoutingModule,
-     
-    AgGridModule
+    AgGridModule.forRoot([])
   ],
   providers: [],
-  
+
   bootstrap: [VendorListComponent]
 
 })
