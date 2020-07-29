@@ -1,4 +1,6 @@
 <div class="animated fadeIn">
+  <!--/.card-->
+  <!--/.row-->
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -6,107 +8,142 @@
           Add Vendors
         </div>
         <div class="card-body">
-          <form novalidate class="needs-validation">
-            <label class="col-form-label" for="firstName">Name</label>
-            <input
-              class="form-control"
-              id="firstName"
-              type="text"
-              formControlName="firstName"
-              placeholder=" Name"
-              autocomplete="given-name"
-              required
-              autofocus
-            />
-            <label class="col-form-label" for="textarea-input"
-              >Description</label
-            >
-            <textarea
-              id="textarea-input"
-              style="height: 100px;"
-              name="textarea-input"
-              rows="9"
-              class="form-control"
-              placeholder="Description.."
-            ></textarea>
-
-            <div class="form-group">
-              <label class="col-form-label" for="email">Email</label>
+          <form [formGroup]="vendorForm" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <label class="col-form-label" for="code">Code</label>
               <input
+                type="number"
+                formControlName="code"
                 class="form-control"
-                id="email"
-                type="text"
-                formControlName="email"
-                placeholder="Email"
-                autocomplete="email"
-                required
+                [ngClass]="{
+                  'is-invalid': form.code.touched && form.code.errors
+                }"
               />
-              <div class="invalid-feedback">
-                <div>Email is required</div>
+              <div
+                *ngIf="form.code.touched && form.code.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.code.errors.required">Code is required</div>
               </div>
             </div>
-            <fieldset class="form-group">
-              <label>Phone </label>
-              <div class="input-group">
-                <span class="input-group-prepend"
-                  ><span class="input-group-text"
-                    ><i class="fa fa-phone"></i></span
-                ></span>
-                <input type="text" class="form-control" />
+            <div class="form-row">
+              <label class="col-form-label" for="Name">Name</label>
+              <input
+                type="text"
+                formControlName="name"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.name.touched && form.name.errors
+                }"
+              />
+              <div
+                *ngIf="form.name.touched && form.name.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.name.errors.required">Name is required</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="col-form-label" for="description"
+                >Description</label
+              >
+              <textarea
+                id="textarea-input"
+                style="height: 100px;"
+                name="textarea-input"
+                formControlName="description"
+                [ngClass]="{
+                  'is-invalid':
+                    form.description.touched && form.description.errors
+                }"
+                rows="9"
+                class="form-control"
+                placeholder="Description.."
+              ></textarea>
+              <div
+                *ngIf="form.description.touched && form.description.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.description.errors.required">
+                  Description is required
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label>Email</label>
+              <input
+                type="text"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.email.touched && form.email.errors
+                }"
+              />
+              <div
+                *ngIf="form.email.touched && form.email.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.email.errors.required">Email is required</div>
+                <div *ngIf="form.email.errors.email">
+                  Email must be a valid email address
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="col-form-label" for="phone">Phone </label>
+              <input
+                type="text"
+                formControlName="phone"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.phone.touched && form.phone.errors
+                }"
+              />
+              <div
+                *ngIf="form.phone.touched && form.phone.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.phone.errors.required">phone is required</div>
               </div>
               <small class="text-muted">ex. (999) 999-9999</small>
-            </fieldset>
-            <fieldset class="form-group">
-              <label>Mobile </label>
-              <div class="input-group">
-                <span class="input-group-prepend"
-                  ><span class="input-group-text"
-                    ><i class="fa fa-phone"></i></span
-                ></span>
-                <input type="text" class="form-control" />
+            </div>
+            <div class="form-row">
+              <label class="col-form-label" for="mobile">Mobile </label>
+              <input
+                type="text"
+                formControlName="mobile"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.mobile.touched && form.mobile.errors
+                }"
+              />
+              <div
+                *ngIf="form.mobile.touched && form.mobile.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.mobile.errors.required">
+                  Mobile is required
+                </div>
               </div>
-              <small class="text-muted">ex. (+99) 9999999999</small>
-            </fieldset>
-            <label class="col-form-label" for="firstName">ImagePath</label>
-            <input
-              class="form-control"
-              id="ImagePath"
-              type="text"
-              formControlName="imagepath"
-              placeholder=" imagepath"
-              autocomplete="given-name"
-              required
-              autofocus
-            />
-            <label class="col-form-label" for="Timezone">Timezone</label>
-            <select id="select1" name="Select Timezone" class="form-control">
-              <option value="0">Select Timezone</option>
-              <option value="1">Usa </option>
-              <option value="2">Uk</option>
-              <option value="3">Singapur</option>
-            </select>
+              <small class="text-muted">ex. (999) 9999999999</small>
+            </div>
+            <div class="form-row" style="margin-top: 30px;">
+              <button
+                type="button"
+                class="btn btn-block btn-primary"
+                style="width: 120px;"
+              >
+                Submit
+              </button>
+              <button
+                type="reset"
+                style="width: 120px; height: 35px; margin-left: 30px;"
+                class="btn btn-sm btn-danger"
+              >
+                Reset
+              </button>
+            </div>
           </form>
-          <div class="form-group">
-            <button
-              type="button"
-              class="btn btn-block btn-primary"
-              style="width: 120px; margin-top: 30px;"
-            >
-              Submit
-            </button>
-            <button
-              type="reset"
-              style="
-                width: 120px;
-                height: 35px;
-                margin-left: 150px;
-                margin-top: -60px;
-              "
-              class="btn btn-sm btn-danger"
-            >
-              Reset
-            </button>
-          </div>
         </div>
       </div>
     </div>

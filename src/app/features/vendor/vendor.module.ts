@@ -8,12 +8,15 @@ import { AgGridModule } from 'ag-grid-angular';
 
 import { AddEditComponent } from './add-edit/add-edit.component';
 import { VendorService } from './vendor.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [VendorListComponent, AddEditComponent],
   imports: [
     CommonModule,
     VendorRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     AgGridModule.forRoot([])
   ],
   providers: [VendorService],
