@@ -12,7 +12,7 @@
             <div class="form-row">
               <label class="col-form-label" for="code">Code</label>
               <input
-                type="number"
+                type="text"
                 formControlName="code"
                 class="form-control"
                 [ngClass]="{
@@ -90,6 +90,50 @@
               </div>
             </div>
             <div class="form-row">
+              <label>UserName</label>
+              <input
+                type="text"
+                formControlName="userName"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.userName.touched && form.userName.errors
+                }"
+              />
+              <div
+                *ngIf="form.userName.touched && form.userName.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.userName.errors.required">
+                  User Name is required
+                </div>
+                <div *ngIf="form.userName.errors.userName">
+                  User Name must be a valid
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label>Password</label>
+              <input
+                type="password"
+                formControlName="password"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.password.touched && form.password.errors
+                }"
+              />
+              <div
+                *ngIf="form.password.touched && form.password.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.password.errors.required">
+                  Password is required
+                </div>
+                <div *ngIf="form.password.errors.password">
+                  Password must be a Strong or 8 Charactor.
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
               <label class="col-form-label" for="phone">Phone </label>
               <input
                 type="text"
@@ -105,7 +149,6 @@
               >
                 <div *ngIf="form.phone.errors.required">phone is required</div>
               </div>
-              <small class="text-muted">ex. (999) 999-9999</small>
             </div>
             <div class="form-row">
               <label class="col-form-label" for="mobile">Mobile </label>
@@ -125,11 +168,10 @@
                   Mobile is required
                 </div>
               </div>
-              <small class="text-muted">ex. (999) 9999999999</small>
             </div>
             <div class="form-row" style="margin-top: 30px;">
               <button
-                type="button"
+                type="submit"
                 class="btn btn-block btn-primary"
                 style="width: 120px;"
               >

@@ -30,11 +30,26 @@
                       type="text"
                       class="form-control"
                       formControlName="username"
-                      [ngClass]="{ 'is-invalid': formControls.username.errors }"
+                      [ngClass]="{
+                        'is-invalid':
+                          formControls.username.touched &&
+                          formControls.username.errors
+                      }"
                       placeholder="Username"
-                      autocomplete="username"
+                      autocomplete="off"
                       required
                     />
+                    <div
+                      *ngIf="
+                        formControls.username.touched &&
+                        formControls.username.errors
+                      "
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="formControls.username.errors.required">
+                        Username is required
+                      </div>
+                    </div>
                   </div>
                   <div class="input-group mb-4">
                     <div class="input-group-prepend">
@@ -47,9 +62,25 @@
                       class="form-control"
                       placeholder="Password"
                       formControlName="password"
-                      autocomplete="current-password"
+                      autocomplete="off"
+                      [ngClass]="{
+                        'is-invalid':
+                          formControls.password.touched &&
+                          formControls.password.errors
+                      }"
                       required
                     />
+                    <div
+                      *ngIf="
+                        formControls.password.touched &&
+                        formControls.password.errors
+                      "
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="formControls.password.errors.required">
+                        Password is required
+                      </div>
+                    </div>
                   </div>
                   <div class="row">
                     <div class="col-6">
@@ -57,11 +88,7 @@
                         Login
                       </button>
                     </div>
-                    <div class="col-6 text-right">
-                      <!-- <button type="button" class="btn btn-link px-0">
-                        Forgot password?
-                      </button> -->
-                    </div>
+                    <div class="col-6 text-right"></div>
                   </div>
                 </form>
               </div>

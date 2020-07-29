@@ -53,41 +53,4 @@ export class VendorListComponent implements OnInit {
 
   }
 
-  submitVendor() {
-    const vendor = {
-      "code": "VENDOR_001",
-      "name": "Rupesh Kumar Jha",
-      "description": "Pune Vendor",
-      "mail": "rupesh.jha.in@gmail.com",
-      "phone": "4000008977",
-      "mobile": "7022387877",
-    }
-    this.vendorSvc.addVendor(vendor).subscribe(v => {
-      if (v) {
-        console.log(v);
-        this.vendorSvc.addProfile({
-          "name": v['name'],
-          "description": v['description'],
-          "vendorId": v['vendorId'],
-          "createdBy": 1,
-        }).subscribe(profile => {
-          if (profile) {
-            this.vendorSvc.addUser({
-              "name": v['name'],
-              "vendorId": v['vendorId'],
-              "accessLevel": 2,
-              "profileId": profile['profileId'],
-              "userName": "string",
-              "password": "string",
-              "email": v['mail'],
-              "phone": v['phone'],
-            }).subscribe(profile => {
-              console.log(profile);
-            });
-          }
-        });
-      }
-    });
-  }
-
 }
