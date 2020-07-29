@@ -1,7 +1,4 @@
 <div class="animated fadeIn">
-  <!--/.card-->
-
-  <!--/.row-->
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -9,7 +6,7 @@
           Add Vendors
         </div>
         <div class="card-body">
-          <form novalidate (ngSubmit)="onSubmit()" class="needs-validation">
+          <form novalidate class="needs-validation">
             <label class="col-form-label" for="firstName">Name</label>
             <input
               class="form-control"
@@ -44,11 +41,8 @@
                 autocomplete="email"
                 required
               />
-              <div
-                *ngIf="submitted && f['email'].errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="f['email'].errors.required">Email is required</div>
+              <div class="invalid-feedback">
+                <div>Email is required</div>
               </div>
             </div>
             <fieldset class="form-group">
@@ -84,9 +78,7 @@
               required
               autofocus
             />
-
             <label class="col-form-label" for="Timezone">Timezone</label>
-
             <select id="select1" name="Select Timezone" class="form-control">
               <option value="0">Select Timezone</option>
               <option value="1">Usa </option>

@@ -6,7 +6,6 @@ export class AuthService {
     constructor(public jwtHelper: JwtHelperService, private store: StorageService) { }
 
     public isAllowed() {
-
         return true;
     }
 

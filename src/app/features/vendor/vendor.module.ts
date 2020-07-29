@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { VendorRoutingModule } from './vendor-routing.module';
@@ -7,6 +7,7 @@ import { VendorListComponent } from './vendor-list/vendor-list.component';
 import { AgGridModule } from 'ag-grid-angular';
 
 import { AddEditComponent } from './add-edit/add-edit.component';
+import { VendorService } from './vendor.service';
 
 @NgModule({
   declarations: [VendorListComponent, AddEditComponent],
@@ -15,7 +16,7 @@ import { AddEditComponent } from './add-edit/add-edit.component';
     VendorRoutingModule,
     AgGridModule.forRoot([])
   ],
-  providers: [],
+  providers: [VendorService],
 
   bootstrap: [VendorListComponent]
 
