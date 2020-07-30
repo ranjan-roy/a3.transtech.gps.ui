@@ -9,6 +9,8 @@ import { AgGridModule } from 'ag-grid-angular';
 import { AddEditComponent } from './add-edit/add-edit.component';
 import { VendorService } from './vendor.service';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CellActionComponent } from '../../shared/table/cell-action/cell-action.component';
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [VendorListComponent, AddEditComponent],
@@ -17,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     VendorRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AgGridModule.forRoot([])
+    SharedModule,
+    AgGridModule.forRoot([CellActionComponent])
   ],
   providers: [VendorService],
 

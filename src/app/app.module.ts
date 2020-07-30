@@ -47,6 +47,7 @@ import { AuthService } from './core/service/auth.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { LogoutComponent } from './core/components/logout/logout.component';
 import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -74,6 +75,7 @@ export function tokenGetter() {
         tokenGetter: tokenGetter,
       },
     }),
+    SharedModule,
     CoreModule
   ],
   declarations: [
@@ -81,7 +83,6 @@ export function tokenGetter() {
     ...APP_CONTAINERS,
     P404Component,
     P500Component,
-
   ],
   providers: [AuthGuardService, AuthService, {
     provide: LocationStrategy,
