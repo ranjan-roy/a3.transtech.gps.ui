@@ -12,7 +12,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             console.log('Error--------->', err);
-            if ([401, 403, 500].indexOf(err.status) !== -1) {
+            if ([400, 401, 403, 500].indexOf(err.status) !== -1) {
                 this._notificationSvc.error('Error', 'Something went wrong')
             }
             const error = err.error.message || err.statusText;

@@ -42,7 +42,11 @@ export class VendorListComponent implements OnInit {
         }
       }
     ];
+    this.loadData();
 
+  }
+
+  loadData() {
     this.vendorSvc.getVendor().subscribe(res => {
       console.log(res);
       this.rowData = res;
@@ -60,8 +64,11 @@ export class VendorListComponent implements OnInit {
     }
   }
   deleteVender(id) {
+    console.log(id);
+
     this.vendorSvc.deleteVendor(id).subscribe(res => {
       console.log(res);
+      this.loadData();
     })
   }
 }
