@@ -30,4 +30,12 @@ export class VendorService {
   addUser(payload) {
     return this.http.post(`${this.url}/User`, payload);
   }
+
+  deleteVendor(vendorId: number) {
+    return this.http.delete(`${this.url}/Vendor/${vendorId}`);
+  }
+
+  updateVendor(id, payload) {
+    return this.http.put(`${this.url}/Vendor/${id}`, payload);
+  }
 }

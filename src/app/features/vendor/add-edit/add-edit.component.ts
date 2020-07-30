@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { VendorService } from '../vendor.service';
 import { NotificationService } from '../../../core/service/notification.server';
+import { Router } from '@angular/router';
 
 
 
@@ -14,20 +15,49 @@ export class AddEditComponent implements OnInit {
 
   vendorForm: FormGroup;
   submitted = false;
+  rowData: any = {
+    vendorId: null,
+    code: '',
+    name: '',
+    description: '',
+    email: '',
+    phone: '',
+    mobile: '',
+    userName: '',
+    password: ''
+  }
 
-  constructor(private formBuilder: FormBuilder, private vendorSvc: VendorService, protected _notificationSvc: NotificationService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private vendorSvc: VendorService,
+    protected _notificationSvc: NotificationService,
+    private router: Router) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation.extras.state) {
+      console.log(navigation.extras.state);
+
+      this.rowData = navigation.extras.state;
+    }
+    this.createForm(this.rowData);
+
+  }
 
   ngOnInit() {
+
+  }
+  createForm(rowData) {
     this.vendorForm = this.formBuilder.group({
-      code: ['', Validators.required],
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.maxLength(10)]],
-      mobile: ['', [Validators.maxLength(10)]],
-      userName: ['', [Validators.required]],
-      password: ['', [Validators.required]],
+      code: [rowData.code, Validators.required],
+      name: [rowData.name, Validators.required],
+      description: [rowData.description, Validators.required],
+      email: [rowData.mail, [Validators.required, Validators.email]],
+      phone: [rowData.phone, [Validators.maxLength(10)]],
+      mobile: [rowData.mobile, [Validators.maxLength(10)]],
     });
+    if (!this.rowData.vendorId) {
+      this.vendorForm.addControl('userName', new FormControl('', [Validators.required]));
+      this.vendorForm.addControl('password', new FormControl('', [Validators.required]));
+    }
   }
 
   get form() { return this.vendorForm.controls; }
@@ -37,7 +67,12 @@ export class AddEditComponent implements OnInit {
     if (this.vendorForm.invalid) {
       return;
     }
-    this.submitVendor(this.vendorForm.value)
+    if (this.rowData.vendorId) {
+      this.updateVendor(this.vendorForm.value)
+    } else {
+      this.submitVendor(this.vendorForm.value)
+    }
+
   }
 
   onReset() {
@@ -81,6 +116,23 @@ export class AddEditComponent implements OnInit {
         });
       }
     });
+  }
+
+  updateVendor(formValue) {
+    const vendor = {
+      "vendorId": this.rowData.vendorId,
+      "code": formValue.code,
+      "name": formValue.name,
+      "description": formValue.description,
+      "mail": formValue.email,
+      "phone": formValue.phone,
+      "mobile": formValue.mobile,
+    }
+    this.vendorSvc.updateVendor(this.rowData.vendorId, vendor).subscribe(res => {
+      this._notificationSvc.success('Success', "Vendor updated successfully");
+      this.vendorForm.reset();
+      this.router.navigate(['/vendor']);
+    })
   }
 }
 

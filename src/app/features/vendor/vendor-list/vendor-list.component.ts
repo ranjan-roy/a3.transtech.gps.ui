@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { VendorService } from '../vendor.service';
 import { CellActionComponent } from '../../../shared/table/cell-action/cell-action.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-vendor-list',
@@ -18,11 +19,12 @@ export class VendorListComponent implements OnInit {
   rowDataClicked2 = {};
   rowData = [];
 
-  constructor(private vendorSvc: VendorService) {
+  constructor(private vendorSvc: VendorService, private router: Router) {
     this.frameworkComponents = {
       buttonRenderer: CellActionComponent,
     }
   }
+
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -36,7 +38,7 @@ export class VendorListComponent implements OnInit {
         headerName: 'Actions', field: 'action', cellRenderer: 'buttonRenderer',
         cellRendererParams: {
           label: 'Edit',
-          onClick: this.onBtnClick1.bind(this),
+          onClick: this.onBtnClick.bind(this),
         }
       }
     ];
@@ -46,14 +48,20 @@ export class VendorListComponent implements OnInit {
       this.rowData = res;
     })
   }
-  onBtnClick1(e) {
+  onBtnClick(e) {
     console.log(e);
-
-    this.rowDataClicked1 = e.rowData;
+    if (e.event === "delete") {
+      const rowData = e.rowData;
+      this.deleteVender(rowData.vendorId);
+    }
+    if (e.event === "edit") {
+      const rowData = e.rowData;
+      this.router.navigate(['/vendor/add-edit'], { state: rowData })
+    }
   }
-
-  onBtnClick2(e) {
-    console.log(e);
-    this.rowDataClicked2 = e.rowData;
+  deleteVender(id) {
+    this.vendorSvc.deleteVendor(id).subscribe(res => {
+      console.log(res);
+    })
   }
 }
