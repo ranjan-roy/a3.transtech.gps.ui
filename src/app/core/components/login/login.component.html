@@ -88,7 +88,7 @@
                       <button
                         type="submit"
                         class="btn btn-primary px-4"
-                        [disabled]="loading"
+                        [disabled]="loading || loginForm.invalid"
                       >
                         Login
                       </button>
