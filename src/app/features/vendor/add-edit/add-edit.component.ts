@@ -49,10 +49,10 @@ export class AddEditComponent implements OnInit {
     this.vendorForm = this.formBuilder.group({
       code: [rowData.code, Validators.required],
       name: [rowData.name, Validators.required],
-      description: [rowData.description, Validators.required],
+      description: [rowData.description],
       email: [rowData.mail, [Validators.required, Validators.email]],
-      phone: [rowData.phone, [Validators.maxLength(10)]],
-      mobile: [rowData.mobile, [Validators.maxLength(10)]],
+      phone: [rowData.phone, [Validators.required, Validators.maxLength(10)]],
+      mobile: [rowData.mobile, [Validators.required, Validators.maxLength(10)]],
     });
     if (!this.rowData.vendorId) {
       this.vendorForm.addControl('userName', new FormControl('', [Validators.required]));

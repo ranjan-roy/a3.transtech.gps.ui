@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../../service/login.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { StorageService } from '../../service/storage.service';
 
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
     this.invalidLogin = false;
     this.loading = true;
     if (this.loginForm.invalid) {
+      this.validateAllFormFields(this.loginForm);
       return;
     }
     this.loginService.login(this.loginForm.value).subscribe(res => {
@@ -56,6 +57,17 @@ export class LoginComponent implements OnInit {
     }, err => {
       this.invalidLogin = true;
       this.loading = false;
+    });
+  }
+
+  validateAllFormFields(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(field => {
+      const control = formGroup.get(field);
+      if (control instanceof FormControl) {
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        this.validateAllFormFields(control);
+      }
     });
   }
 

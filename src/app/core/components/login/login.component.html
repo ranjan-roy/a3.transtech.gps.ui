@@ -82,13 +82,23 @@
                       </div>
                     </div>
                   </div>
-                  <div class="row">
+
+                  <div class="row" *ngIf="!loading">
                     <div class="col-6">
-                      <button type="submit" class="btn btn-primary px-4">
+                      <button
+                        type="submit"
+                        class="btn btn-primary px-4"
+                        [disabled]="loading"
+                      >
                         Login
                       </button>
                     </div>
                     <div class="col-6 text-right"></div>
+                  </div>
+                  <div class="sk-three-bounce" *ngIf="loading">
+                    <div class="sk-child sk-bounce1"></div>
+                    <div class="sk-child sk-bounce2"></div>
+                    <div class="sk-child sk-bounce3"></div>
                   </div>
                 </form>
               </div>
