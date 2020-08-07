@@ -1,0 +1,30 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          Users
+          <div class="card-header-actions">
+            <a
+              class="btn btn-block btn-primary"
+              [routerLink]="['/user/add-edit']"
+              >Add User</a
+            >
+          </div>
+        </div>
+        <div class="card-body">
+          <ag-grid-angular
+            style="width: 100%; height: 500px;"
+            class="ag-theme-alpine"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [frameworkComponents]="frameworkComponents"
+          >
+          </ag-grid-angular>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
