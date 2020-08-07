@@ -6,7 +6,8 @@ import { UserRoutingModule } from "./user-routing.module";
 import { AgGridModule } from "ag-grid-angular";
 import { UserService } from "./user.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
+import { SharedModule } from "../../shared/shared.module";
+import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
 
 @NgModule({
   declarations: [AddUserComponent, UserListComponent],
@@ -15,9 +16,8 @@ import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
     UserRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    AgGridModule.forRoot(),
-
-    BsDatepickerModule.forRoot(),
+    AgGridModule.forRoot([CellActionComponent]),
+    SharedModule,
   ],
   providers: [UserService],
 

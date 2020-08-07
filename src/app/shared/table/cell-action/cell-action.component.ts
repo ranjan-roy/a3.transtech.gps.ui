@@ -1,20 +1,27 @@
-import { Component, OnInit } from '@angular/core';
-import { ICellRendererAngularComp } from 'ag-grid-angular';
+import { Component, OnInit } from "@angular/core";
+import { ICellRendererAngularComp } from "ag-grid-angular";
 
 @Component({
-  selector: 'app-cell-action',
+  selector: "app-cell-action",
   template: `
-  <button type="button" (click)="onEdit($event)" class="btn  btn-link"><i class="fa fa-pencil"></i> Edit</button>
-  <button type="button" (click)="onDelete($event)" class="btn  btn-link"><i class="fa fa-trash"></i> Delete</button>
+    <button
+      type="button"
+      (click)="onClick($event, action)"
+      class="btn  btn-link"
+      *ngFor="let action of actions"
+    >
+      <i class="fa fa-pencil"></i> {{ action.label }}
+    </button>
   `,
 })
 export class CellActionComponent implements ICellRendererAngularComp {
-
   params;
   label: string;
+  actions: any[];
 
   agInit(params): void {
     this.params = params;
+    this.actions = this.params.colDef.actionItems;
     this.label = this.params.label || null;
   }
 
@@ -22,31 +29,28 @@ export class CellActionComponent implements ICellRendererAngularComp {
     return true;
   }
 
-  onEdit($event) {
+  onClick($event, action) {
     if (this.params.onClick instanceof Function) {
       // put anything into params u want pass into parents component
       const params = {
-        event: 'edit',
-        rowData: this.params.node.data
+        action,
+        event: action.action,
+        rowData: this.params.node.data,
         // ...something
-      }
+      };
       this.params.onClick(params);
-
     }
   }
-
 
   onDelete($event) {
     if (this.params.onClick instanceof Function) {
       // put anything into params u want pass into parents component
       const params = {
-        event: 'delete',
-        rowData: this.params.node.data
+        event: "delete",
+        rowData: this.params.node.data,
         // ...something
-      }
+      };
       this.params.onClick(params);
-
     }
   }
-
 }

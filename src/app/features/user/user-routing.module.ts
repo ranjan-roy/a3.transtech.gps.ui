@@ -12,7 +12,7 @@ const routes: Routes = [
     },
   },
   {
-    path: "add-user",
+    path: "add-edit",
     component: AddUserComponent,
     data: {
       title: "User",

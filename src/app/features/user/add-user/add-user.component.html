@@ -10,47 +10,6 @@
         <div class="card-body">
           <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div class="form-row">
-              <label class="col-form-label" for="code">Created By</label>
-              <input
-                type="text"
-                formControlName="createdBy"
-                class="form-control"
-                [ngClass]="{
-                  'is-invalid': form.createdBy.touched && form.createdBy.errors
-                }"
-              />
-              <div
-                *ngIf="form.createdBy.touched && form.createdBy.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="form.createdBy.errors.required">
-                  Created By is required
-                </div>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="col-xs-12 col-12 col-md-4 form-group">
-                <label class="col-form-label">Created Date</label>
-                <input
-                  type="text"
-                  placeholder="Created Date"
-                  class="form-control"
-                  bsDatepicker
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="col-xs-12 col-12 col-md-4 form-group">
-                <label class="col-form-label">Last Visit</label>
-                <input
-                  type="text"
-                  placeholder="Last Visit"
-                  class="form-control"
-                  bsDatepicker
-                />
-              </div>
-            </div>
-            <div class="form-row">
               <label class="col-form-label">Email</label>
               <input
                 type="text"
@@ -70,7 +29,7 @@
                 </div>
               </div>
             </div>
-            <div class="form-row" *ngIf="!this.rowData.vendorId">
+            <div class="form-row">
               <label class="col-form-label">UserName</label>
               <input
                 type="text"
@@ -89,6 +48,28 @@
                 </div>
                 <div *ngIf="form.userName.errors.userName">
                   User Name must be a valid
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="col-form-label">Password</label>
+              <input
+                type="password"
+                formControlName="password"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.password.touched && form.password.errors
+                }"
+              />
+              <div
+                *ngIf="form.password.touched && form.password.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.password.errors.required">
+                  Password is required
+                </div>
+                <div *ngIf="form.password.errors.password">
+                  Password must be a Strong or 8 Charactor.
                 </div>
               </div>
             </div>
@@ -116,6 +97,7 @@
                 type="submit"
                 class="btn btn-block btn-primary"
                 style="width: 120px;"
+                [disabled]="userForm.invalid"
               >
                 Submit
               </button>

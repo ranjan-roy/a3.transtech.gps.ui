@@ -2,13 +2,15 @@ import { Component, OnInit } from "@angular/core";
 import { UserService } from "../user.service";
 import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
+import { StorageService } from "../../../core/service/storage.service";
+
 @Component({
   selector: "app-user-list",
   templateUrl: "./user-list.component.html",
   styleUrls: ["./user-list.component.css"],
 })
 export class UserListComponent implements OnInit {
-  title = "Users";
+  title = "User";
   pagination = "true";
   paginationPageSize: "10";
   frameworkComponents: any;
@@ -17,7 +19,11 @@ export class UserListComponent implements OnInit {
   rowDataClicked2 = {};
   rowData = [];
 
-  constructor(private userSvc: UserService, private router: Router) {
+  constructor(
+    private userSvc: UserService,
+    private router: Router,
+    private storage: StorageService
+  ) {
     this.frameworkComponents = {
       buttonRenderer: CellActionComponent,
     };
@@ -26,29 +32,16 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = [
       {
-        headerName: "Created By",
-        field: "createdBy",
+        headerName: "User Name",
+        field: "userName",
         sortable: true,
         filter: true,
         editable: true,
       },
-      {
-        headerName: "Created Date",
-        field: "createdDate",
-        sortable: true,
-        filter: true,
-        editable: true,
-      },
+
       {
         headerName: "Email",
         field: "email",
-        sortable: true,
-        filter: true,
-        editable: true,
-      },
-      {
-        headerName: "Last Visit",
-        field: "lastVisit",
         sortable: true,
         filter: true,
         editable: true,
@@ -61,48 +54,34 @@ export class UserListComponent implements OnInit {
         editable: true,
       },
       {
-        headerName: "Profile Id",
-        field: "profileId",
-        sortable: true,
-        filter: true,
-        editable: true,
-      },
-      {
-        headerName: "Style",
-        field: "style",
-        sortable: true,
-        filter: true,
-        editable: true,
-      },
-      {
-        headerName: "User Id",
-        field: "userId",
-        sortable: true,
-        filter: true,
-        editable: true,
-      },
-      {
-        headerName: "User Name",
-        field: "userName",
-        sortable: true,
-        filter: true,
-        editable: true,
-      },
-      {
-        headerName: "Vendor Id",
-        field: "vendorId",
-        sortable: true,
-        filter: true,
-        editable: true,
-      },
-      {
         headerName: "Actions",
         field: "action",
         cellRenderer: "buttonRenderer",
         cellRendererParams: {
           label: "Edit",
+          onClick: this.onBtnClick.bind(this),
         },
+        actionItems: [{ label: "Edit", action: "edit" }],
       },
     ];
+    this.loadData();
+  }
+
+  loadData() {
+    const vendorId = this.storage.getItem("vendorId");
+    this.userSvc.getUsersByVendorId(vendorId).subscribe((res) => {
+      console.log(res);
+      this.rowData = res;
+    });
+  }
+  onBtnClick(e) {
+    console.log(e);
+    if (e.event === "delete") {
+      const rowData = e.rowData;
+    }
+    if (e.event === "edit") {
+      const rowData = e.rowData;
+      this.router.navigate(["/user/add-edit"], { state: rowData });
+    }
   }
 }
