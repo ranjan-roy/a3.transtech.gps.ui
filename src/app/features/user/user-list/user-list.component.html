@@ -6,10 +6,24 @@
           Users
           <div class="card-header-actions">
             <a
-              class="btn btn-block btn-primary"
+              class="card-header-action btn btn-link"
+              type="button"
               [routerLink]="['/user/add-edit']"
-              >Add User</a
             >
+              <i class="icon-plus"></i> Add</a
+            >
+            <span class="pull-right" *ngIf="showAction">
+              <a
+                class="card-header-action btn btn-link btn-pencil"
+                type="button"
+                (click)="onBtnClick(action)"
+                *ngFor="let action of actionItems"
+              >
+                <i class="{{action.iconClass}}"></i>
+
+                {{action.label}}</a
+              >
+            </span>
           </div>
         </div>
         <div class="card-body">
@@ -18,7 +32,11 @@
             class="ag-theme-alpine"
             [rowData]="rowData"
             [columnDefs]="columnDefs"
-            [frameworkComponents]="frameworkComponents"
+            [pagination]="true"
+            [paginationPageSize]="10"
+            [rowSelection]="rowSelection"
+            (selectionChanged)="onSelectionChanged($event)"
+            (gridReady)="onGridReady($event)"
           >
           </ag-grid-angular>
         </div>

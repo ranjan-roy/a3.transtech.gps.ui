@@ -12,6 +12,7 @@ import { StorageService } from "../../service/storage.service";
 @Component({
   selector: "app-dashboard",
   templateUrl: "login.component.html",
+  styles:[`.app-body{background-color: #161C4E;}`]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;

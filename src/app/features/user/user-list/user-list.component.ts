@@ -18,15 +18,18 @@ export class UserListComponent implements OnInit {
   rowDataClicked1 = {};
   rowDataClicked2 = {};
   rowData = [];
-
+  actionItems = [{ label: "Edit", action: "edit",iconClass:"icon-pencil" }];
+  showAction: boolean = false;
+  selectedRow: any;
+  gridApi;
+  gridColumnApi;
+  rowSelection = "single";
   constructor(
     private userSvc: UserService,
     private router: Router,
     private storage: StorageService
   ) {
-    this.frameworkComponents = {
-      buttonRenderer: CellActionComponent,
-    };
+    
   }
 
   ngOnInit(): void {
@@ -53,18 +56,18 @@ export class UserListComponent implements OnInit {
         filter: true,
         editable: true,
       },
-      {
-        headerName: "Actions",
-        field: "action",
-        cellRenderer: "buttonRenderer",
-        cellRendererParams: {
-          label: "Edit",
-          onClick: this.onBtnClick.bind(this),
-        },
-        actionItems: [{ label: "Edit", action: "edit" }],
-      },
+      // {
+      //   headerName: "Actions",
+      //   field: "action",
+      //   cellRenderer: "buttonRenderer",
+      //   cellRendererParams: {
+      //     label: "Edit",
+      //     onClick: this.onBtnClick.bind(this),
+      //   },
+      //   actionItems: [{ label: "Edit", action: "edit" }],
+      // },
     ];
-    this.loadData();
+    
   }
 
   loadData() {
@@ -76,12 +79,19 @@ export class UserListComponent implements OnInit {
   }
   onBtnClick(e) {
     console.log(e);
-    if (e.event === "delete") {
-      const rowData = e.rowData;
+    if (e.action === "edit") {
+      this.router.navigate(["/user/add-edit"], { state: this.selectedRow });
     }
-    if (e.event === "edit") {
-      const rowData = e.rowData;
-      this.router.navigate(["/user/add-edit"], { state: rowData });
-    }
+  }
+  onSelectionChanged(e) {
+    var selectedRows = this.gridApi.getSelectedRows();
+    console.log("selectedRows", selectedRows);
+    this.selectedRow = selectedRows[0];
+    this.showAction = true;
+  }
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.loadData();
   }
 }

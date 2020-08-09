@@ -17,6 +17,15 @@ export class VendorListComponent implements OnInit {
   rowDataClicked1 = {};
   rowDataClicked2 = {};
   rowData = [];
+  showAction: boolean = false;
+  actionItems = [
+    { label: "Edit", action: "edit", iconClass:"icon-pencil" },
+    { label: "Delete", action: "delete" , iconClass:"icon-trash" },
+  ];
+  selectedRow: any;
+  gridApi;
+  gridColumnApi;
+  rowSelection = "single";
 
   constructor(private vendorSvc: VendorService, private router: Router) {
     this.frameworkComponents = {
@@ -31,58 +40,51 @@ export class VendorListComponent implements OnInit {
         field: "code",
         sortable: true,
         filter: true,
-        editable: true,
       },
       {
         headerName: "Name",
         field: "name",
         sortable: true,
         filter: true,
-        editable: true,
       },
       {
         headerName: "Description",
         field: "description",
         sortable: true,
         filter: true,
-        editable: true,
       },
       {
         headerName: "Email",
         field: "mail",
         sortable: true,
         filter: true,
-        editable: true,
       },
       {
         headerName: "Phone",
         field: "phone",
         sortable: true,
         filter: true,
-        editable: true,
       },
       {
         headerName: "Mobile",
         field: "mobile",
         sortable: true,
         filter: true,
-        editable: true,
       },
-      {
-        headerName: "Actions",
-        field: "action",
-        cellRenderer: "buttonRenderer",
-        cellRendererParams: {
-          label: "Edit",
-          onClick: this.onBtnClick.bind(this),
-        },
-        actionItems: [
-          { label: "Edit", action: "edit" },
-          { label: "Delete", action: "delete" },
-        ],
-      },
+      // {
+      //   headerName: "Actions",
+      //   field: "action",
+      //   cellRenderer: "buttonRenderer",
+      //   cellRendererParams: {
+      //     label: "Edit",
+      //     onClick: this.onBtnClick.bind(this),
+      //   },
+      //   actionItems: [
+      //     { label: "Edit", action: "edit" },
+      //     { label: "Delete", action: "delete" },
+      //   ],
+      // },
     ];
-    this.loadData();
   }
 
   loadData() {
@@ -93,13 +95,11 @@ export class VendorListComponent implements OnInit {
   }
   onBtnClick(e) {
     console.log(e);
-    if (e.event === "delete") {
-      const rowData = e.rowData;
-      this.deleteVender(rowData.vendorId);
+    if (e.action === "delete") {
+      this.deleteVender(this.selectedRow.vendorId);
     }
-    if (e.event === "edit") {
-      const rowData = e.rowData;
-      this.router.navigate(["/vendor/add-edit"], { state: rowData });
+    if (e.action === "edit") {
+      this.router.navigate(["/vendor/add-edit"], { state: this.selectedRow });
     }
   }
   deleteVender(id) {
@@ -109,5 +109,17 @@ export class VendorListComponent implements OnInit {
       console.log(res);
       this.loadData();
     });
+  }
+
+  onSelectionChanged(e) {
+    var selectedRows = this.gridApi.getSelectedRows();
+    console.log("selectedRows", selectedRows);
+    this.selectedRow = selectedRows[0];
+    this.showAction = true;
+  }
+  onGridReady(params) {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+    this.loadData();
   }
 }
