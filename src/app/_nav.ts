@@ -1,5 +1,10 @@
 import { INavData } from "@coreui/angular";
-
+interface NavData{
+  name: string,
+  url: string
+  icon: string
+  accessLevel: string[]
+}
 export const navItems: INavData[] = [
   {
     name: "Dashboard",
