@@ -1,11 +1,8 @@
 import { INavData } from "@coreui/angular";
-interface NavData{
-  name: string,
-  url: string
-  icon: string
-  accessLevel: string[]
+interface NavData extends INavData {
+  accessLevel: any[]
 }
-export const navItems: INavData[] = [
+export const navItems: NavData[] = [
   {
     name: "Dashboard",
     url: "/dashboard",
