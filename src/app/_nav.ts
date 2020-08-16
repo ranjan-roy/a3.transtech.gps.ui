@@ -26,4 +26,10 @@ export const navItems: NavData[] = [
     icon: "icon-cursor",
     accessLevel: [2, 1],
   },
+  {
+    name: "Device",
+    url: "/device",
+    icon: "icon-cursor",
+    accessLevel: [3],
+  },
 ];

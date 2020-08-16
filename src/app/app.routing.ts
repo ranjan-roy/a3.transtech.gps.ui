@@ -74,6 +74,12 @@ export const routes: Routes = [
         loadChildren: () =>
           import("./features/user/user.module").then((m) => m.UserModule),
       },
+      {
+        path: "device",
+        canActivate: [AuthGuardService],
+        loadChildren: () =>
+          import("./features/device/device.module").then((m) => m.DeviceModule),
+      },
     ],
   },
   {

@@ -111,7 +111,7 @@ export class AddUserComponent implements OnInit {
             .addUser({
               name: formValue.userName,
               vendorId: this.vendorId,
-              accessLevel: 2,
+              accessLevel: 3,
               profileId: profile["profileId"],
               userName: formValue.userName,
               password: formValue.password,
