@@ -65,4 +65,5 @@ export class FencingListComponent implements OnInit {
     }
   }
   onSelectionChanged(e) {}
+  onGridReady(e) {}
 }
