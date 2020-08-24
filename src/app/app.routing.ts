@@ -3,7 +3,6 @@ import { Routes, RouterModule } from "@angular/router";
 
 // Import Containers
 import { DefaultLayoutComponent } from "./layouts";
-
 import { P404Component } from "./core/components/error/404.component";
 import { P500Component } from "./core/components/error/500.component";
 import { LoginComponent } from "./core/components/login/login.component";
@@ -79,6 +78,14 @@ export const routes: Routes = [
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/device/device.module").then((m) => m.DeviceModule),
+      },
+      {
+        path: "geofencing",
+        canActivate: [AuthGuardService],
+        loadChildren: () =>
+          import("./features/geofencing/geofencing.module").then(
+            (m) => m.GeofencingModule
+          ),
       },
     ],
   },

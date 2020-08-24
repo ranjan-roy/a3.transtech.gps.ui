@@ -46,6 +46,7 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { LogoutComponent } from "./core/components/logout/logout.component";
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
+import { GeofencingModule } from "./features/geofencing/geofencing.module";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");

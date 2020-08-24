@@ -1,6 +1,6 @@
 import { INavData } from "@coreui/angular";
 interface NavData extends INavData {
-  accessLevel: any[]
+  accessLevel: any[];
 }
 export const navItems: NavData[] = [
   {
@@ -31,5 +31,11 @@ export const navItems: NavData[] = [
     url: "/device",
     icon: "icon-cursor",
     accessLevel: [3],
+  },
+  {
+    name: "GeoFencing",
+    url: "/geofencing",
+    icon: "icon-cursor",
+    accessLevel: [1, 2, 3],
   },
 ];
