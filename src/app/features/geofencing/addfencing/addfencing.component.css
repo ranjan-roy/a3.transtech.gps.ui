@@ -1,0 +1,42 @@
+#map-canvas {
+  width: auto;
+  height: 500px;
+}
+
+#info {
+  color: #222
+}
+
+.lngLat {
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.one {
+  padding-left: 250px
+}
+
+.two {
+  padding-left: 34px
+}
+
+#clipboard-btn {
+  float: left;
+  margin-right: 10px;
+  padding: 6px 8px;
+}
+
+#info {
+  height: 140px;
+  float: left;
+  margin-bottom: 30px;
+  border: solid 2px #eee;
+}
+
+#info,
+.lngLat {
+  font-family: arial, sans-serif;
+  font-size: 12px;
+  padding-top: 10px;
+  width: 270px;
+}
