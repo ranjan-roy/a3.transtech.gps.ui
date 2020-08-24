@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ViewChild } from "@angular/core";
-import { MapInfoWindow, MapMarker } from "@angular/google-maps";
+declare const google: any;
 
 /** Demo Component for @angular/google-maps/map */
 @Component({
@@ -9,91 +8,114 @@ import { MapInfoWindow, MapMarker } from "@angular/google-maps";
   styleUrls: ["./addfencing.component.css"],
 })
 export class AddfencingComponent implements OnInit {
-  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
+  lat = 20.5937;
+  lng = 78.9629;
+  pointList: { lat: number; lng: number }[] = [];
+  drawingManager: any;
+  selectedShape: any;
+  selectedArea = 0;
 
-  // center = { lat: 22, lng: 79 };
-  // markerOptions = { draggable: false };
-  // markerPositions: google.maps.LatLngLiteral[] = [];
-  // zoom = 5;
-  // display?: google.maps.LatLngLiteral;
-  myPolygon: any;
-
-  // addMarker(event: google.maps.MouseEvent) {
-  //   this.markerPositions.push(event.latLng.toJSON());
-  // }
-
-  // move(event: google.maps.MouseEvent) {
-  //   this.display = event.latLng.toJSON();
-  // }
-
-  openInfoWindow(marker: MapMarker) {
-    this.infoWindow.open(marker);
-  }
-
-  // removeLastMarker() {
-  //   this.markerPositions.pop();
-  // }
-
-  getPolygonCoords() {
-    var len = this.myPolygon.getPath().getLength();
-    var htmlStr = "";
-    for (var i = 0; i < len; i++) {
-      htmlStr +=
-        "new google.maps.LatLng(" +
-        this.myPolygon.getPath().getAt(i).toUrlValue(5) +
-        "), ";
-      //Use this one instead if you want to get rid of the wrap > new google.maps.LatLng(),
-      //htmlStr += "" + myPolygon.getPath().getAt(i).toUrlValue(5);
-    }
-    document.getElementById("info").innerHTML = htmlStr;
-  }
-
-  initMap() {
-    // Map Center
-    var myLatLng = new google.maps.LatLng(33.5190755, -111.9253654);
-    // General Options
-    var mapOptions = {
-      zoom: 12,
-      center: myLatLng,
-      mapTypeId: google.maps.MapTypeId.ROADMAP,
-    };
-    var map = new google.maps.Map(
-      document.getElementById("map-canvas"),
-      mapOptions
-    );
-    // Polygon Coordinates
-    var triangleCoords = [
-      new google.maps.LatLng(33.5362475, -111.9267386),
-      new google.maps.LatLng(33.5104882, -111.9627875),
-    ];
-    // Styling & Controls
-    var myPolygon = new google.maps.Polygon({
-      paths: triangleCoords,
-      draggable: true, // turn off if it gets annoying
-      editable: true,
-      strokeColor: "#FF0000",
-      strokeOpacity: 0.8,
-      strokeWeight: 2,
-      fillColor: "#FF0000",
-      fillOpacity: 0.35,
-    });
-
-    myPolygon.setMap(map);
-    //google.maps.event.addListener(myPolygon, "dragend", getPolygonCoords);
-    google.maps.event.addListener(
-      myPolygon.getPath(),
-      "insert_at",
-      this.getPolygonCoords
-    );
-    //google.maps.event.addListener(myPolygon.getPath(), "remove_at", getPolygonCoords);
-    google.maps.event.addListener(
-      myPolygon.getPath(),
-      "set_at",
-      this.getPolygonCoords
-    );
-  }
+  constructor() {}
 
   ngOnInit() {
-    this.initMap();
+    this.setCurrentPosition();
+  }
+
+  onMapReady(map) {
+    this.initDrawingManager(map);
+  }
+
+  initDrawingManager = (map: any) => {
+    const self = this;
+    const options = {
+      drawingControl: true,
+      drawingControlOptions: {
+        drawingModes: ["polygon"],
+      },
+      polygonOptions: {
+        draggable: true,
+        editable: true,
+      },
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+    };
+    this.drawingManager = new google.maps.drawing.DrawingManager(options);
+    this.drawingManager.setMap(map);
+    google.maps.event.addListener(
+      this.drawingManager,
+      "overlaycomplete",
+      (event) => {
+        if (event.type === google.maps.drawing.OverlayType.POLYGON) {
+          const paths = event.overlay.getPaths();
+          for (let p = 0; p < paths.getLength(); p++) {
+            google.maps.event.addListener(paths.getAt(p), "set_at", () => {
+              if (!event.overlay.drag) {
+                self.updatePointList(event.overlay.getPath());
+              }
+            });
+            google.maps.event.addListener(paths.getAt(p), "insert_at", () => {
+              self.updatePointList(event.overlay.getPath());
+            });
+            google.maps.event.addListener(paths.getAt(p), "remove_at", () => {
+              self.updatePointList(event.overlay.getPath());
+            });
+          }
+          self.updatePointList(event.overlay.getPath());
+        }
+        if (event.type !== google.maps.drawing.OverlayType.MARKER) {
+          // Switch back to non-drawing mode after drawing a shape.
+          self.drawingManager.setDrawingMode(null);
+          // To hide:
+          self.drawingManager.setOptions({
+            drawingControl: false,
+          });
+
+          // set selected shape object
+          const newShape = event.overlay;
+          newShape.type = event.type;
+          this.setSelection(newShape);
+        }
+      }
+    );
+  };
+  private setCurrentPosition() {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.lat = position.coords.latitude;
+        this.lng = position.coords.longitude;
+      });
+    }
+  }
+  clearSelection() {
+    if (this.selectedShape) {
+      this.selectedShape.setEditable(false);
+      this.selectedShape = null;
+      this.pointList = [];
+    }
+  }
+  setSelection(shape) {
+    this.clearSelection();
+    this.selectedShape = shape;
+    shape.setEditable(true);
+  }
+
+  deleteSelectedShape() {
+    if (this.selectedShape) {
+      this.selectedShape.setMap(null);
+      this.selectedArea = 0;
+      this.pointList = [];
+      // To show:
+      this.drawingManager.setOptions({
+        drawingControl: true,
+      });
+    }
+  }
+
+  updatePointList(path) {
+    this.pointList = [];
+    const len = path.getLength();
+    for (let i = 0; i < len; i++) {
+      this.pointList.push(path.getAt(i).toJSON());
+    }
+    this.selectedArea = google.maps.geometry.spherical.computeArea(path);
   }
 }
