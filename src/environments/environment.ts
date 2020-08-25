@@ -7,5 +7,5 @@ export const environment = {
   production: false,
   apiUrl: "http://api.gps.a3transtech.com",
   storageType: "session",
-  mapKey: "",
+  mapKey: "AIzaSyD6MO9FB8MJMg59k_PxpMxXkwmIzLO4xzI",
 };
