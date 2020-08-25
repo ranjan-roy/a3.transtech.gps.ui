@@ -1,4 +1,10 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  NgZone,
+} from "@angular/core";
 declare const google: any;
 
 /** Demo Component for @angular/google-maps/map */
@@ -8,14 +14,20 @@ declare const google: any;
   styleUrls: ["./addfencing.component.css"],
 })
 export class AddfencingComponent implements OnInit {
+  @ViewChild("search")
+  public searchElementRef: ElementRef;
+
   lat = 20.5937;
   lng = 78.9629;
   pointList: { lat: number; lng: number }[] = [];
   drawingManager: any;
   selectedShape: any;
   selectedArea = 0;
+  zoom;
+  private geoCoder;
+  address: string;
 
-  constructor() {}
+  constructor(private ngZone: NgZone) {}
 
   ngOnInit() {
     this.setCurrentPosition();
@@ -23,6 +35,7 @@ export class AddfencingComponent implements OnInit {
 
   onMapReady(map) {
     this.initDrawingManager(map);
+    this.enableSearch();
   }
 
   initDrawingManager = (map: any) => {
@@ -117,5 +130,49 @@ export class AddfencingComponent implements OnInit {
       this.pointList.push(path.getAt(i).toJSON());
     }
     this.selectedArea = google.maps.geometry.spherical.computeArea(path);
+  }
+
+  enableSearch() {
+    let autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement
+    );
+    autocomplete.addListener("place_changed", () => {
+      this.ngZone.run(() => {
+        //get the place result
+        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+
+        //verify result
+        if (place.geometry === undefined || place.geometry === null) {
+          return;
+        }
+
+        //set latitude, longitude and zoom
+        this.lat = place.geometry.location.lat();
+        this.lng = place.geometry.location.lng();
+        this.zoom = 12;
+      });
+    });
+  }
+
+  getAddress(latitude, longitude) {
+    this.geoCoder = new google.maps.Geocoder();
+
+    this.geoCoder.geocode(
+      { location: { lat: latitude, lng: longitude } },
+      (results, status) => {
+        console.log(results);
+        console.log(status);
+        if (status === "OK") {
+          if (results[0]) {
+            this.zoom = 12;
+            this.address = results[0].formatted_address;
+          } else {
+            window.alert("No results found");
+          }
+        } else {
+          window.alert("Geocoder failed due to: " + status);
+        }
+      }
+    );
   }
 }
