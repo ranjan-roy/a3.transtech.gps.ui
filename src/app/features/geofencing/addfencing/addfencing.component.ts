@@ -5,6 +5,7 @@ import {
   ElementRef,
   NgZone,
 } from "@angular/core";
+import { GeofencingService } from "../geofencing.service";
 declare const google: any;
 
 /** Demo Component for @angular/google-maps/map */
@@ -26,8 +27,18 @@ export class AddfencingComponent implements OnInit {
   zoom;
   private geoCoder;
   address: string;
+  placeSearch: any;
 
-  constructor(private ngZone: NgZone) {}
+  componentForm: {
+    street_number: "short_name";
+    route: "long_name";
+    locality: "long_name";
+    administrative_area_level_1: "short_name";
+    country: "long_name";
+    postal_code: "short_name";
+  };
+
+  constructor(private ngZone: NgZone, private geofenceSvc: GeofencingService) {}
 
   ngOnInit() {
     this.setCurrentPosition();
@@ -123,6 +134,30 @@ export class AddfencingComponent implements OnInit {
     }
   }
 
+  saveSelectedShape() {
+    const payload = {
+      geofenceId: 1,
+      alias: "alias",
+      name: "name",
+      country: "India",
+      state: "state",
+      city: "city",
+      geofenceTypeId: 1,
+      polygon: {
+        coordinates: this.pointList,
+      },
+    };
+
+    if (this.selectedShape) {
+      console.log("Co-ordinates", this.pointList);
+      this.geofenceSvc.postGeofence(payload).subscribe((geofenceId) => {
+        if (geofenceId) {
+          console.log("Coordinates Added");
+        }
+      });
+    }
+  }
+
   updatePointList(path) {
     this.pointList = [];
     const len = path.getLength();
@@ -136,6 +171,16 @@ export class AddfencingComponent implements OnInit {
     let autocomplete = new google.maps.places.Autocomplete(
       this.searchElementRef.nativeElement
     );
+
+    autocomplete = new google.maps.places.Autocomplete(
+      document.getElementById("autocomplete"),
+      {
+        types: ["geocode"],
+      }
+    );
+
+    autocomplete.setFields(["address"]);
+
     autocomplete.addListener("place_changed", () => {
       this.ngZone.run(() => {
         //get the place result
@@ -174,5 +219,9 @@ export class AddfencingComponent implements OnInit {
         }
       }
     );
+  }
+
+  onAddressSelect(event) {
+    const str = console.log("address", event);
   }
 }

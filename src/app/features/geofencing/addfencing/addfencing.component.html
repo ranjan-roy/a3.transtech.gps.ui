@@ -28,21 +28,25 @@
                   </tbody>
                 </table>
               </div>
+              <p>Address---> {{ address | json }}</p>
               <button
                 aria-pressed="true"
                 class="btn btn-block btn-dark active"
                 type="button"
-                [disabled]="!pointList.length"
+                [disabled]="pointList.length < 3"
+                (click)="saveSelectedShape()"
               >
                 Save Polygon Area
               </button>
             </div>
             <div class="col-md-9 col-xs-12">
-              <div class="form-group">
+              <div class="form-group" id="address">
                 <input
                   type="text"
+                  id="autocomplete"
+                  onFocus="geolocate()"
                   class="form-control"
-                  (keydown.enter)="$event.preventDefault()"
+                  (keydown.enter)="onAddressSelect($event)"
                   placeholder="Search Nearest Location"
                   autocorrect="off"
                   autocapitalize="off"
