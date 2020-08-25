@@ -1,0 +1,68 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-align-justify"></i> Add Geo Fencing
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3 col-xs-12">
+              <div class="table-container">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Lat</th>
+                      <th>Long</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let point of pointList">
+                      <td>{{ point.lat.toPrecision(5) }}</td>
+                      <td>{{ point.lng.toPrecision(5) }}</td>
+                    </tr>
+                    <tr>
+                      <th>Selected Area:</th>
+                      <th>{{ selectedArea.toPrecision(5) }}m<sup>2</sup></th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <button
+                aria-pressed="true"
+                class="btn btn-block btn-dark active"
+                type="button"
+                [disabled]="!pointList.length"
+              >
+                Save Polygon Area
+              </button>
+            </div>
+            <div class="col-md-9 col-xs-12">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  (keydown.enter)="$event.preventDefault()"
+                  placeholder="Search Nearest Location"
+                  autocorrect="off"
+                  autocapitalize="off"
+                  spellcheck="off"
+                  type="text"
+                  #search
+                />
+              </div>
+              <agm-map
+                [zoom]="8"
+                [latitude]="lat"
+                [longitude]="lng"
+                (mapReady)="onMapReady($event)"
+              >
+              </agm-map>
+              <button mat-button (click)="deleteSelectedShape()">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

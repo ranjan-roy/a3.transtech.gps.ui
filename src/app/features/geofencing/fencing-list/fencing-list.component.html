@@ -1,0 +1,30 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          GeoFencing
+          <div class="card-header-actions">
+            <a class="card-header-action btn btn-link" type="button" [routerLink]="['/geofencing/add-edit']">
+              <i class="icon-plus"></i> Add</a>
+            <span class="pull-right" *ngIf="showAction">
+              <a class="card-header-action btn btn-link btn-pencil" type="button" (click)="onBtnClick(action)"
+                *ngFor="let action of actionItems">
+                <i class="{{ action.iconClass }}"></i>
+
+                {{ action.label }}</a>
+            </span>
+          </div>
+        </div>
+        <div class="card-body">
+          <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" [rowData]="rowData"
+            [columnDefs]="columnDefs" [pagination]="true" [paginationPageSize]="10" [rowSelection]="rowSelection"
+            (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
+          </ag-grid-angular>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>

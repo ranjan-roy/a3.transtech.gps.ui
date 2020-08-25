@@ -1,16 +1,16 @@
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "../user.service";
+import { DeviceService } from "../device.service";
 import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
 
 @Component({
-  selector: "app-user-list",
-  templateUrl: "./user-list.component.html",
-  styleUrls: ["./user-list.component.css"],
+  selector: "app-device-list",
+  templateUrl: "./device-list.component.html",
+  styleUrls: ["./device-list.component.css"],
 })
-export class UserListComponent implements OnInit {
-  title = "User";
+export class DeviceListComponent implements OnInit {
+  title = "Device";
   pagination = "true";
   paginationPageSize: "10";
   frameworkComponents: any;
@@ -25,7 +25,7 @@ export class UserListComponent implements OnInit {
   gridColumnApi;
   rowSelection = "single";
   constructor(
-    private userSvc: UserService,
+    private deviceSvc: DeviceService,
     private router: Router,
     private storage: StorageService
   ) {
@@ -34,25 +34,26 @@ export class UserListComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnDefs = [
+    {
+        headerName: "Device Id",
+        field: "deviceId",
+        sortable: true,
+        filter: true,
+      },
       {
-        headerName: "User Name",
-        field: "userName",
+        headerName: "Serial Number",
+        field: "serial",
         sortable: true,
         filter: true,
       },
 
       {
-        headerName: "Email",
-        field: "email",
+        headerName: "Name",
+        field: "name",
         sortable: true,
         filter: true,
       },
-      {
-        headerName: "Phone",
-        field: "phone",
-        sortable: true,
-        filter: true,
-      },
+      
       // {
       //   headerName: "Actions",
       //   field: "action",
@@ -68,8 +69,8 @@ export class UserListComponent implements OnInit {
   }
 
   loadData() {
-    const vendorId = this.storage.getItem("vendorId");
-    this.userSvc.getUsersByVendorId(vendorId).subscribe((res) => {
+    const userId = this.storage.getItem("userId");
+    this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
       console.log(res);
       this.rowData = res;
     });
@@ -77,7 +78,7 @@ export class UserListComponent implements OnInit {
   onBtnClick(e) {
     console.log(e);
     if (e.action === "edit") {
-      this.router.navigate(["/user/add-edit"], { state: this.selectedRow });
+      this.router.navigate(["/device/add-edit"], { state: this.selectedRow });
     }
   }
   onSelectionChanged(e) {

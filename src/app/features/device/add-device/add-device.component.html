@@ -1,0 +1,85 @@
+<div class="animated fadeIn">
+  <!--/.card-->
+  <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Add Device</strong>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+            
+            <div class="form-row">
+              <label class="col-form-label">Serial Number</label>
+              <input
+                type="text"
+                formControlName="serial"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.serial.touched && form.serial.errors
+                }"
+              />
+              <div
+                *ngIf="form.serial.touched && form.serial.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.serial.errors.required">
+                  Serial Number is required
+                </div>
+                <div *ngIf="form.serial.errors.userName">
+                  Serial Number must be a valid
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="col-form-label">Name</label>
+              <input
+                type="text"
+                formControlName="name"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.name.touched && form.name.errors
+                }"
+              />
+              <div
+                *ngIf="form.name.touched && form.name.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.name.errors.required">
+                  Name is required
+                </div>
+                <div *ngIf="form.name.errors.userName">
+                  Name must be a valid
+                </div>
+              </div>
+            </div>
+            
+
+            
+
+            <div class="form-row" style="margin-top: 30px;">
+              <button
+                type="submit"
+                class="btn btn-block btn-primary"
+                style="width: 120px;"
+                [disabled]="formGroup.invalid"
+              >
+                Submit
+              </button>
+              <button
+                type="reset"
+                style="width: 120px; height: 35px; margin-left: 30px;"
+                class="btn btn-sm btn-danger"
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
