@@ -8,13 +8,14 @@ import { AgGridModule } from "ag-grid-angular";
 import { GoogleMapsModule } from "@angular/google-maps";
 import { AgmCoreModule } from "@agm/core";
 import { environment } from "../../../environments/environment";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [AddfencingComponent, FencingListComponent],
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     GeofencingRoutingModule,
     SharedModule,
     AgGridModule.forRoot([]),

@@ -9,35 +9,99 @@
           <div class="row">
             <div class="col-md-3 col-xs-12">
               <div class="table-container">
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th>Lat</th>
-                      <th>Long</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let point of pointList">
-                      <td>{{ point.lat.toPrecision(5) }}</td>
-                      <td>{{ point.lng.toPrecision(5) }}</td>
-                    </tr>
-                    <tr>
-                      <th>Selected Area:</th>
-                      <th>{{ selectedArea.toPrecision(5) }}m<sup>2</sup></th>
-                    </tr>
-                  </tbody>
-                </table>
+                <div class="form-row">
+                  <label class="col-form-label">Selected Points</label>
+                </div>
+                <div *ngIf="!pointList.length">
+                  <small class="text-muted is-invalid">No Area Selected</small>
+                  <p>Draw an area in the map</p>
+                </div>
+                <div *ngIf="pointList.length">
+                  <div>
+                    <strong class="text-muted mr-3">Lat</strong>
+                    <strong class="text-muted">Long</strong>
+                  </div>
+                  <div *ngFor="let point of pointList">
+                    <small class="text-muted mr-3"
+                      ><i class="icon-location-pin"></i>&nbsp;
+                      {{ point.lat.toPrecision(5) }}</small
+                    ><small class="text-muted"
+                      ><i class="icon-location-pin"></i>&nbsp;
+                      {{ point.lng.toPrecision(5) }}</small
+                    >
+                  </div>
+                </div>
               </div>
-              <p>Address---> {{ address | json }}</p>
-              <button
-                aria-pressed="true"
-                class="btn btn-block btn-dark active"
-                type="button"
-                [disabled]="pointList.length < 3"
-                (click)="saveSelectedShape()"
-              >
-                Save Polygon Area
-              </button>
+              <form [formGroup]="a3FormGroup" (ngSubmit)="saveSelectedShape()">
+                <div class="form-row">
+                  <label class="col-form-label">Name</label>
+                  <input
+                    type="text"
+                    formControlName="name"
+                    class="form-control"
+                    [ngClass]="{
+                      'is-invalid': form.name.touched && form.name.errors
+                    }"
+                  />
+                  <div
+                    *ngIf="form.name.touched && form.name.errors"
+                    class="invalid-feedback"
+                  >
+                    <div *ngIf="form.name.errors.required">
+                      Name is required
+                    </div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label class="col-form-label">Description</label>
+                  <input
+                    type="text"
+                    formControlName="description"
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-row">
+                  <label class="col-form-label">City</label>
+                  <input
+                    type="text"
+                    formControlName="city"
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-row">
+                  <label class="col-form-label">State</label>
+                  <input
+                    type="text"
+                    formControlName="state"
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-row">
+                  <label class="col-form-label">Country</label>
+                  <input
+                    type="text"
+                    formControlName="country"
+                    class="form-control"
+                  />
+                </div>
+                <div class="form-row" style="margin-top: 30px">
+                  <button
+                    type="submit"
+                    class="btn btn-block btn-primary"
+                    style="width: 120px"
+                    [disabled]="a3FormGroup.invalid || !selectedShape"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    type="reset"
+                    style="width: 120px; height: 35px; margin-left: 30px"
+                    class="btn btn-sm btn-danger"
+                  >
+                    Reset
+                  </button>
+                </div>
+              </form>
             </div>
             <div class="col-md-9 col-xs-12">
               <div class="form-group" id="address">

@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
 import { GeofencingService } from "../../geofencing/geofencing.service";
+import { NotificationService } from "../../../core/service/notification.server";
 @Component({
   selector: "app-fencing-list",
   templateUrl: "./fencing-list.component.html",
@@ -30,7 +31,8 @@ export class FencingListComponent implements OnInit {
   constructor(
     private router: Router,
     private storage: StorageService,
-    private geofenceSvc: GeofencingService
+    private geofenceSvc: GeofencingService,
+    protected _notificationSvc: NotificationService
   ) {}
 
   ngOnInit(): void {
@@ -74,16 +76,8 @@ export class FencingListComponent implements OnInit {
       });
     }
     if (e.action === "delete") {
-      this.delete(this.selectedRow.geofenceId);
+      this.delete(this.selectedRow);
     }
-  }
-  delete(id) {
-    console.log(id);
-
-    this.geofenceSvc.deleteGeofence(id).subscribe((res) => {
-      console.log(res);
-      this.loadData();
-    });
   }
 
   onSelectionChanged(e) {
@@ -97,5 +91,35 @@ export class FencingListComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.loadData();
+  }
+
+  delete(geofence) {
+    const userId = this.storage.getItem("userId");
+    this.geofenceSvc.getGroupIdByUser(userId).subscribe((group) => {
+      if (group && group.length) {
+        this._notificationSvc.success(
+          "Success",
+          "Group Id Fetched successfully"
+        );
+        this.geofenceSvc
+          .deleteGeofenceGroup(geofence.geofenceId, group[0]["groupId"])
+          .subscribe((res) => {
+            console.log(res);
+            if (res) {
+              this.geofenceSvc
+                .deleteGeofence(geofence.geofenceId)
+                .subscribe((res) => {
+                  this._notificationSvc.success(
+                    "Success",
+                    "Deeleted  successfully"
+                  );
+                  console.log(res);
+                  this.loadData();
+                });
+            }
+            this.loadData();
+          });
+      }
+    });
   }
 }

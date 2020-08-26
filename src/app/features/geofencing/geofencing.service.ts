@@ -27,4 +27,14 @@ export class GeofencingService {
   addGeofenceToGroup(payload): Observable<any> {
     return this.http.post<any>(`${this.url}/GeofenceGroup`, payload);
   }
+
+  deleteGeofenceGroup(geofenceId, groupId) {
+    console.log(
+      "URL --------> ",
+      `${this.url}/​GeofenceGroup​/${groupId}​/${geofenceId}`
+    );
+    return this.http.delete(
+      `${this.url}/GeofenceGroup/${geofenceId}/${groupId}`
+    );
+  }
 }

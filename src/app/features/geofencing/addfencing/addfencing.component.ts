@@ -9,6 +9,7 @@ import { GeofencingService } from "../geofencing.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
+import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 declare const google: any;
 
 /** Demo Component for @angular/google-maps/map */
@@ -31,7 +32,6 @@ export class AddfencingComponent implements OnInit {
   private geoCoder;
   address: any = {};
   placeSearch: any;
-
   componentForm: {
     street_number: "short_name";
     route: "long_name";
@@ -40,17 +40,47 @@ export class AddfencingComponent implements OnInit {
     country: "long_name";
     postal_code: "short_name";
   };
+
   autocomplete: google.maps.places.Autocomplete;
   map: any;
+  a3FormGroup: FormGroup;
+  submitted = false;
+  rowData: any = {
+    name: "",
+    description: "",
+    city: "",
+    state: "",
+    country: "",
+    geofenceId: 1,
+    alias: "alias",
+    geofenceTypeId: 1,
+    polygon: {
+      coordinates: [],
+      srid: "",
+    },
+    srid: "",
+    elevation: 0,
+  };
 
   constructor(
+    private formBuilder: FormBuilder,
     private ngZone: NgZone,
     private geofenceSvc: GeofencingService,
     protected _notificationSvc: NotificationService,
     private router: Router,
     private storage: StorageService
-  ) {}
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation.extras.state) {
+      console.log(navigation.extras.state);
 
+      this.rowData = navigation.extras.state;
+    }
+    this.createForm(this.rowData);
+  }
+  get form() {
+    return this.a3FormGroup.controls;
+  }
   ngOnInit() {
     this.setCurrentPosition();
   }
@@ -146,26 +176,26 @@ export class AddfencingComponent implements OnInit {
   }
 
   saveSelectedShape() {
+    const formValue = this.a3FormGroup.value;
     const payload = {
       geofenceId: 1,
       alias: "alias",
-      name: "Pune Area",
-      country: this.address.country || "",
-      state: this.address.administrative_area_level_1 || "",
-      city: this.address.administrative_area_level_2 || "",
+      name: formValue.name,
+      country: formValue.country || "",
+      state: formValue.state || "",
+      city: formValue.city || "",
       geofenceTypeId: 1,
       polygon: {
         coordinates: this.pointList,
         srid: "",
       },
       srid: "",
-      description: "Pune Area Inner Fencing",
+      description: formValue.description,
       elevation: 0,
     };
 
     if (this.selectedShape) {
       payload.polygon.coordinates.push(this.pointList[0]);
-      console.log("Co-ordinates", this.pointList, payload);
       this.geofenceSvc.postGeofence(payload).subscribe((geofence) => {
         if (geofence) {
           this._notificationSvc.success(
@@ -256,9 +286,14 @@ export class AddfencingComponent implements OnInit {
     console.log(place.address_components);
     for (let component of place.address_components as google.maps.GeocoderAddressComponent[]) {
       const addressType = component.types[0];
-      console.log(addressType);
+
       this.address[addressType] = component["short_name"];
     }
+    this.a3FormGroup.patchValue({
+      country: this.address.country || "",
+      state: this.address.administrative_area_level_1 || "",
+      city: this.address.administrative_area_level_2 || "",
+    });
   }
 
   geolocate() {
@@ -303,9 +338,18 @@ export class AddfencingComponent implements OnInit {
             "Success",
             "Geofence Added to Group  successfully"
           );
-          // this.formGroup.reset();
-          this.router.navigate(["/device"]);
+          this.router.navigate(["/geofencing"]);
         }
       });
+  }
+
+  createForm(rowData) {
+    this.a3FormGroup = this.formBuilder.group({
+      name: [rowData.name, [Validators.required]],
+      description: [rowData.description],
+      city: [rowData.city],
+      state: [rowData.state],
+      country: [rowData.country],
+    });
   }
 }
