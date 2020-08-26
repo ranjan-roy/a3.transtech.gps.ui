@@ -14,4 +14,12 @@ export class GeofencingService {
   postGeofence(payload): Observable<any> {
     return this.http.post<any>(`${this.url}/Geofence`, payload);
   }
+
+  getGroupIdByUser(id): Observable<any> {
+    return this.http.get<any>(`${this.url}/Group/GetByUser/${id}`);
+  }
+
+  addGeofenceToGroup(payload): Observable<any> {
+    return this.http.post<any>(`${this.url}/GeofenceGroup`, payload);
+  }
 }

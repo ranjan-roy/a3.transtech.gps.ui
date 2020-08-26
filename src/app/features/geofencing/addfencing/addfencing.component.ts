@@ -6,6 +6,9 @@ import {
   NgZone,
 } from "@angular/core";
 import { GeofencingService } from "../geofencing.service";
+import { NotificationService } from "../../../core/service/notification.server";
+import { Router } from "@angular/router";
+import { StorageService } from "../../../core/service/storage.service";
 declare const google: any;
 
 /** Demo Component for @angular/google-maps/map */
@@ -26,7 +29,7 @@ export class AddfencingComponent implements OnInit {
   selectedArea = 0;
   zoom;
   private geoCoder;
-  address: string;
+  address: any = {};
   placeSearch: any;
 
   componentForm: {
@@ -37,8 +40,16 @@ export class AddfencingComponent implements OnInit {
     country: "long_name";
     postal_code: "short_name";
   };
+  autocomplete: google.maps.places.Autocomplete;
+  map: any;
 
-  constructor(private ngZone: NgZone, private geofenceSvc: GeofencingService) {}
+  constructor(
+    private ngZone: NgZone,
+    private geofenceSvc: GeofencingService,
+    protected _notificationSvc: NotificationService,
+    private router: Router,
+    private storage: StorageService
+  ) {}
 
   ngOnInit() {
     this.setCurrentPosition();
@@ -46,7 +57,7 @@ export class AddfencingComponent implements OnInit {
 
   onMapReady(map) {
     this.initDrawingManager(map);
-    this.enableSearch();
+    this.enableSearch(map);
   }
 
   initDrawingManager = (map: any) => {
@@ -138,21 +149,30 @@ export class AddfencingComponent implements OnInit {
     const payload = {
       geofenceId: 1,
       alias: "alias",
-      name: "name",
-      country: "India",
-      state: "state",
-      city: "city",
+      name: "Pune Area",
+      country: this.address.country || "",
+      state: this.address.administrative_area_level_1 || "",
+      city: this.address.administrative_area_level_2 || "",
       geofenceTypeId: 1,
       polygon: {
         coordinates: this.pointList,
+        srid: "",
       },
+      srid: "",
+      description: "Pune Area Inner Fencing",
+      elevation: 0,
     };
 
     if (this.selectedShape) {
-      console.log("Co-ordinates", this.pointList);
-      this.geofenceSvc.postGeofence(payload).subscribe((geofenceId) => {
-        if (geofenceId) {
-          console.log("Coordinates Added");
+      payload.polygon.coordinates.push(this.pointList[0]);
+      console.log("Co-ordinates", this.pointList, payload);
+      this.geofenceSvc.postGeofence(payload).subscribe((geofence) => {
+        if (geofence) {
+          this._notificationSvc.success(
+            "Success",
+            "Geofence Added to Group  successfully"
+          );
+          this.getGroupId(geofence);
         }
       });
     }
@@ -167,30 +187,36 @@ export class AddfencingComponent implements OnInit {
     this.selectedArea = google.maps.geometry.spherical.computeArea(path);
   }
 
-  enableSearch() {
-    let autocomplete = new google.maps.places.Autocomplete(
+  enableSearch(map) {
+    this.autocomplete = new google.maps.places.Autocomplete(
       this.searchElementRef.nativeElement
     );
 
-    autocomplete = new google.maps.places.Autocomplete(
+    this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById("autocomplete"),
       {
         types: ["geocode"],
       }
     );
 
-    autocomplete.setFields(["address"]);
+    this.autocomplete.setFields(["address"]);
+    this.autocomplete.setFields(["address_component"]);
 
-    autocomplete.addListener("place_changed", () => {
+    // When the user selects an address from the drop-down, populate the
+    // address fields in the form.
+
+    this.autocomplete.addListener("place_changed", () => {
+      this.fillInAddress();
       this.ngZone.run(() => {
         //get the place result
-        let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+        let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
 
         //verify result
         if (place.geometry === undefined || place.geometry === null) {
           return;
         }
-
+        google.maps.setCenter(place.geometry.location);
+        google.maps.setZoom(17);
         //set latitude, longitude and zoom
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
@@ -223,5 +249,63 @@ export class AddfencingComponent implements OnInit {
 
   onAddressSelect(event) {
     const str = console.log("address", event);
+  }
+
+  fillInAddress() {
+    const place = this.autocomplete.getPlace();
+    console.log(place.address_components);
+    for (let component of place.address_components as google.maps.GeocoderAddressComponent[]) {
+      const addressType = component.types[0];
+      console.log(addressType);
+      this.address[addressType] = component["short_name"];
+    }
+  }
+
+  geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const geolocation = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        const circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy,
+        });
+        this.autocomplete.setBounds(circle.getBounds());
+      });
+    }
+  }
+
+  getGroupId(fence) {
+    const userId = this.storage.getItem("userId");
+    this.geofenceSvc.getGroupIdByUser(userId).subscribe((group) => {
+      if (group && group.length) {
+        this._notificationSvc.success(
+          "Success",
+          "Group Id Fetched successfully"
+        );
+        this.addDeviceToUserGroup(fence, group[0]);
+      }
+    });
+  }
+
+  addDeviceToUserGroup(fence, group) {
+    console.log(fence, group);
+    this.geofenceSvc
+      .addGeofenceToGroup({
+        geofenceId: fence.geofenceId,
+        groupId: group.groupId,
+      })
+      .subscribe((usergroup) => {
+        if (usergroup) {
+          this._notificationSvc.success(
+            "Success",
+            "Geofence Added to Group  successfully"
+          );
+          // this.formGroup.reset();
+          this.router.navigate(["/device"]);
+        }
+      });
   }
 }
