@@ -20,4 +20,11 @@ export class GeofencingService {
   deleteGeofence(id) {
     return this.http.delete(`${this.url}/Geofence/${id}`);
   }
+  getGroupIdByUser(id): Observable<any> {
+    return this.http.get<any>(`${this.url}/Group/GetByUser/${id}`);
+  }
+
+  addGeofenceToGroup(payload): Observable<any> {
+    return this.http.post<any>(`${this.url}/GeofenceGroup`, payload);
+  }
 }
