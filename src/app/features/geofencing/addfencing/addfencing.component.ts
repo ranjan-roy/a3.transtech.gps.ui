@@ -72,7 +72,7 @@ export class AddfencingComponent implements OnInit {
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-      console.log(navigation.extras.state);
+      console.log("Selected Row", navigation.extras.state);
 
       this.rowData = navigation.extras.state;
     }
@@ -92,6 +92,35 @@ export class AddfencingComponent implements OnInit {
 
   initDrawingManager = (map: any) => {
     const self = this;
+
+    // const triangleCoords = [
+    //   new google.maps.LatLng(33.5362475, -111.9267386),
+    //   new google.maps.LatLng(33.5104882, -111.9627875),
+    //   new google.maps.LatLng(33.5004686, -111.9027061),
+    // ];
+
+    console.log("polygonCoords", this.rowData.polygon.coordinates);
+
+    if (this.rowData.polygon.coordinates.length) {
+      const polygonCoords = this.rowData.polygon.coordinates.map(
+        (item) => new google.maps.LatLng(item.latitude, item.longitude)
+      );
+
+      const myPolygon = new google.maps.Polygon({
+        paths: polygonCoords,
+        draggable: true, // turn off if it gets annoying
+        editable: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: "#FF0000",
+        fillOpacity: 0.35,
+      });
+      map.setCenter(polygonCoords[0]);
+      map.setZoom(8);
+      myPolygon.setMap(map);
+    }
+
     const options = {
       drawingControl: true,
       drawingControlOptions: {
@@ -186,7 +215,7 @@ export class AddfencingComponent implements OnInit {
       city: formValue.city || "",
       geofenceTypeId: 1,
       polygon: {
-        coordinates: this.pointList,
+        coordinates: [],
         srid: "",
       },
       srid: "",
@@ -195,7 +224,13 @@ export class AddfencingComponent implements OnInit {
     };
 
     if (this.selectedShape) {
-      payload.polygon.coordinates.push(this.pointList[0]);
+      payload.polygon.coordinates = this.pointList.map((p) => {
+        return {
+          latitude: p.lat,
+          longitude: p.lng,
+        };
+      });
+      payload.polygon.coordinates.push(payload.polygon.coordinates[0]);
       this.geofenceSvc.postGeofence(payload).subscribe((geofence) => {
         if (geofence) {
           this._notificationSvc.success(
@@ -223,10 +258,7 @@ export class AddfencingComponent implements OnInit {
     );
 
     this.autocomplete = new google.maps.places.Autocomplete(
-      document.getElementById("autocomplete"),
-      {
-        types: ["geocode"],
-      }
+      document.getElementById("autocomplete")
     );
 
     this.autocomplete.setFields(["address"]);
@@ -235,23 +267,36 @@ export class AddfencingComponent implements OnInit {
     // When the user selects an address from the drop-down, populate the
     // address fields in the form.
 
-    this.autocomplete.addListener("place_changed", () => {
-      this.fillInAddress();
-      this.ngZone.run(() => {
-        //get the place result
-        let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+    // map.addListener("bounds_changed", () => {
+    //   setBounds(map.getBounds() as google.maps.LatLngBounds);
+    // });
 
-        //verify result
-        if (place.geometry === undefined || place.geometry === null) {
-          return;
-        }
-        google.maps.setCenter(place.geometry.location);
-        google.maps.setZoom(17);
+    this.autocomplete.addListener("place_changed", (e) => {
+      this.fillInAddress();
+      //get the place result
+      let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+
+      // const bounds = new google.maps.LatLngBounds(
+      //   this.autocomplete.getBounds()
+      // );
+      // map.fitBounds(bounds);
+
+      //verify result
+      if (place.geometry === undefined || place.geometry === null) {
+        return;
+      } else {
         //set latitude, longitude and zoom
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
         this.zoom = 12;
-      });
+
+        // map.setCenter(place.geometry.location);
+        // map.setZoom(8);
+        // console.log("lat", place.geometry.location.lat(), map);
+      }
+
+      // this.ngZone.run(() => {
+      // });
     });
   }
 
@@ -283,7 +328,7 @@ export class AddfencingComponent implements OnInit {
 
   fillInAddress() {
     const place = this.autocomplete.getPlace();
-    console.log(place.address_components);
+    console.log("Place", this.autocomplete.getBounds());
     for (let component of place.address_components as google.maps.GeocoderAddressComponent[]) {
       const addressType = component.types[0];
 
