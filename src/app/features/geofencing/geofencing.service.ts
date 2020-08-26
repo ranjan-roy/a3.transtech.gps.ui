@@ -14,4 +14,10 @@ export class GeofencingService {
   postGeofence(payload): Observable<any> {
     return this.http.post<any>(`${this.url}/Geofence`, payload);
   }
+  geGeofenceByUser(id): Observable<any> {
+    return this.http.get<any>(`${this.url}/Geofence/GetByUser/${id}`);
+  }
+  deleteGeofence(id) {
+    return this.http.delete(`${this.url}/Geofence/${id}`);
+  }
 }
