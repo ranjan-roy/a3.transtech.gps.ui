@@ -29,12 +29,11 @@ export class GeofencingService {
   }
 
   deleteGeofenceGroup(geofenceId, groupId) {
-    console.log(
-      "URL --------> ",
-      `${this.url}/​GeofenceGroup​/${groupId}​/${geofenceId}`
-    );
     return this.http.delete(
       `${this.url}/GeofenceGroup/${geofenceId}/${groupId}`
     );
+  }
+  updateGeofence(geofenceId, payload): Observable<any> {
+    return this.http.put<any>(`${this.url}/Geofence/${geofenceId}`, payload);
   }
 }

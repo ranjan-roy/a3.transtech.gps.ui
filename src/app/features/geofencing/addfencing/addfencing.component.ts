@@ -46,14 +46,15 @@ export class AddfencingComponent implements OnInit {
   a3FormGroup: FormGroup;
   submitted = false;
   rowData: any = {
+    address: "",
+    geofenceId: 0,
     name: "",
     description: "",
     city: "",
     state: "",
     country: "",
-    geofenceId: 1,
     alias: "alias",
-    geofenceTypeId: 1,
+    geofenceTypeId: 0,
     polygon: {
       coordinates: [],
       srid: "",
@@ -61,6 +62,7 @@ export class AddfencingComponent implements OnInit {
     srid: "",
     elevation: 0,
   };
+  addressText: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -203,46 +205,6 @@ export class AddfencingComponent implements OnInit {
       });
     }
   }
-
-  saveSelectedShape() {
-    const formValue = this.a3FormGroup.value;
-    const payload = {
-      geofenceId: 1,
-      alias: "alias",
-      name: formValue.name,
-      country: formValue.country || "",
-      state: formValue.state || "",
-      city: formValue.city || "",
-      geofenceTypeId: 1,
-      polygon: {
-        coordinates: [],
-        srid: "",
-      },
-      srid: "",
-      description: formValue.description,
-      elevation: 0,
-    };
-
-    if (this.selectedShape) {
-      payload.polygon.coordinates = this.pointList.map((p) => {
-        return {
-          latitude: p.lat,
-          longitude: p.lng,
-        };
-      });
-      payload.polygon.coordinates.push(payload.polygon.coordinates[0]);
-      this.geofenceSvc.postGeofence(payload).subscribe((geofence) => {
-        if (geofence) {
-          this._notificationSvc.success(
-            "Success",
-            "Geofence Added to Group  successfully"
-          );
-          this.getGroupId(geofence);
-        }
-      });
-    }
-  }
-
   updatePointList(path) {
     this.pointList = [];
     const len = path.getLength();
@@ -323,7 +285,8 @@ export class AddfencingComponent implements OnInit {
   }
 
   onAddressSelect(event) {
-    const str = console.log("address", event);
+    const str = console.log("address", event.target.value);
+    this.addressText = event.target.value;
   }
 
   fillInAddress() {
@@ -355,6 +318,68 @@ export class AddfencingComponent implements OnInit {
         this.autocomplete.setBounds(circle.getBounds());
       });
     }
+  }
+  saveSelectedShape() {
+    const formValue = this.a3FormGroup.value;
+    const payload = {
+      ...this.rowData,
+      name: formValue.name,
+      country: formValue.country || "",
+      state: formValue.state || "",
+      city: formValue.city || "",
+      polygon: {
+        coordinates: [],
+        srid: "",
+      },
+      description: formValue.description,
+      elevation: 0,
+      address: this.addressText,
+      alias: "string",
+      geofenceTypeId: 1,
+    };
+
+    if (this.selectedShape) {
+      payload.polygon.coordinates = this.pointList.map((p) => {
+        return {
+          latitude: p.lat,
+          longitude: p.lng,
+        };
+      });
+      payload.polygon.coordinates.push(payload.polygon.coordinates[0]);
+      console.log(payload);
+
+      if (this.rowData.geofenceId === 0) {
+        this.addGeoFence(payload);
+      } else {
+        this.updateGeoFence(this.rowData.geofenceId, payload);
+      }
+    }
+  }
+
+  updateGeoFence(geofenceId, payload) {
+    this.geofenceSvc
+      .updateGeofence(geofenceId, payload)
+      .subscribe((geofence) => {
+        if (geofence) {
+          this._notificationSvc.success(
+            "Success",
+            "Geofence Added to Group  successfully"
+          );
+          this.getGroupId(geofence);
+        }
+      });
+  }
+
+  addGeoFence(payload) {
+    this.geofenceSvc.postGeofence(payload).subscribe((geofence) => {
+      if (geofence) {
+        this._notificationSvc.success(
+          "Success",
+          "Geofence Added to Group  successfully"
+        );
+        this.getGroupId(geofence);
+      }
+    });
   }
 
   getGroupId(fence) {
