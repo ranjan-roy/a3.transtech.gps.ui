@@ -110,9 +110,12 @@ export class AddfencingComponent implements OnInit {
         fillColor: "#5D5D5D",
         fillOpacity: 0.35,
       });
-      map.setCenter(polygonCoords[1]);
+      let getplace: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+      map.setCenter(getplace.geometry.location);
       map.setZoom(8);
       myPolygon.setMap(map);
+
+      console.log("map", polygonCoords[0]);
 
       document.getElementById("deleteEdit").onclick = function () {
         myPolygon.setMap(null);
@@ -212,9 +215,9 @@ export class AddfencingComponent implements OnInit {
   }
 
   enableSearch(map) {
-    // this.autocomplete = new google.maps.places.Autocomplete(
-    //   this.searchElementRef.nativeElement
-    // );
+    this.autocomplete = new google.maps.places.Autocomplete(
+      this.searchElementRef.nativeElement
+    );
 
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById("autocomplete")
@@ -226,21 +229,12 @@ export class AddfencingComponent implements OnInit {
     // When the user selects an address from the drop-down, populate the
     // address fields in the form.
 
-    // map.addListener("bounds_changed", () => {
-    //   setBounds(map.getBounds() as google.maps.LatLngBounds);
-    // });
-
     this.autocomplete.addListener("place_changed", (e) => {
       //get the place result
       let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
       this.fillInAddress(place);
       map.setCenter(place.geometry.location);
-      console.log("e map", place, map);
-
-      // const bounds = new google.maps.LatLngBounds(
-      //   this.autocomplete.getBounds()
-      // );
-      // map.fitBounds(bounds);
+      console.log("e map", place.geometry.location, map);
 
       //verify result
       if (place.geometry === undefined || place.geometry === null) {
@@ -250,13 +244,7 @@ export class AddfencingComponent implements OnInit {
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
         this.zoom = 12;
-
-        // map.setCenter(place.geometry.location);
-        // map.setZoom(8);
       }
-
-      // this.ngZone.run(() => {
-      // });
     });
   }
 

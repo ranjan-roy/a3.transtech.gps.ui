@@ -118,14 +118,13 @@
                   #search
                 />
               </div>
-              <button
-                mat-button
-                id="deleteEdit"
-                (click)="deleteSelectedShape()"
-                class="btn-clear"
-              >
-                Clear
-              </button>
+              <div class="icon-clear">
+                <i
+                  class="btn-clear icon-trash"
+                  id="deleteEdit"
+                  (click)="deleteSelectedShape()"
+                ></i>
+              </div>
               <agm-map
                 [zoom]="8"
                 [latitude]="lat"
