@@ -22,8 +22,8 @@ export class AddfencingComponent implements OnInit {
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
-  lat = 20.5937;
-  lng = 78.9629;
+  lat = 28.417;
+  lng = 76.692;
   pointList: { lat: number; lng: number }[] = [];
   drawingManager: any;
   selectedShape: any;
@@ -95,14 +95,6 @@ export class AddfencingComponent implements OnInit {
   initDrawingManager = (map: any) => {
     const self = this;
 
-    // const triangleCoords = [
-    //   new google.maps.LatLng(33.5362475, -111.9267386),
-    //   new google.maps.LatLng(33.5104882, -111.9627875),
-    //   new google.maps.LatLng(33.5004686, -111.9027061),
-    // ];
-
-    console.log("polygonCoords", this.rowData.polygon.coordinates);
-
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
         (item) => new google.maps.LatLng(item.latitude, item.longitude)
@@ -112,15 +104,19 @@ export class AddfencingComponent implements OnInit {
         paths: polygonCoords,
         draggable: true, // turn off if it gets annoying
         editable: true,
-        strokeColor: "#FF0000",
+        strokeColor: "#5D5D5D",
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: "#FF0000",
+        fillColor: "#5D5D5D",
         fillOpacity: 0.35,
       });
-      map.setCenter(polygonCoords[0]);
+      map.setCenter(polygonCoords[1]);
       map.setZoom(8);
       myPolygon.setMap(map);
+
+      document.getElementById("deleteEdit").onclick = function () {
+        myPolygon.setMap(null);
+      };
     }
 
     const options = {
@@ -136,6 +132,7 @@ export class AddfencingComponent implements OnInit {
     };
     this.drawingManager = new google.maps.drawing.DrawingManager(options);
     this.drawingManager.setMap(map);
+
     google.maps.event.addListener(
       this.drawingManager,
       "overlaycomplete",
@@ -215,16 +212,16 @@ export class AddfencingComponent implements OnInit {
   }
 
   enableSearch(map) {
-    this.autocomplete = new google.maps.places.Autocomplete(
-      this.searchElementRef.nativeElement
-    );
+    // this.autocomplete = new google.maps.places.Autocomplete(
+    //   this.searchElementRef.nativeElement
+    // );
 
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById("autocomplete")
     );
 
-    this.autocomplete.setFields(["address"]);
-    this.autocomplete.setFields(["address_component"]);
+    // this.autocomplete.setFields(["address"]);
+    // this.autocomplete.setFields(["address_component"]);
 
     // When the user selects an address from the drop-down, populate the
     // address fields in the form.
@@ -234,9 +231,11 @@ export class AddfencingComponent implements OnInit {
     // });
 
     this.autocomplete.addListener("place_changed", (e) => {
-      this.fillInAddress();
       //get the place result
       let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
+      this.fillInAddress(place);
+      map.setCenter(place.geometry.location);
+      console.log("e map", place, map);
 
       // const bounds = new google.maps.LatLngBounds(
       //   this.autocomplete.getBounds()
@@ -254,7 +253,6 @@ export class AddfencingComponent implements OnInit {
 
         // map.setCenter(place.geometry.location);
         // map.setZoom(8);
-        // console.log("lat", place.geometry.location.lat(), map);
       }
 
       // this.ngZone.run(() => {
@@ -285,13 +283,12 @@ export class AddfencingComponent implements OnInit {
   }
 
   onAddressSelect(event) {
-    const str = console.log("address", event.target.value);
+    // const str = console.log("address", event.target.value);
     this.addressText = event.target.value;
   }
 
-  fillInAddress() {
-    const place = this.autocomplete.getPlace();
-    console.log("Place", this.autocomplete.getBounds());
+  fillInAddress(place) {
+    console.log("Place address", place);
     for (let component of place.address_components as google.maps.GeocoderAddressComponent[]) {
       const addressType = component.types[0];
 
@@ -365,7 +362,6 @@ export class AddfencingComponent implements OnInit {
             "Success",
             "Geofence Added to Group  successfully"
           );
-          this.getGroupId(geofence);
         }
       });
   }

@@ -84,18 +84,18 @@
                     class="form-control"
                   />
                 </div>
-                <div class="form-row" style="margin-top: 30px">
+                <div class="form-row" style="margin-top: 30px;">
                   <button
                     type="submit"
                     class="btn btn-block btn-primary"
-                    style="width: 120px"
+                    style="width: 120px;"
                     [disabled]="a3FormGroup.invalid || !selectedShape"
                   >
                     Submit
                   </button>
                   <button
                     type="reset"
-                    style="width: 120px; height: 35px; margin-left: 30px"
+                    style="width: 120px; height: 35px; margin-left: 30px;"
                     class="btn btn-sm btn-danger"
                   >
                     Reset
@@ -118,6 +118,14 @@
                   #search
                 />
               </div>
+              <button
+                mat-button
+                id="deleteEdit"
+                (click)="deleteSelectedShape()"
+                class="btn-clear"
+              >
+                Clear
+              </button>
               <agm-map
                 [zoom]="8"
                 [latitude]="lat"
@@ -125,7 +133,6 @@
                 (mapReady)="onMapReady($event)"
               >
               </agm-map>
-              <button mat-button (click)="deleteSelectedShape()">Clear</button>
             </div>
           </div>
         </div>
