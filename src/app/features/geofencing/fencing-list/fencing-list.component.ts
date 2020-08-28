@@ -21,6 +21,7 @@ export class FencingListComponent implements OnInit {
   rowData = [];
   actionItems = [
     { label: "Edit", action: "edit", iconClass: "icon-pencil" },
+    { label: "View", action: "view", iconClass: "icon-eye" },
     { label: "Delete", action: "delete", iconClass: "icon-trash" },
   ];
   showAction: boolean = false;
@@ -72,6 +73,11 @@ export class FencingListComponent implements OnInit {
     console.log(e);
     if (e.action === "edit") {
       this.router.navigate(["/geofencing/add-edit"], {
+        state: this.selectedRow,
+      });
+    }
+    if (e.action === "view") {
+      this.router.navigate(["/geofencing/view-fencing"], {
         state: this.selectedRow,
       });
     }

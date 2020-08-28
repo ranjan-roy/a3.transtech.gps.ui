@@ -1,0 +1,143 @@
+<div class="animated fadeIn">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header">
+            <i class="fa fa-align-justify"></i> View
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3 col-xs-12">
+                <div class="table-container">
+                  <div class="form-row">
+                    <label class="col-form-label">Selected Points</label>
+                  </div>
+                  <div *ngIf="!rowData.polygon.coordinates.length">
+                    <small class="text-muted is-invalid">No Area Selected</small>
+                    <p>Draw an area in the map</p>
+                  </div>
+                  <div *ngIf="rowData.polygon.coordinates.length">
+                    <div>
+                      <strong class="text-muted mr-3">Lat</strong>
+                      <strong class="text-muted">Long</strong>
+                    </div>
+                    <div *ngFor="let point of rowData.polygon.coordinates">
+                      <small class="text-muted mr-3"
+                        ><i class="icon-location-pin"></i>&nbsp;
+                        {{ point.latitude.toPrecision(5) }}</small
+                      ><small class="text-muted"
+                        ><i class="icon-location-pin"></i>&nbsp;
+                        {{ point.longitude.toPrecision(5) }}</small
+                      >
+                    </div>
+                  </div>
+                </div>
+                <form [formGroup]="a3FormGroup" (ngSubmit)="saveSelectedShape()">
+                  <div class="form-row">
+                    <label class="col-form-label">Name</label>
+                    <input
+                      type="text"
+                      formControlName="name"
+                      class="form-control"
+                      readonly
+                      [ngClass]="{
+                        'is-invalid': form.name.touched && form.name.errors
+                      }"
+                    />
+                    <div
+                      *ngIf="form.name.touched && form.name.errors"
+                      class="invalid-feedback"
+                    >
+                      <div *ngIf="form.name.errors.required">
+                        Name is required
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <label class="col-form-label">Description</label>
+                    <input
+                      type="text"
+                      readonly
+                      formControlName="description"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-row">
+                    <label class="col-form-label">City</label>
+                    <input
+                      type="text"
+                      readonly
+                      formControlName="city"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-row">
+                    <label class="col-form-label">State</label>
+                    <input
+                      type="text"
+                      readonly
+                      formControlName="state"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="form-row">
+                    <label class="col-form-label">Country</label>
+                    <input
+                      type="text"
+                      readonly
+                      formControlName="country"
+                      class="form-control"
+                    />
+                  </div>
+                  <!-- <div class="form-row" style="margin-top: 30px;">
+                    <button
+                      type="submit"
+                      class="btn btn-block btn-primary"
+                      style="width: 120px;"
+                      [disabled]="a3FormGroup.invalid || !selectedShape"
+                    >
+                      Submit
+                    </button>
+                    <button
+                      type="reset"
+                      style="width: 120px; height: 35px; margin-left: 30px;"
+                      class="btn btn-sm btn-danger"
+                    >
+                      Reset
+                    </button>
+                  </div> -->
+                </form>
+              </div>
+              <div class="col-md-9 col-xs-12">
+                <div class="form-group" id="address">
+                  <input
+                    type="text"
+                    readonly
+                    id="autocomplete"
+                    class="form-control"
+                    (keydown.enter)="onAddressSelect($event)"
+                    placeholder="Search Nearest Location"
+                    autocorrect="off"
+                    autocapitalize="off"
+                    spellcheck="off"
+                    type="text"
+                    #search
+                  />
+                </div>
+               
+                <agm-map
+                  [zoom]="8"
+                  [latitude]="lat"
+                  [longitude]="lng"
+                  (mapReady)="onMapReady($event)"
+                  
+                >
+                </agm-map>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

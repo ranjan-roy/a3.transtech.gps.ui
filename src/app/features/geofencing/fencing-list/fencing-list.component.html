@@ -7,6 +7,8 @@
           <div class="card-header-actions">
             <a class="card-header-action btn btn-link" type="button" [routerLink]="['/geofencing/add-edit']">
               <i class="icon-plus"></i> Add</a>
+              
+              
             <span class="pull-right" *ngIf="showAction">
               <a class="card-header-action btn btn-link btn-pencil" type="button" (click)="onBtnClick(action)"
                 *ngFor="let action of actionItems">
