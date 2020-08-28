@@ -12,7 +12,7 @@ export const navItems: NavData[] = [
   {
     title: true,
     name: "Features",
-    accessLevel: [1, 2],
+    accessLevel: [1, 2, 3],
   },
   {
     name: "Vendor",
@@ -24,7 +24,7 @@ export const navItems: NavData[] = [
     name: "User",
     url: "/user",
     icon: "icon-cursor",
-    accessLevel: [2, 1],
+    accessLevel: [2],
   },
   {
     name: "Device",
@@ -36,6 +36,6 @@ export const navItems: NavData[] = [
     name: "GeoFencing",
     url: "/geofencing",
     icon: "icon-cursor",
-    accessLevel: [1, 2, 3],
+    accessLevel: [3],
   },
 ];
