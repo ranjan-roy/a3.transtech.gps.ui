@@ -30,7 +30,7 @@ export class GeofencingService {
 
   deleteGeofenceGroup(geofenceId, groupId) {
     return this.http.delete(
-      `${this.url}/GeofenceGroup/${geofenceId}/${groupId}`
+      `${this.url}/GeofenceGroup/${groupId}/${geofenceId}`
     );
   }
   updateGeofence(geofenceId, payload): Observable<any> {
