@@ -73,7 +73,6 @@ export class ViewFencingComponent implements OnInit {
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-      console.log("Selected Row", navigation.extras.state);
 
       this.rowData = navigation.extras.state;
     }
@@ -95,7 +94,6 @@ export class ViewFencingComponent implements OnInit {
     const self = this;
     let polygonCoords;
 
-    console.log("polygonCoords", this.rowData.polygon.coordinates);
 
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
@@ -240,8 +238,6 @@ export class ViewFencingComponent implements OnInit {
     this.geoCoder.geocode(
       { location: { lat: latitude, lng: longitude } },
       (results, status) => {
-        console.log(results);
-        console.log(status);
         if (status === "OK") {
           if (results[0]) {
             this.zoom = 12;
@@ -257,7 +253,6 @@ export class ViewFencingComponent implements OnInit {
   }
 
   onAddressSelect(event) {
-    const str = console.log("address", event.target.value);
     this.addressText = event.target.value;
   }
 
@@ -315,7 +310,6 @@ export class ViewFencingComponent implements OnInit {
         };
       });
       payload.polygon.coordinates.push(payload.polygon.coordinates[0]);
-      console.log(payload);
 
       if (this.rowData.geofenceId === 0) {
         this.addGeoFence(payload);
@@ -364,7 +358,6 @@ export class ViewFencingComponent implements OnInit {
   }
 
   addDeviceToUserGroup(fence, group) {
-    console.log(fence, group);
     this.geofenceSvc
       .addGeofenceToGroup({
         geofenceId: fence.geofenceId,
