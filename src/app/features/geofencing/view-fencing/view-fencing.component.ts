@@ -12,13 +12,12 @@ import { StorageService } from "../../../core/service/storage.service";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 declare const google: any;
 
-/** Demo Component for @angular/google-maps/map */
 @Component({
-  selector: "app-addfencing",
-  templateUrl: "./addfencing.component.html",
-  styleUrls: ["./addfencing.component.css"],
+  selector: 'app-view-fencing',
+  templateUrl: './view-fencing.component.html',
+  styleUrls: ['./view-fencing.component.css']
 })
-export class AddfencingComponent implements OnInit {
+export class ViewFencingComponent implements OnInit {
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
@@ -100,11 +99,13 @@ export class AddfencingComponent implements OnInit {
       const polygonCoords = this.rowData.polygon.coordinates.map(
         (item) => new google.maps.LatLng(item.latitude, item.longitude)
       );
+      
+     
 
       const myPolygon = new google.maps.Polygon({
         paths: polygonCoords,
-        draggable: true, // turn off if it gets annoying
-        editable: true,
+        draggable: false, // turn off if it gets annoying
+        editable: false,
         strokeOpacity: 0.8,
         strokeWeight: 2,
         fillOpacity: 0.35,
@@ -114,55 +115,55 @@ export class AddfencingComponent implements OnInit {
       myPolygon.setMap(map);
     }
     const options = {
-      drawingControl: true,
+      drawingControl: false,
       drawingControlOptions: {
         drawingModes: ["polygon"],
       },
       polygonOptions: {
         paths: polygonCoords,
-        draggable: true,
-        editable: true,
+        draggable: false,
+        editable: false,
       },
-      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      // drawingMode: google.maps.drawing.OverlayType.POLYGON,
     };
-    this.drawingManager = new google.maps.drawing.DrawingManager(options);
-    this.drawingManager.setMap(map);
-    google.maps.event.addListener(
-      this.drawingManager,
-      "overlaycomplete",
-      (event) => {
-        if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-          const paths = event.overlay.getPaths();
-          for (let p = 0; p < paths.getLength(); p++) {
-            google.maps.event.addListener(paths.getAt(p), "set_at", () => {
-              if (!event.overlay.drag) {
-                self.updatePointList(event.overlay.getPath());
-              }
-            });
-            google.maps.event.addListener(paths.getAt(p), "insert_at", () => {
-              self.updatePointList(event.overlay.getPath());
-            });
-            google.maps.event.addListener(paths.getAt(p), "remove_at", () => {
-              self.updatePointList(event.overlay.getPath());
-            });
-          }
-          self.updatePointList(event.overlay.getPath());
-        }
-        if (event.type !== google.maps.drawing.OverlayType.MARKER) {
-          // Switch back to non-drawing mode after drawing a shape.
-          self.drawingManager.setDrawingMode(null);
-          // To hide:
-          self.drawingManager.setOptions({
-            drawingControl: false,
-          });
+    // this.drawingManager = new google.maps.drawing.DrawingManager(options);
+    // this.drawingManager.setMap(map);
+    // google.maps.event.addListener(
+    //   this.drawingManager,
+    //   "overlaycomplete",
+    //   (event) => {
+    //     if (event.type === google.maps.drawing.OverlayType.POLYGON) {
+    //       const paths = event.overlay.getPaths();
+    //       for (let p = 0; p < paths.getLength(); p++) {
+    //         google.maps.event.addListener(paths.getAt(p), "set_at", () => {
+    //           if (!event.overlay.drag) {
+    //             self.updatePointList(event.overlay.getPath());
+    //           }
+    //         });
+    //         google.maps.event.addListener(paths.getAt(p), "insert_at", () => {
+    //           self.updatePointList(event.overlay.getPath());
+    //         });
+    //         google.maps.event.addListener(paths.getAt(p), "remove_at", () => {
+    //           self.updatePointList(event.overlay.getPath());
+    //         });
+    //       }
+    //       self.updatePointList(event.overlay.getPath());
+    //     }
+    //     if (event.type !== google.maps.drawing.OverlayType.MARKER) {
+    //       // Switch back to non-drawing mode after drawing a shape.
+    //       self.drawingManager.setDrawingMode(null);
+    //       // To hide:
+    //       self.drawingManager.setOptions({
+    //         drawingControl: false,
+    //       });
 
-          // set selected shape object
-          const newShape = event.overlay;
-          newShape.type = event.type;
-          this.setSelection(newShape);
-        }
-      }
-    );
+    //       // set selected shape object
+    //       const newShape = event.overlay;
+    //       newShape.type = event.type;
+    //       this.setSelection(newShape);
+    //     }
+    //   }
+    // );
   };
   private setCurrentPosition() {
     if ("geolocation" in navigator) {
@@ -327,7 +328,6 @@ export class AddfencingComponent implements OnInit {
             "Success",
             "Geofence Added to Group  successfully"
           );
-          this.router.navigate(["/geofencing"]);
         }
       });
   }

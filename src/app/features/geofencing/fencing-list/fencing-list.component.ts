@@ -21,6 +21,7 @@ export class FencingListComponent implements OnInit {
   rowData = [];
   actionItems = [
     { label: "Edit", action: "edit", iconClass: "icon-pencil" },
+    { label: "View", action: "view", iconClass: "icon-eye" },
     { label: "Delete", action: "delete", iconClass: "icon-trash" },
   ];
   showAction: boolean = false;
@@ -61,7 +62,6 @@ export class FencingListComponent implements OnInit {
   loadData() {
     const userId = this.storage.getItem("userId");
     this.geofenceSvc.geGeofenceByUser(userId).subscribe((res) => {
-      console.log(res);
       this.rowData = res.map((item) => {
         item.address = [item.city, item.state, item.country].join(", ");
         return item;
@@ -69,9 +69,13 @@ export class FencingListComponent implements OnInit {
     });
   }
   onBtnClick(e) {
-    console.log(e);
     if (e.action === "edit") {
       this.router.navigate(["/geofencing/add-edit"], {
+        state: this.selectedRow,
+      });
+    }
+    if (e.action === "view") {
+      this.router.navigate(["/geofencing/view-fencing"], {
         state: this.selectedRow,
       });
     }
@@ -82,7 +86,6 @@ export class FencingListComponent implements OnInit {
 
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
-    console.log("selectedRows", selectedRows);
     this.selectedRow = selectedRows[0];
     this.showAction = true;
   }
@@ -104,7 +107,6 @@ export class FencingListComponent implements OnInit {
         this.geofenceSvc
           .deleteGeofenceGroup(geofence.geofenceId, group[0]["groupId"])
           .subscribe((res) => {
-            console.log(res);
             if (res) {
               this.geofenceSvc
                 .deleteGeofence(geofence.geofenceId)
@@ -113,7 +115,6 @@ export class FencingListComponent implements OnInit {
                     "Success",
                     "Deeleted  successfully"
                   );
-                  console.log(res);
                   this.loadData();
                 });
             }

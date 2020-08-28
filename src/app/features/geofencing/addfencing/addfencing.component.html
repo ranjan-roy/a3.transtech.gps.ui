@@ -118,14 +118,20 @@
                   #search
                 />
               </div>
+              <div class="icon-clear">
+                <i
+                  class="btn-clear icon-trash"
+                  id="deleteEdit"
+                  (click)="deleteSelectedShape()"
+                ></i>
+              </div>
               <agm-map
-                [zoom]="8"
+                [zoom]="12"
                 [latitude]="lat"
                 [longitude]="lng"
                 (mapReady)="onMapReady($event)"
               >
               </agm-map>
-              <button mat-button (click)="deleteSelectedShape()">Clear</button>
             </div>
           </div>
         </div>

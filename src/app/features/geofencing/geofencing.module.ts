@@ -10,8 +10,10 @@ import { AgmCoreModule } from "@agm/core";
 import { environment } from "../../../environments/environment";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
+import { ViewFencingComponent } from './view-fencing/view-fencing.component';
+
 @NgModule({
-  declarations: [AddfencingComponent, FencingListComponent],
+  declarations: [AddfencingComponent, FencingListComponent,ViewFencingComponent],
   imports: [
     CommonModule,
     FormsModule,
