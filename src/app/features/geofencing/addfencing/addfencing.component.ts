@@ -22,8 +22,8 @@ export class AddfencingComponent implements OnInit {
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
-  lat = 28.417;
-  lng = 76.692;
+  lat = 20.5937;
+  lng = 78.9629;
   pointList: { lat: number; lng: number }[] = [];
   drawingManager: any;
   selectedShape: any;
@@ -84,7 +84,7 @@ export class AddfencingComponent implements OnInit {
     return this.a3FormGroup.controls;
   }
   ngOnInit() {
-    this.setCurrentPosition();
+    // this.setCurrentPosition();
   }
 
   onMapReady(map) {
@@ -94,6 +94,9 @@ export class AddfencingComponent implements OnInit {
 
   initDrawingManager = (map: any) => {
     const self = this;
+    let polygonCoords;
+
+    console.log("polygonCoords", this.rowData.polygon.coordinates);
 
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
@@ -104,30 +107,21 @@ export class AddfencingComponent implements OnInit {
         paths: polygonCoords,
         draggable: true, // turn off if it gets annoying
         editable: true,
-        strokeColor: "#5D5D5D",
         strokeOpacity: 0.8,
         strokeWeight: 2,
-        fillColor: "#5D5D5D",
         fillOpacity: 0.35,
       });
-      let getplace: google.maps.places.PlaceResult = this.autocomplete.getPlace();
-      map.setCenter(getplace.geometry.location);
+      map.panTo(polygonCoords[0]);
       map.setZoom(8);
       myPolygon.setMap(map);
-
-      console.log("map", polygonCoords[0]);
-
-      document.getElementById("deleteEdit").onclick = function () {
-        myPolygon.setMap(null);
-      };
     }
-
     const options = {
       drawingControl: true,
       drawingControlOptions: {
         drawingModes: ["polygon"],
       },
       polygonOptions: {
+        paths: polygonCoords,
         draggable: true,
         editable: true,
       },
@@ -135,7 +129,6 @@ export class AddfencingComponent implements OnInit {
     };
     this.drawingManager = new google.maps.drawing.DrawingManager(options);
     this.drawingManager.setMap(map);
-
     google.maps.event.addListener(
       this.drawingManager,
       "overlaycomplete",
@@ -222,28 +215,20 @@ export class AddfencingComponent implements OnInit {
     this.autocomplete = new google.maps.places.Autocomplete(
       document.getElementById("autocomplete")
     );
-
-    // this.autocomplete.setFields(["address"]);
-    // this.autocomplete.setFields(["address_component"]);
-
-    // When the user selects an address from the drop-down, populate the
-    // address fields in the form.
-
     this.autocomplete.addListener("place_changed", (e) => {
       //get the place result
       let place: google.maps.places.PlaceResult = this.autocomplete.getPlace();
       this.fillInAddress(place);
-      map.setCenter(place.geometry.location);
-      console.log("e map", place.geometry.location, map);
 
       //verify result
       if (place.geometry === undefined || place.geometry === null) {
         return;
       } else {
-        //set latitude, longitude and zoom
         this.lat = place.geometry.location.lat();
         this.lng = place.geometry.location.lng();
         this.zoom = 12;
+        map.setCenter(place.geometry.location);
+        map.setZoom(12);
       }
     });
   }
@@ -271,15 +256,13 @@ export class AddfencingComponent implements OnInit {
   }
 
   onAddressSelect(event) {
-    // const str = console.log("address", event.target.value);
+    const str = console.log("address", event.target.value);
     this.addressText = event.target.value;
   }
 
   fillInAddress(place) {
-    console.log("Place address", place);
     for (let component of place.address_components as google.maps.GeocoderAddressComponent[]) {
       const addressType = component.types[0];
-
       this.address[addressType] = component["short_name"];
     }
     this.a3FormGroup.patchValue({
