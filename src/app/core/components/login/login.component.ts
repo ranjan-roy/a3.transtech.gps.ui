@@ -8,7 +8,7 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { StorageService } from "../../service/storage.service";
-import { profile } from "console";
+import { mockUserAccess, mockVendorAccess } from "../../../../mock";
 
 @Component({
   selector: "app-dashboard",
@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit {
       if (res) {
         this.loading = false;
         this.store.setItem("entitlement", JSON.stringify(res));
-        this.router.navigate(["dashboard"]);
+        this.router.navigate(["Dashboard"]);
       } else {
         this.invalidScreen = false;
         this.loading = false;

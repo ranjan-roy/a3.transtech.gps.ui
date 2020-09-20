@@ -19,8 +19,11 @@ export class AuthService {
     const routes = this.allowedRoutes.map((route) => {
       return route.name;
     });
-    console.log("route name", routes.includes(url), url);
-    return routes.includes(url);
+    const defaultAllowedRouts = ["", "Dashboard"];
+    const isValid = URL
+      ? defaultAllowedRouts.includes(url) || routes.includes(url)
+      : true;
+    return isValid;
   }
 
   public getActions(url: string) {

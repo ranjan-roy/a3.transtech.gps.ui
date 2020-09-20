@@ -13,7 +13,7 @@ import { LogoutComponent } from "./core/components/logout/logout.component";
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "dashboard",
+    redirectTo: "Dashboard",
     pathMatch: "full",
     canActivate: [AuthGuardService],
   },
@@ -54,7 +54,7 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: "dashboard",
+        path: "Dashboard",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/dashboard/dashboard.module").then(
