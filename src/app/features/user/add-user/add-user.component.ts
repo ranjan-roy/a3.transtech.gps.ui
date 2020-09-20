@@ -142,7 +142,7 @@ export class AddUserComponent implements OnInit {
     this.userSvc.updateUser(user).subscribe((res) => {
       this._notificationSvc.success("Success", "User updated successfully");
       this.userForm.reset();
-      this.router.navigate(["/user"]);
+      this.router.navigate(["/User"]);
     });
   }
 
@@ -176,7 +176,7 @@ export class AddUserComponent implements OnInit {
             "UserGroup created successfully"
           );
           this.userForm.reset();
-          this.router.navigate(["/user"]);
+          this.router.navigate(["/User"]);
         }
       });
   }

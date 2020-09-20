@@ -3,6 +3,7 @@ import { DeviceService } from "../device.service";
 import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
+import { AuthService } from "../../../core/service/auth.service";
 
 @Component({
   selector: "app-device-list",
@@ -18,23 +19,23 @@ export class DeviceListComponent implements OnInit {
   rowDataClicked1 = {};
   rowDataClicked2 = {};
   rowData = [];
-  actionItems = [{ label: "Edit", action: "edit",iconClass:"icon-pencil" }];
+  actionItems = [];
+  defaultActionItem = [];
   showAction: boolean = false;
   selectedRow: any;
   gridApi;
   gridColumnApi;
   rowSelection = "single";
   constructor(
+    public auth: AuthService,
     private deviceSvc: DeviceService,
     private router: Router,
     private storage: StorageService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.columnDefs = [
-    {
+      {
         headerName: "Device Id",
         field: "deviceId",
         sortable: true,
@@ -53,7 +54,7 @@ export class DeviceListComponent implements OnInit {
         sortable: true,
         filter: true,
       },
-      
+
       // {
       //   headerName: "Actions",
       //   field: "action",
@@ -65,7 +66,7 @@ export class DeviceListComponent implements OnInit {
       //   actionItems: [{ label: "Edit", action: "edit" }],
       // },
     ];
-    
+    this.setActionItem();
   }
 
   loadData() {
@@ -77,10 +78,40 @@ export class DeviceListComponent implements OnInit {
   }
   onBtnClick(e) {
     console.log(e);
+    if (e.action === "add") {
+      this.router.navigate(["/Device/add-edit"]);
+    }
     if (e.action === "edit") {
-      this.router.navigate(["/device/add-edit"], { state: this.selectedRow });
+      this.router.navigate(["/Device/add-edit"], { state: this.selectedRow });
     }
   }
+  setActionItem() {
+    this.actionItems = [];
+    this.defaultActionItem = [];
+    const actions = this.auth.getActions("Device");
+    if (actions.includes("Add")) {
+      this.defaultActionItem.push({
+        label: "Add",
+        action: "add",
+        iconClass: "icon-plus",
+      });
+    }
+    if (actions.includes("Edit")) {
+      this.actionItems.push({
+        label: "Edit",
+        action: "edit",
+        iconClass: "icon-pencil",
+      });
+    }
+    if (actions.includes("Delete")) {
+      this.actionItems.push({
+        label: "Delete",
+        action: "delete",
+        iconClass: "icon-trash",
+      });
+    }
+  }
+
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
     console.log("selectedRows", selectedRows);

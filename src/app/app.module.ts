@@ -47,6 +47,7 @@ import { LogoutComponent } from "./core/components/logout/logout.component";
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
 import { GeofencingModule } from "./features/geofencing/geofencing.module";
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");

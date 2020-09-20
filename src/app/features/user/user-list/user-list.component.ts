@@ -3,6 +3,7 @@ import { UserService } from "../user.service";
 import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
+import { AuthService } from "../../../core/service/auth.service";
 
 @Component({
   selector: "app-user-list",
@@ -18,7 +19,8 @@ export class UserListComponent implements OnInit {
   rowDataClicked1 = {};
   rowDataClicked2 = {};
   rowData = [];
-  actionItems = [{ label: "Edit", action: "edit",iconClass:"icon-pencil" }];
+  actionItems = [];
+  defaultActionItems = [];
   showAction: boolean = false;
   selectedRow: any;
   gridApi;
@@ -27,10 +29,9 @@ export class UserListComponent implements OnInit {
   constructor(
     private userSvc: UserService,
     private router: Router,
-    private storage: StorageService
-  ) {
-    
-  }
+    private storage: StorageService,
+    public auth: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -64,7 +65,7 @@ export class UserListComponent implements OnInit {
       //   actionItems: [{ label: "Edit", action: "edit" }],
       // },
     ];
-    
+    this.setActionItem();
   }
 
   loadData() {
@@ -76,10 +77,40 @@ export class UserListComponent implements OnInit {
   }
   onBtnClick(e) {
     console.log(e);
+    if (e.action === "add") {
+      this.router.navigate(["/User/add-edit"]);
+    }
     if (e.action === "edit") {
-      this.router.navigate(["/user/add-edit"], { state: this.selectedRow });
+      this.router.navigate(["/User/add-edit"], { state: this.selectedRow });
     }
   }
+  setActionItem() {
+    this.actionItems = [];
+    this.defaultActionItems = [];
+    const actions = this.auth.getActions("User");
+    if (actions.includes("Add")) {
+      this.defaultActionItems.push({
+        label: "Add",
+        action: "add",
+        iconClass: "icon-plus",
+      });
+    }
+    if (actions.includes("Edit")) {
+      this.actionItems.push({
+        label: "Edit",
+        action: "edit",
+        iconClass: "icon-pencil",
+      });
+    }
+    if (actions.includes("Delete")) {
+      this.actionItems.push({
+        label: "Delete",
+        action: "delete",
+        iconClass: "icon-trash",
+      });
+    }
+  }
+
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
     console.log("selectedRows", selectedRows);

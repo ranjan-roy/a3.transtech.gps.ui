@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../../../environments/environment";
-import { LoginPayload } from "./interface";
+import { LoginPayload, User, Screen } from "./interface";
 
 @Injectable({
   providedIn: "root",
@@ -17,5 +17,8 @@ export class LoginService {
   }
   profile(): Observable<any> {
     return this.http.get<any>(`${this.url}/User`);
+  }
+  screen(id): Observable<any> {
+    return this.http.get<any>(`${this.url}/Screen/GetByProfileId/${id}`);
   }
 }

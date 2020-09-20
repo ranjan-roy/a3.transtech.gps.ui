@@ -8,17 +8,25 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { StorageService } from "../../service/storage.service";
+import { profile } from "console";
 
 @Component({
   selector: "app-dashboard",
   templateUrl: "login.component.html",
-  styles:[`.app-body{background-color: #161C4E;}`]
+  styles: [
+    `
+      .app-body {
+        background-color: #161c4e;
+      }
+    `,
+  ],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isSubmitted = false;
   invalidLogin = false;
   loading = false;
+  invalidScreen = false;
 
   constructor(
     private loginService: LoginService,
@@ -60,7 +68,7 @@ export class LoginComponent implements OnInit {
             this.store.setItem("userName", user.userName);
             this.store.setItem("vendorId", user.vendorId);
             this.store.setItem("profileId", user.profileId);
-            this.router.navigate(["dashboard"]);
+            this.screen(user.profileId);
           } else {
             this.invalidLogin = true;
             this.loading = false;
@@ -72,6 +80,23 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  screen(id) {
+    this.loading = true;
+    this.invalidScreen = true;
+    this.isSubmitted = true;
+    this.loginService.screen(id).subscribe((res) => {
+      console.log("res screen", res);
+      if (res) {
+        this.loading = false;
+        this.store.setItem("entitlement", JSON.stringify(res));
+        this.router.navigate(["dashboard"]);
+      } else {
+        this.invalidScreen = false;
+        this.loading = false;
+      }
+    });
   }
 
   validateAllFormFields(formGroup: FormGroup) {

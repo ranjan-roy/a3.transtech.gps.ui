@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { VendorService } from "../vendor.service";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { Router } from "@angular/router";
+import { AuthService } from "../../../core/service/auth.service";
 
 @Component({
   selector: "app-vendor-list",
@@ -18,16 +19,18 @@ export class VendorListComponent implements OnInit {
   rowDataClicked2 = {};
   rowData = [];
   showAction: boolean = false;
-  actionItems = [
-    { label: "Edit", action: "edit", iconClass:"icon-pencil" },
-    { label: "Delete", action: "delete" , iconClass:"icon-trash" },
-  ];
+  actionItems = [];
+  defaultActionItem = [];
   selectedRow: any;
   gridApi;
   gridColumnApi;
   rowSelection = "single";
 
-  constructor(private vendorSvc: VendorService, private router: Router) {
+  constructor(
+    private vendorSvc: VendorService,
+    private router: Router,
+    public auth: AuthService
+  ) {
     this.frameworkComponents = {
       buttonRenderer: CellActionComponent,
     };
@@ -85,6 +88,7 @@ export class VendorListComponent implements OnInit {
       //   ],
       // },
     ];
+    this.setActionItem();
   }
 
   loadData() {
@@ -95,13 +99,44 @@ export class VendorListComponent implements OnInit {
   }
   onBtnClick(e) {
     console.log(e);
+    if (e.action === "add") {
+      this.router.navigate(["/Vendor/add-edit"]);
+    }
     if (e.action === "delete") {
       this.deleteVender(this.selectedRow.vendorId);
     }
     if (e.action === "edit") {
-      this.router.navigate(["/vendor/add-edit"], { state: this.selectedRow });
+      this.router.navigate(["/Vendor/add-edit"], { state: this.selectedRow });
     }
   }
+
+  setActionItem() {
+    this.actionItems = [];
+    this.defaultActionItem = [];
+    const actions = this.auth.getActions("Vendor");
+    if (actions.includes("Add")) {
+      this.defaultActionItem.push({
+        label: "Add",
+        action: "add",
+        iconClass: "icon-plus",
+      });
+    }
+    if (actions.includes("Edit")) {
+      this.actionItems.push({
+        label: "Edit",
+        action: "edit",
+        iconClass: "icon-pencil",
+      });
+    }
+    if (actions.includes("Delete")) {
+      this.actionItems.push({
+        label: "Delete",
+        action: "delete",
+        iconClass: "icon-trash",
+      });
+    }
+  }
+
   deleteVender(id) {
     console.log(id);
 
