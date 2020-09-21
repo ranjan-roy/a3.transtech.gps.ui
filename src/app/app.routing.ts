@@ -13,7 +13,7 @@ import { LogoutComponent } from "./core/components/logout/logout.component";
 export const routes: Routes = [
   {
     path: "",
-    redirectTo: "dashboard",
+    redirectTo: "Dashboard",
     pathMatch: "full",
     canActivate: [AuthGuardService],
   },
@@ -54,7 +54,7 @@ export const routes: Routes = [
     },
     children: [
       {
-        path: "dashboard",
+        path: "Dashboard",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/dashboard/dashboard.module").then(
@@ -62,25 +62,25 @@ export const routes: Routes = [
           ),
       },
       {
-        path: "vendor",
+        path: "Vendor",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/vendor/vendor.module").then((m) => m.VendorModule),
       },
       {
-        path: "user",
+        path: "User",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/user/user.module").then((m) => m.UserModule),
       },
       {
-        path: "device",
+        path: "Device",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/device/device.module").then((m) => m.DeviceModule),
       },
       {
-        path: "geofencing",
+        path: "GeoFencing",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/geofencing/geofencing.module").then(

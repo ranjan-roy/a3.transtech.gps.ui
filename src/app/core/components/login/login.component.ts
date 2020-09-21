@@ -8,17 +8,25 @@ import {
 } from "@angular/forms";
 import { Router } from "@angular/router";
 import { StorageService } from "../../service/storage.service";
+import { mockUserAccess, mockVendorAccess } from "../../../../mock";
 
 @Component({
   selector: "app-dashboard",
   templateUrl: "login.component.html",
-  styles:[`.app-body{background-color: #161C4E;}`]
+  styles: [
+    `
+      .app-body {
+        background-color: #161c4e;
+      }
+    `,
+  ],
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   isSubmitted = false;
   invalidLogin = false;
   loading = false;
+  invalidScreen = false;
 
   constructor(
     private loginService: LoginService,
@@ -39,7 +47,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm.value);
     this.isSubmitted = true;
     this.invalidLogin = false;
     this.loading = true;
@@ -50,7 +57,6 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.loginForm.value).subscribe(
       (res) => {
         if (res) {
-          console.log(res.token.token);
           if (res.token && res.token.token) {
             this.loading = false;
             const user = res.token;
@@ -60,7 +66,7 @@ export class LoginComponent implements OnInit {
             this.store.setItem("userName", user.userName);
             this.store.setItem("vendorId", user.vendorId);
             this.store.setItem("profileId", user.profileId);
-            this.router.navigate(["dashboard"]);
+            this.screen(user.profileId);
           } else {
             this.invalidLogin = true;
             this.loading = false;
@@ -72,6 +78,22 @@ export class LoginComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  screen(id) {
+    this.loading = true;
+    this.invalidScreen = true;
+    this.isSubmitted = true;
+    this.loginService.screen(id).subscribe((res) => {
+      if (res) {
+        this.loading = false;
+        this.store.setItem("entitlement", JSON.stringify(res));
+        this.router.navigate(["Dashboard"]);
+      } else {
+        this.invalidScreen = false;
+        this.loading = false;
+      }
+    });
   }
 
   validateAllFormFields(formGroup: FormGroup) {

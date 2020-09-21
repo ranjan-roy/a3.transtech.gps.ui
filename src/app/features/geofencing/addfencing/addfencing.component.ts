@@ -74,7 +74,6 @@ export class AddfencingComponent implements OnInit {
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-
       this.rowData = navigation.extras.state;
     }
     this.createForm(this.rowData);
@@ -95,7 +94,6 @@ export class AddfencingComponent implements OnInit {
     const self = this;
     let polygonCoords;
 
-
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
         (item) => new google.maps.LatLng(item.latitude, item.longitude)
@@ -112,6 +110,10 @@ export class AddfencingComponent implements OnInit {
       map.panTo(polygonCoords[0]);
       map.setZoom(8);
       myPolygon.setMap(map);
+
+      document.getElementById("deleteEdit").onclick = function () {
+        myPolygon.setMap(null);
+      };
     }
     const options = {
       drawingControl: true,
@@ -327,7 +329,7 @@ export class AddfencingComponent implements OnInit {
             "Success",
             "Geofence Added to Group  successfully"
           );
-          this.router.navigate(["/geofencing"]);
+          this.router.navigate(["/GeoFencing"]);
         }
       });
   }
@@ -369,7 +371,7 @@ export class AddfencingComponent implements OnInit {
             "Success",
             "Geofence Added to Group  successfully"
           );
-          this.router.navigate(["/geofencing"]);
+          this.router.navigate(["/GeoFencing"]);
         }
       });
   }

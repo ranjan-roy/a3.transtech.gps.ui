@@ -18,13 +18,18 @@
         <div class="card-header">
           Vendors
           <div class="card-header-actions">
-            <a
-              class="card-header-action btn btn-link"
-              type="button"
-              [routerLink]="['/vendor/add-edit']"
-            >
-              <i class="icon-plus"></i> Add</a
-            >
+            <span class="pull-right">
+              <a
+                class="card-header-action btn btn-link btn-plus"
+                type="button"
+                (click)="onBtnClick(action)"
+                *ngFor="let action of defaultActionItem"
+              >
+                <i class="{{ action.iconClass }}"></i>
+
+                {{ action.label }}</a
+              >
+            </span>
             <span class="pull-right" *ngIf="showAction">
               <a
                 class="card-header-action btn btn-link btn-pencil"
@@ -32,16 +37,16 @@
                 (click)="onBtnClick(action)"
                 *ngFor="let action of actionItems"
               >
-                <i class="{{action.iconClass}}"></i>
+                <i class="{{ action.iconClass }}"></i>
 
-                {{action.label}}</a
+                {{ action.label }}</a
               >
             </span>
           </div>
         </div>
         <div class="card-body">
           <ag-grid-angular
-            style="width: 100%; height: 500px;"
+            style="width: 100%; height: 500px"
             class="ag-theme-alpine"
             [rowData]="rowData"
             [columnDefs]="columnDefs"

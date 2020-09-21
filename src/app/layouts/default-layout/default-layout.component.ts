@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { navItems } from "../../_nav";
 import { StorageService } from "../../core/service/storage.service";
+import { AuthService } from "../../core/service/auth.service";
 
 @Component({
   selector: "app-dashboard",
@@ -10,16 +11,16 @@ export class DefaultLayoutComponent implements OnInit {
   public sidebarMinimized = false;
   public navItems = [];
   userAccessLevel: number;
-  constructor(private storage: StorageService) {}
+  constructor(private storage: StorageService, public auth: AuthService) {}
 
   toggleMinimize(e) {
     this.sidebarMinimized = e;
   }
 
   ngOnInit() {
+    console.log("Build Layout =========> ");
+
     this.userAccessLevel = parseInt(this.storage.getItem("accessLevel"));
-    this.navItems = navItems.filter((nav) =>
-      nav.accessLevel.includes(this.userAccessLevel)
-    );
+    this.navItems = navItems.filter((nav) => this.auth.isAllowed(nav.name));
   }
 }

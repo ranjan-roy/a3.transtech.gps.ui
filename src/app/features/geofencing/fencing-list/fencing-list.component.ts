@@ -5,6 +5,7 @@ import { CellActionComponent } from "../../../shared/table/cell-action/cell-acti
 import { StorageService } from "../../../core/service/storage.service";
 import { GeofencingService } from "../../geofencing/geofencing.service";
 import { NotificationService } from "../../../core/service/notification.server";
+import { AuthService } from "../../../core/service/auth.service";
 @Component({
   selector: "app-fencing-list",
   templateUrl: "./fencing-list.component.html",
@@ -20,16 +21,18 @@ export class FencingListComponent implements OnInit {
   rowDataClicked2 = {};
   rowData = [];
   actionItems = [
-    { label: "Edit", action: "edit", iconClass: "icon-pencil" },
-    { label: "View", action: "view", iconClass: "icon-eye" },
-    { label: "Delete", action: "delete", iconClass: "icon-trash" },
+    // { label: "Edit", action: "edit", iconClass: "icon-pencil" },
+    // { label: "View", action: "view", iconClass: "icon-eye" },
+    // { label: "Delete", action: "delete", iconClass: "icon-trash" },
   ];
+  defaultActionItem = [];
   showAction: boolean = false;
   selectedRow: any;
   gridApi;
   gridColumnApi;
   rowSelection = "single";
   constructor(
+    public auth: AuthService,
     private router: Router,
     private storage: StorageService,
     private geofenceSvc: GeofencingService,
@@ -58,6 +61,7 @@ export class FencingListComponent implements OnInit {
         filter: true,
       },
     ];
+    this.setActionItem();
   }
   loadData() {
     const userId = this.storage.getItem("userId");
@@ -69,18 +73,55 @@ export class FencingListComponent implements OnInit {
     });
   }
   onBtnClick(e) {
+    if (e.action === "add") {
+      this.router.navigate(["/GeoFencing/add-edit"]);
+    }
     if (e.action === "edit") {
-      this.router.navigate(["/geofencing/add-edit"], {
+      this.router.navigate(["/GeoFencing/add-edit"], {
         state: this.selectedRow,
       });
     }
     if (e.action === "view") {
-      this.router.navigate(["/geofencing/view-fencing"], {
+      this.router.navigate(["/GeoFencing/view-fencing"], {
         state: this.selectedRow,
       });
     }
     if (e.action === "delete") {
       this.delete(this.selectedRow);
+    }
+  }
+
+  setActionItem() {
+    this.actionItems = [];
+    this.defaultActionItem = [];
+    const actions = this.auth.getActions("GeoFencing");
+    if (actions.includes("Add")) {
+      this.defaultActionItem.push({
+        label: "Add",
+        action: "add",
+        iconClass: "icon-plus",
+      });
+    }
+    if (actions.includes("View")) {
+      this.actionItems.push({
+        label: "View",
+        action: "view",
+        iconClass: "icon-eye",
+      });
+    }
+    if (actions.includes("Edit")) {
+      this.actionItems.push({
+        label: "Edit",
+        action: "edit",
+        iconClass: "icon-pencil",
+      });
+    }
+    if (actions.includes("Delete")) {
+      this.actionItems.push({
+        label: "Delete",
+        action: "delete",
+        iconClass: "icon-trash",
+      });
     }
   }
 
@@ -113,7 +154,7 @@ export class FencingListComponent implements OnInit {
                 .subscribe((res) => {
                   this._notificationSvc.success(
                     "Success",
-                    "Deeleted  successfully"
+                    "Deleted  successfully"
                   );
                   this.loadData();
                 });

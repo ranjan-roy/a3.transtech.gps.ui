@@ -5,7 +5,7 @@ interface NavData extends INavData {
 export const navItems: NavData[] = [
   {
     name: "Dashboard",
-    url: "/dashboard",
+    url: "/Dashboard",
     icon: "icon-speedometer",
     accessLevel: [1, 2],
   },
@@ -16,25 +16,25 @@ export const navItems: NavData[] = [
   },
   {
     name: "Vendor",
-    url: "/vendor",
+    url: "/Vendor",
     icon: "icon-cursor",
     accessLevel: [1],
   },
   {
     name: "User",
-    url: "/user",
+    url: "/User",
     icon: "icon-cursor",
     accessLevel: [2],
   },
   {
     name: "Device",
-    url: "/device",
+    url: "/Device",
     icon: "icon-cursor",
     accessLevel: [3],
   },
   {
     name: "GeoFencing",
-    url: "/geofencing",
+    url: "/GeoFencing",
     icon: "icon-cursor",
     accessLevel: [3],
   },
