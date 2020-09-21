@@ -47,7 +47,6 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    console.log(this.loginForm.value);
     this.isSubmitted = true;
     this.invalidLogin = false;
     this.loading = true;
@@ -58,7 +57,6 @@ export class LoginComponent implements OnInit {
     this.loginService.login(this.loginForm.value).subscribe(
       (res) => {
         if (res) {
-          console.log(res.token.token);
           if (res.token && res.token.token) {
             this.loading = false;
             const user = res.token;
@@ -87,7 +85,6 @@ export class LoginComponent implements OnInit {
     this.invalidScreen = true;
     this.isSubmitted = true;
     this.loginService.screen(id).subscribe((res) => {
-      console.log("res screen", res);
       if (res) {
         this.loading = false;
         this.store.setItem("entitlement", JSON.stringify(res));

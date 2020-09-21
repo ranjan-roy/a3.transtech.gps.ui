@@ -22,7 +22,7 @@ export const mockUserAccess = [
     parentId: 0,
     level: 0,
     accessLevel: 3,
-    permissions: ["Add", "Edit", "View", "Delete"],
+    permissions: ["View"],
   },
   {
     screenId: 4,
@@ -33,6 +33,6 @@ export const mockUserAccess = [
     parentId: 0,
     level: 0,
     accessLevel: 3,
-    permissions: ["Add", "Edit", "View", "Delete"],
+    permissions: ["Add", "View"],
   },
 ];

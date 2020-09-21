@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DeviceService } from "../device.service";
 import { Router } from "@angular/router";
-import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
 

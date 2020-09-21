@@ -9,11 +9,14 @@ import { StorageService } from "./storage.service";
 
 @Injectable()
 export class AuthService {
-  allowedRoutes = JSON.parse(this.store.getItem("entitlement")) || [];
   constructor(
     public jwtHelper: JwtHelperService,
     private store: StorageService
   ) {}
+
+  get allowedRoutes() {
+    return JSON.parse(this.store.getItem("entitlement")) || [];
+  }
 
   public isAllowed(url: string) {
     const routes = this.allowedRoutes.map((route) => {

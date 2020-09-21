@@ -21,9 +21,7 @@ export class AddDeviceComponent implements OnInit {
   rowData: any = {
     deviceId: null,
     serial: "",
-    name: ""
-    
-   
+    name: "",
   };
   deviceId: any;
 
@@ -43,15 +41,12 @@ export class AddDeviceComponent implements OnInit {
     this.createForm(this.rowData);
   }
 
-  ngOnInit() {
-    
-  }
+  ngOnInit() {}
 
   createForm(rowData) {
     this.formGroup = this.formBuilder.group({
       serial: [rowData.serial, Validators.required],
       name: [rowData.name, Validators.required],
-      
     });
   }
 
@@ -83,18 +78,13 @@ export class AddDeviceComponent implements OnInit {
       name: formValue.name,
       deviceId: 0,
     };
-    
-    this.deviceSvc
-      .addDevice(
-       device
-      )
-      .subscribe((newDevice) => {
-        if (newDevice) {
-          this._notificationSvc.success("Success", "User updated successfully");
-          this.getGroupId(newDevice);
-        }
 
-      });
+    this.deviceSvc.addDevice(device).subscribe((newDevice) => {
+      if (newDevice) {
+        this._notificationSvc.success("Success", "User updated successfully");
+        this.getGroupId(newDevice);
+      }
+    });
   }
 
   updateDevice(formValue) {
@@ -103,12 +93,11 @@ export class AddDeviceComponent implements OnInit {
       deviceId: this.rowData.deviceId,
       serial: formValue.serial,
       name: formValue.name,
-      
     };
     this.deviceSvc.updateDevice(device).subscribe((res) => {
       this._notificationSvc.success("Success", "Device updated successfully");
       this.formGroup.reset();
-      this.router.navigate(["/device"]);
+      this.router.navigate(["/Device"]);
     });
   }
 
@@ -127,16 +116,19 @@ export class AddDeviceComponent implements OnInit {
     const userId = this.storage.getItem("userId");
     this.deviceSvc.getGroupIdByUser(userId).subscribe((group) => {
       if (group && group.length) {
-        this._notificationSvc.success("Success", "Group Id Fetched successfully");
+        this._notificationSvc.success(
+          "Success",
+          "Group Id Fetched successfully"
+        );
         this.addDeviceToUserGroup(device, group[0]);
       }
     });
   }
 
   addDeviceToUserGroup(device, group) {
-    console.log(device,group)
+    console.log(device, group);
     this.deviceSvc
-      .addDeviceGroup({"deviceId": device.deviceId, "groupId": group.groupId})
+      .addDeviceGroup({ deviceId: device.deviceId, groupId: group.groupId })
       .subscribe((usergroup) => {
         if (usergroup) {
           this._notificationSvc.success(
@@ -144,7 +136,7 @@ export class AddDeviceComponent implements OnInit {
             "Device Added to Group  successfully"
           );
           this.formGroup.reset();
-          this.router.navigate(["/device"]);
+          this.router.navigate(["/Device"]);
         }
       });
   }

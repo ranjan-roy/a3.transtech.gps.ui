@@ -1,37 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { VendorService } from '../vendor.service';
-import { NotificationService } from '../../../core/service/notification.server';
-import { Router } from '@angular/router';
-
-
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  FormControl,
+} from "@angular/forms";
+import { VendorService } from "../vendor.service";
+import { NotificationService } from "../../../core/service/notification.server";
+import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-add-edit',
-  templateUrl: './add-edit.component.html',
-  styleUrls: ['./add-edit.component.css']
+  selector: "app-add-edit",
+  templateUrl: "./add-edit.component.html",
+  styleUrls: ["./add-edit.component.css"],
 })
 export class AddEditComponent implements OnInit {
-
   vendorForm: FormGroup;
   submitted = false;
   rowData: any = {
     vendorId: null,
-    code: '',
-    name: '',
-    description: '',
-    email: '',
-    phone: '',
-    mobile: '',
-    userName: '',
-    password: ''
-  }
+    code: "",
+    name: "",
+    description: "",
+    email: "",
+    phone: "",
+    mobile: "",
+    userName: "",
+    password: "",
+  };
 
   constructor(
     private formBuilder: FormBuilder,
     private vendorSvc: VendorService,
     protected _notificationSvc: NotificationService,
-    private router: Router) {
+    private router: Router
+  ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
       console.log(navigation.extras.state);
@@ -39,12 +42,9 @@ export class AddEditComponent implements OnInit {
       this.rowData = navigation.extras.state;
     }
     this.createForm(this.rowData);
-
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
   createForm(rowData) {
     this.vendorForm = this.formBuilder.group({
       code: [rowData.code, Validators.required],
@@ -55,12 +55,20 @@ export class AddEditComponent implements OnInit {
       mobile: [rowData.mobile, [Validators.required, Validators.maxLength(10)]],
     });
     if (!this.rowData.vendorId) {
-      this.vendorForm.addControl('userName', new FormControl('', [Validators.required]));
-      this.vendorForm.addControl('password', new FormControl('', [Validators.required]));
+      this.vendorForm.addControl(
+        "userName",
+        new FormControl("", [Validators.required])
+      );
+      this.vendorForm.addControl(
+        "password",
+        new FormControl("", [Validators.required])
+      );
     }
   }
 
-  get form() { return this.vendorForm.controls; }
+  get form() {
+    return this.vendorForm.controls;
+  }
 
   onSubmit() {
     this.submitted = true;
@@ -69,11 +77,10 @@ export class AddEditComponent implements OnInit {
       return;
     }
     if (this.rowData.vendorId) {
-      this.updateVendor(this.vendorForm.value)
+      this.updateVendor(this.vendorForm.value);
     } else {
-      this.submitVendor(this.vendorForm.value)
+      this.submitVendor(this.vendorForm.value);
     }
-
   }
 
   onReset() {
@@ -82,69 +89,80 @@ export class AddEditComponent implements OnInit {
   }
   submitVendor(formValue) {
     const vendor = {
-      "code": formValue.code,
-      "name": formValue.name,
-      "description": formValue.description,
-      "mail": formValue.email,
-      "phone": formValue.phone,
-      "mobile": formValue.mobile,
-    }
-    this.vendorSvc.addVendor(vendor).subscribe(v => {
+      code: formValue.code,
+      name: formValue.name,
+      description: formValue.description,
+      mail: formValue.email,
+      phone: formValue.phone,
+      mobile: formValue.mobile,
+    };
+    this.vendorSvc.addVendor(vendor).subscribe((v) => {
       if (v) {
         console.log(v);
-        this.vendorSvc.addProfile({
-          "name": v['name'],
-          "description": v['description'],
-          "vendorId": v['vendorId'],
-          "profileId": 0,
-        }).subscribe(profile => {
-          if (profile) {
-            this.vendorSvc.addUser({
-              "name": v['name'],
-              "vendorId": v['vendorId'],
-              "accessLevel": 2,
-              "profileId": profile['profileId'],
-              "userName": formValue.userName,
-              "password": formValue.password,
-              "email": v['mail'],
-              "phone": v['phone'],
-              "userId": 0
-            }).subscribe(profile => {
-              this._notificationSvc.success('Success', "Vendor added successfully");
-              this.vendorForm.reset();
-            });
-          }
-        });
+        this.vendorSvc
+          .addProfile({
+            name: v["name"],
+            description: v["description"],
+            vendorId: v["vendorId"],
+            profileId: 0,
+          })
+          .subscribe((profile) => {
+            if (profile) {
+              this.vendorSvc
+                .addUser({
+                  name: v["name"],
+                  vendorId: v["vendorId"],
+                  accessLevel: 2,
+                  profileId: profile["profileId"],
+                  userName: formValue.userName,
+                  password: formValue.password,
+                  email: v["mail"],
+                  phone: v["phone"],
+                  userId: 0,
+                })
+                .subscribe((profile) => {
+                  this._notificationSvc.success(
+                    "Success",
+                    "Vendor added successfully"
+                  );
+                  this.vendorForm.reset();
+                });
+            }
+          });
       }
     });
   }
 
   updateVendor(formValue) {
     const vendor = {
-      "vendorId": this.rowData.vendorId,
-      "code": formValue.code,
-      "name": formValue.name,
-      "description": formValue.description,
-      "mail": formValue.email,
-      "phone": formValue.phone,
-      "mobile": formValue.mobile,
-    }
-    this.vendorSvc.updateVendor(this.rowData.vendorId, vendor).subscribe(res => {
-      this._notificationSvc.success('Success', "Vendor updated successfully");
-      this.vendorForm.reset();
-      this.router.navigate(['/vendor']);
-    })
+      vendorId: this.rowData.vendorId,
+      code: formValue.code,
+      name: formValue.name,
+      description: formValue.description,
+      mail: formValue.email,
+      phone: formValue.phone,
+      mobile: formValue.mobile,
+    };
+    this.vendorSvc
+      .updateVendor(this.rowData.vendorId, vendor)
+      .subscribe((res) => {
+        this._notificationSvc.success("Success", "Vendor updated successfully");
+        this.vendorForm.reset();
+        this.router.navigate(["/Vendor"]);
+      });
   }
-  validateAllFormFields(formGroup: FormGroup) {         //{1}
-    Object.keys(formGroup.controls).forEach(field => {  //{2}
-      const control = formGroup.get(field);             //{3}
-      if (control instanceof FormControl) {             //{4}
+  validateAllFormFields(formGroup: FormGroup) {
+    //{1}
+    Object.keys(formGroup.controls).forEach((field) => {
+      //{2}
+      const control = formGroup.get(field); //{3}
+      if (control instanceof FormControl) {
+        //{4}
         control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {        //{5}
-        this.validateAllFormFields(control);            //{6}
+      } else if (control instanceof FormGroup) {
+        //{5}
+        this.validateAllFormFields(control); //{6}
       }
     });
   }
 }
-
-

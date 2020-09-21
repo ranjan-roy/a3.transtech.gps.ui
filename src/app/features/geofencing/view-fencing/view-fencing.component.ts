@@ -13,9 +13,9 @@ import { Validators, FormGroup, FormBuilder } from "@angular/forms";
 declare const google: any;
 
 @Component({
-  selector: 'app-view-fencing',
-  templateUrl: './view-fencing.component.html',
-  styleUrls: ['./view-fencing.component.css']
+  selector: "app-view-fencing",
+  templateUrl: "./view-fencing.component.html",
+  styleUrls: ["./view-fencing.component.css"],
 })
 export class ViewFencingComponent implements OnInit {
   @ViewChild("search")
@@ -73,7 +73,6 @@ export class ViewFencingComponent implements OnInit {
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-
       this.rowData = navigation.extras.state;
     }
     this.createForm(this.rowData);
@@ -94,13 +93,10 @@ export class ViewFencingComponent implements OnInit {
     const self = this;
     let polygonCoords;
 
-
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
         (item) => new google.maps.LatLng(item.latitude, item.longitude)
       );
-      
-     
 
       const myPolygon = new google.maps.Polygon({
         paths: polygonCoords,
@@ -369,7 +365,7 @@ export class ViewFencingComponent implements OnInit {
             "Success",
             "Geofence Added to Group  successfully"
           );
-          this.router.navigate(["/geofencing"]);
+          this.router.navigate(["/GeoFencing"]);
         }
       });
   }
