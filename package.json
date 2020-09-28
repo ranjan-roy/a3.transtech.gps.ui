@@ -1,17 +1,17 @@
 {
-  "name": "@coreui/coreui-pro-angular-admin-template",
-  "version": "2.9.3",
-  "description": "CoreUI Pro Angular 2+ Admin Template",
+  "name": "a3transtech-gps",
+  "version": "1.0.0",
+  "description": "A3 Transtech GPS application",
   "author": {
-    "name": "Łukasz Holeczek",
+    "name": "Debasish Das",
     "url": "http://holeczek.pl",
     "github": "https://github.com/mrholek",
     "twitter": "https://twitter.com/lukaszholeczek"
   },
   "contributors": [
     {
-      "name": "Andrzej Kopański",
-      "url": "https://github.com/xidedix"
+      "name": "Debasish Das",
+      "url": "https://github.com/ranjan-roy"
     }
   ],
   "homepage": "https://coreui.io/pro/angular",
@@ -62,7 +62,7 @@
     "mutationobserver-shim": "^0.3.5",
     "ng-select": "^1.0.2",
     "ng2-ace-editor": "^0.3.9",
-    "ng2-charts": "^2.3.0",
+    "ng2-charts": "2.3.0",
     "ng2-dragula": "^2.1.1",
     "ngx-bootstrap": "^5.6.1",
     "ngx-perfect-scrollbar": "^9.0.0",
