@@ -85,49 +85,24 @@ export class AddUserComponent implements OnInit {
   }
 
   addUser(formValue) {
-    const user = {
+    this.userSvc
+    .addUser({
+      name: formValue.userName,
+      vendorId: this.vendorId,
+      accessLevel: 3,
       userName: formValue.userName,
       password: formValue.password,
       email: formValue.email,
       phone: formValue.phone,
-      accessLevel: 3,
-    };
-    const group = {
-      groupId: 0,
-      name: `${user.userName} Group`,
-      description: `Group for ${user.userName}`,
-      accessLevel: 3,
-    };
-    this.userSvc
-      .addProfile({
-        name: group["name"],
-        description: group["description"],
-        vendorId: this.vendorId,
-        profileId: 0,
-      })
-      .subscribe((profile) => {
-        if (profile) {
-          this.userSvc
-            .addUser({
-              name: formValue.userName,
-              vendorId: this.vendorId,
-              accessLevel: 3,
-              profileId: profile["profileId"],
-              userName: formValue.userName,
-              password: formValue.password,
-              email: user["mail"],
-              phone: user["phone"],
-              userId: 0,
-            })
-            .subscribe((user) => {
-              this._notificationSvc.success(
-                "Success",
-                "User updated successfully"
-              );
-              this.addGroup(user);
-            });
-        }
-      });
+      userId: 0,
+    })
+    .subscribe((user) => {
+      this._notificationSvc.success(
+        "Success",
+        "User updated successfully"
+      );
+      this.addGroup(user);
+    });
   }
 
   updateUser(formValue) {

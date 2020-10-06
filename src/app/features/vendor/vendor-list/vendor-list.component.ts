@@ -93,12 +93,10 @@ export class VendorListComponent implements OnInit {
 
   loadData() {
     this.vendorSvc.getVendor().subscribe((res) => {
-      console.log(res);
       this.rowData = res;
     });
   }
   onBtnClick(e) {
-    console.log(e);
     if (e.action === "add") {
       this.router.navigate(["/Vendor/add-edit"]);
     }
@@ -138,17 +136,14 @@ export class VendorListComponent implements OnInit {
   }
 
   deleteVender(id) {
-    console.log(id);
 
     this.vendorSvc.deleteVendor(id).subscribe((res) => {
-      console.log(res);
       this.loadData();
     });
   }
 
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
-    console.log("selectedRows", selectedRows);
     this.selectedRow = selectedRows[0];
     this.showAction = true;
   }

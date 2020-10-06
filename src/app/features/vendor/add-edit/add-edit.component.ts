@@ -97,39 +97,11 @@ export class AddEditComponent implements OnInit {
       mobile: formValue.mobile,
     };
     this.vendorSvc.addVendor(vendor).subscribe((v) => {
-      if (v) {
-        console.log(v);
-        this.vendorSvc
-          .addProfile({
-            name: v["name"],
-            description: v["description"],
-            vendorId: v["vendorId"],
-            profileId: 0,
-          })
-          .subscribe((profile) => {
-            if (profile) {
-              this.vendorSvc
-                .addUser({
-                  name: v["name"],
-                  vendorId: v["vendorId"],
-                  accessLevel: 2,
-                  profileId: profile["profileId"],
-                  userName: formValue.userName,
-                  password: formValue.password,
-                  email: v["mail"],
-                  phone: v["phone"],
-                  userId: 0,
-                })
-                .subscribe((profile) => {
-                  this._notificationSvc.success(
-                    "Success",
-                    "Vendor added successfully"
-                  );
-                  this.vendorForm.reset();
-                });
-            }
-          });
-      }
+      this._notificationSvc.success(
+        "Success",
+        "Vendor added successfully"
+      );
+      this.vendorForm.reset();
     });
   }
 
