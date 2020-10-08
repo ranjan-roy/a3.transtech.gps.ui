@@ -15,6 +15,10 @@ export class VendorService {
   constructor(private http: HttpClient) { }
 
   getVendor(): Observable<any> {
+    return this.http.get<any>(`${this.url}/Vendor/GetFilteredVendor`);
+  }
+
+  getAllVendor(): Observable<any> {
     return this.http.get<any>(`${this.url}/Vendor`);
   }
 

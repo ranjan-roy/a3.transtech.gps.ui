@@ -10,6 +10,30 @@
         <div class="card-body">
           <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div class="form-row">
+              <label for="vendor" class="col-form-label">Vendor</label>
+              <select formControlName="vendorId" class="form-control" id="vendor" (change)="changeVendor($event)" [ngClass]="{
+                'is-invalid': form.vendorId.touched && form.vendorId.errors}">
+                <option value="" disabled>Select a Vendor</option> 
+                <option *ngFor="let vendor of vendorList" [value]="vendor.vendorId">{{vendor.name}}</option>
+              </select>
+              <div *ngIf="form.vendorId.touched && form.vendorId.errors"  class="invalid-feedback">
+                <div *ngIf="form.vendorId.errors.required">Vendor is required</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="col-form-label">Company Name</label>
+              <input
+                type="text"
+                formControlName="company"
+                class="form-control"
+                [ngClass]="{'is-invalid': form.company.touched && form.company.errors}"/>
+              <div
+                *ngIf="form.company.touched && form.company.errors"
+                class="invalid-feedback">
+                <div *ngIf="form.company.errors.required">Company name is required</div>
+              </div>
+            </div>
+            <div class="form-row">
               <label class="col-form-label">Email</label>
               <input
                 type="text"

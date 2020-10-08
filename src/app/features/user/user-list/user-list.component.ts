@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
+import * as moment from 'moment';
 
 @Component({
   selector: "app-user-list",
@@ -36,6 +37,12 @@ export class UserListComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = [
       {
+        headerName: "Company",
+        field: "companyName",
+        sortable: true,
+        filter: true,
+      },
+      {
         headerName: "User Name",
         field: "userName",
         sortable: true,
@@ -54,34 +61,50 @@ export class UserListComponent implements OnInit {
         sortable: true,
         filter: true,
       },
-      // {
-      //   headerName: "Actions",
-      //   field: "action",
-      //   cellRenderer: "buttonRenderer",
-      //   cellRendererParams: {
-      //     label: "Edit",
-      //     onClick: this.onBtnClick.bind(this),
-      //   },
-      //   actionItems: [{ label: "Edit", action: "edit" }],
-      // },
+      {
+        headerName: "Vendor",
+        field: "vendor.name",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Reg Date",
+        field: "createdDate",
+        sortable: true,
+        filter: true,
+        cellRenderer: (data) => {
+          return  moment(data.createdDate).format('DD/MM/YYYY hh:mm a')
+      }
+      },
+      {
+        headerName: "Last Visit",
+        field: "lastVisit",
+        sortable: true,
+        filter: true,
+        cellRenderer: (data) => {
+          return  moment(data.lastVisit).format('DD/MM/YYYY hh:mm a')
+      }
+      },
     ];
     this.setActionItem();
   }
 
   loadData() {
-    const vendorId = this.storage.getItem("vendorId");
-    this.userSvc.getUsersByVendorId(vendorId).subscribe((res) => {
-      console.log(res);
+    this.userSvc.getAccessableUsers().subscribe((res) => {
       this.rowData = res;
     });
   }
   onBtnClick(e) {
-    console.log(e);
     if (e.action === "add") {
       this.router.navigate(["/User/add-edit"]);
     }
     if (e.action === "edit") {
       this.router.navigate(["/User/add-edit"], { state: this.selectedRow });
+    }
+    if (e.action === "delete") {
+      this.userSvc.deleteUser(this.selectedRow).subscribe((res) => {
+        this.loadData();
+      });
     }
   }
   setActionItem() {
@@ -113,7 +136,6 @@ export class UserListComponent implements OnInit {
 
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
-    console.log("selectedRows", selectedRows);
     this.selectedRow = selectedRows[0];
     this.showAction = true;
   }

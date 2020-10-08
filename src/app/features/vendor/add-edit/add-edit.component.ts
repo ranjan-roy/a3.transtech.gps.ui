@@ -44,7 +44,7 @@ export class AddEditComponent implements OnInit {
     this.createForm(this.rowData);
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
   createForm(rowData) {
     this.vendorForm = this.formBuilder.group({
       code: [rowData.code, Validators.required],
@@ -97,44 +97,60 @@ export class AddEditComponent implements OnInit {
       mobile: formValue.mobile,
     };
     this.vendorSvc.addVendor(vendor).subscribe((v) => {
-      this._notificationSvc.success(
-        "Success",
-        "Vendor added successfully"
-      );
-      this.vendorForm.reset();
+      if (v) {
+        this.vendorSvc
+          .addUser({
+            name: v["name"],
+            vendorId: v["vendorId"],
+            accessLevel: 2,
+            companyName: v["name"],
+            userName: formValue.userName,
+            password: formValue.password,
+            email: v["mail"],
+            phone: v["phone"],
+            userId: 0,
+          })
+          .subscribe((profile) => {
+            this._notificationSvc.success(
+              "Success",
+              "Vendor added successfully"
+            );
+            this.vendorForm.reset();
+          });
+      }
     });
   }
 
   updateVendor(formValue) {
-    const vendor = {
-      vendorId: this.rowData.vendorId,
-      code: formValue.code,
-      name: formValue.name,
-      description: formValue.description,
-      mail: formValue.email,
-      phone: formValue.phone,
-      mobile: formValue.mobile,
-    };
-    this.vendorSvc
-      .updateVendor(this.rowData.vendorId, vendor)
-      .subscribe((res) => {
-        this._notificationSvc.success("Success", "Vendor updated successfully");
-        this.vendorForm.reset();
-        this.router.navigate(["/Vendor"]);
-      });
-  }
+      const vendor = {
+        vendorId: this.rowData.vendorId,
+        code: formValue.code,
+        name: formValue.name,
+        description: formValue.description,
+        mail: formValue.email,
+        phone: formValue.phone,
+        mobile: formValue.mobile,
+      };
+      this.vendorSvc
+        .updateVendor(this.rowData.vendorId, vendor)
+        .subscribe((res) => {
+          this._notificationSvc.success("Success", "Vendor updated successfully");
+          this.vendorForm.reset();
+          this.router.navigate(["/Vendor"]);
+        });
+    }
   validateAllFormFields(formGroup: FormGroup) {
-    //{1}
-    Object.keys(formGroup.controls).forEach((field) => {
-      //{2}
-      const control = formGroup.get(field); //{3}
-      if (control instanceof FormControl) {
-        //{4}
-        control.markAsTouched({ onlySelf: true });
-      } else if (control instanceof FormGroup) {
-        //{5}
-        this.validateAllFormFields(control); //{6}
-      }
-    });
-  }
+      //{1}
+      Object.keys(formGroup.controls).forEach((field) => {
+        //{2}
+        const control = formGroup.get(field); //{3}
+        if (control instanceof FormControl) {
+          //{4}
+          control.markAsTouched({ onlySelf: true });
+        } else if (control instanceof FormGroup) {
+          //{5}
+          this.validateAllFormFields(control); //{6}
+        }
+      });
+    }
 }

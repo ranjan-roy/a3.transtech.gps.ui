@@ -15,6 +15,10 @@ export class UserService {
     return this.http.get<any>(`${this.url}/User/GetByVendor/${id}`);
   }
 
+  getAccessableUsers(): Observable<any> {
+    return this.http.get<any>(`${this.url}/User/Get`);
+  }
+
   postUser(user): Observable<any> {
     return this.http.post<any>(`${this.url}/User`, user);
   }
@@ -28,6 +32,10 @@ export class UserService {
 
   addUser(payload) {
     return this.http.post(`${this.url}/User`, payload);
+  }
+
+  deleteUser(user) {
+    return this.http.delete(`${this.url}/User/${user.userId}`);
   }
 
   addGroup(userName) {

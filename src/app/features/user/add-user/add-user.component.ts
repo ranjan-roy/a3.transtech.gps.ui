@@ -9,6 +9,7 @@ import { UserService } from "../user.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
+import { VendorService } from '../../vendor/vendor.service';
 
 @Component({
   selector: "app-add-user",
@@ -24,33 +25,42 @@ export class AddUserComponent implements OnInit {
     vendorId: null,
     createdBy: "",
     createdDate: "",
-    email: "user2@mail.com",
-    phone: "456465656",
+    email: "",
+    phone: "",
     lastVisit: "",
-    userName: "user2",
+    userName: "",
     style: "",
-    password: "admin123",
+    password: "",
   };
   vendorId: any;
+  vendorList: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private userSvc: UserService,
+    private vendorSvc: VendorService,
     protected _notificationSvc: NotificationService,
     private router: Router,
     private storage: StorageService
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-      console.log(navigation.extras.state);
-
       this.rowData = navigation.extras.state;
     }
+
     this.createForm(this.rowData);
   }
 
   ngOnInit() {
-    this.vendorId = parseInt(this.storage.getItem("vendorId"));
+    this.vendorSvc.getAllVendor().subscribe((res) => {
+      this.vendorList = res;
+    });
+  }
+
+  changeVendor(e) {
+    this.userForm.get('vendorId').setValue(parseInt(e.target.value), {
+      onlySelf: true
+    });
   }
 
   createForm(rowData) {
@@ -59,6 +69,8 @@ export class AddUserComponent implements OnInit {
       phone: [rowData.phone, [Validators.required, Validators.maxLength(10)]],
       userName: [rowData.userName, Validators.required],
       password: [rowData.password, Validators.required],
+      vendorId: [rowData.vendorId?.toString(), Validators.required],
+      company: [rowData.companyName, Validators.required],
     });
   }
 
@@ -86,23 +98,24 @@ export class AddUserComponent implements OnInit {
 
   addUser(formValue) {
     this.userSvc
-    .addUser({
-      name: formValue.userName,
-      vendorId: this.vendorId,
-      accessLevel: 3,
-      userName: formValue.userName,
-      password: formValue.password,
-      email: formValue.email,
-      phone: formValue.phone,
-      userId: 0,
-    })
-    .subscribe((user) => {
-      this._notificationSvc.success(
-        "Success",
-        "User updated successfully"
-      );
-      this.addGroup(user);
-    });
+      .addUser({
+        name: formValue.userName,
+        vendorId: formValue.vendorId,
+        companyName: formValue.company,
+        accessLevel: 3,
+        userName: formValue.userName,
+        password: formValue.password,
+        email: formValue.email,
+        phone: formValue.phone,
+        userId: 0,
+      })
+      .subscribe((user) => {
+        this._notificationSvc.success(
+          "Success",
+          "User updated successfully"
+        );
+        this.addGroup(user);
+      });
   }
 
   updateUser(formValue) {
