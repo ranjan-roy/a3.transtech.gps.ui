@@ -9,6 +9,8 @@ import { DeviceService } from "../device.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
+import { VendorService } from '../../vendor/vendor.service';
+import { UserService } from '../../user/user.service';
 
 @Component({
   selector: "app-add-device",
@@ -23,11 +25,17 @@ export class AddDeviceComponent implements OnInit {
     serial: "",
     name: "",
   };
+
   deviceId: any;
+  vendorList: any;
+  userList: any;
+  vehicleTypeList: any;
 
   constructor(
     private formBuilder: FormBuilder,
     private deviceSvc: DeviceService,
+    private vendorSvc: VendorService,
+    private userSvc: UserService,
     protected _notificationSvc: NotificationService,
     private router: Router,
     private storage: StorageService
@@ -41,10 +49,44 @@ export class AddDeviceComponent implements OnInit {
     this.createForm(this.rowData);
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.vendorSvc.getAllVendor().subscribe((res) => {
+      this.vendorList = res;
+    });
+
+    this.deviceSvc.getAllVehicleType().subscribe((res) => {
+      this.vehicleTypeList = res;
+    });
+  }
+
+  changeVendor(e) {
+    this.formGroup.get('vendorId').setValue(parseInt(e.target.value), {
+      onlySelf: true
+    });
+  
+    this.userSvc.getUsersByVendorId(this.formGroup.value.vendorId).subscribe((res) => {
+      console.log(res)
+      this.userList = res;
+    });
+  }
+
+  changeVehicleType(e) {
+    this.formGroup.get('vehicleTypeId').setValue(parseInt(e.target.value), {
+      onlySelf: true
+    });
+  }
+
+  changeUser(e) {
+    this.formGroup.get('userId').setValue(parseInt(e.target.value), {
+      onlySelf: true
+    });
+  }
 
   createForm(rowData) {
     this.formGroup = this.formBuilder.group({
+      vendorId: this.rowData?.deviceId ? [{value: rowData.vendorId?.toString(), disabled: true}, Validators.required]: [rowData.vendorId?.toString(), Validators.required],
+      userId: this.rowData?.deviceId ? [{value: rowData.userId?.toString(), disabled: true}, Validators.required]: [rowData.userId?.toString(), Validators.required],
+      vehicleTypeId: [rowData.vehicleTypeId, Validators.required],
       serial: [rowData.serial, Validators.required],
       name: [rowData.name, Validators.required],
     });
@@ -74,6 +116,9 @@ export class AddDeviceComponent implements OnInit {
 
   addUserDevice(formValue) {
     const device = {
+      vendorId: formValue.vendorId,
+      userId: formValue.userId,
+      vehicleTypeId: formValue.vehicleTypeId,
       serial: formValue.serial,
       name: formValue.name,
       deviceId: 0,
@@ -81,8 +126,7 @@ export class AddDeviceComponent implements OnInit {
 
     this.deviceSvc.addDevice(device).subscribe((newDevice) => {
       if (newDevice) {
-        this._notificationSvc.success("Success", "User updated successfully");
-        this.getGroupId(newDevice);
+        this._notificationSvc.success("Success", "User added successfully");
       }
     });
   }
@@ -91,6 +135,7 @@ export class AddDeviceComponent implements OnInit {
     const device = {
       ...this.rowData,
       deviceId: this.rowData.deviceId,
+      vehicleTypeId: this.rowData.vehicleTypeId,
       serial: formValue.serial,
       name: formValue.name,
     };
@@ -110,34 +155,5 @@ export class AddDeviceComponent implements OnInit {
         this.validateAllFormFields(control);
       }
     });
-  }
-
-  getGroupId(device) {
-    const userId = this.storage.getItem("userId");
-    this.deviceSvc.getGroupIdByUser(userId).subscribe((group) => {
-      if (group && group.length) {
-        this._notificationSvc.success(
-          "Success",
-          "Group Id Fetched successfully"
-        );
-        this.addDeviceToUserGroup(device, group[0]);
-      }
-    });
-  }
-
-  addDeviceToUserGroup(device, group) {
-    console.log(device, group);
-    this.deviceSvc
-      .addDeviceGroup({ deviceId: device.deviceId, groupId: group.groupId })
-      .subscribe((usergroup) => {
-        if (usergroup) {
-          this._notificationSvc.success(
-            "Success",
-            "Device Added to Group  successfully"
-          );
-          this.formGroup.reset();
-          this.router.navigate(["/Device"]);
-        }
-      });
   }
 }

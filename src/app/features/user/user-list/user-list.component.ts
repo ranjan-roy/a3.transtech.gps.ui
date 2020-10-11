@@ -73,7 +73,7 @@ export class UserListComponent implements OnInit {
         sortable: true,
         filter: true,
         cellRenderer: (data) => {
-          return  moment(data.createdDate).format('DD/MM/YYYY hh:mm a')
+          return  moment(data.data.createdDate).format('DD/MM/YYYY hh:mm a')
       }
       },
       {
@@ -82,7 +82,7 @@ export class UserListComponent implements OnInit {
         sortable: true,
         filter: true,
         cellRenderer: (data) => {
-          return  moment(data.lastVisit).format('DD/MM/YYYY hh:mm a')
+          return  moment(data.data.lastVisit).format('DD/MM/YYYY hh:mm a')
       }
       },
     ];

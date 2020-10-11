@@ -35,8 +35,20 @@ export class DeviceListComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = [
       {
-        headerName: "Device Id",
-        field: "deviceId",
+        headerName: "Vehicle Type",
+        field: "vehicleType.name",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Company",
+        field: "user.companyName",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Vendor",
+        field: "vendor.name",
         sortable: true,
         filter: true,
       },

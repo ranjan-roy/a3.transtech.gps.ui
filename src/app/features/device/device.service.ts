@@ -14,6 +14,11 @@ export class DeviceService {
   getDeviceByUserId(id): Observable<any> {
     return this.http.get<any>(`${this.url}/Device/GetByUser/${id}`);
   }
+
+  getAllVehicleType(): Observable<any> {
+    return this.http.get<any>(`${this.url}/VehicleType/`);
+  }
+
   addDevice(payload) {
     return this.http.post(`${this.url}/Device`, payload);
   }

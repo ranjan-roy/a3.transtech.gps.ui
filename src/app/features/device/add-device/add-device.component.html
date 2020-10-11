@@ -9,7 +9,39 @@
         </div>
         <div class="card-body">
           <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-            
+            <div class="form-row">
+              <label for="vendor" class="col-form-label">Vendor</label>
+              <select formControlName="vendorId" class="form-control" id="vendor" (change)="changeVendor($event)" [ngClass]="{
+                'is-invalid': form.vendorId.touched && form.vendorId.errors}">
+                <option value="" disabled>Select a Vendor</option> 
+                <option *ngFor="let vendor of vendorList" [value]="vendor.vendorId">{{vendor.name}}</option>
+              </select>
+              <div *ngIf="form.vendorId.touched && form.vendorId.errors"  class="invalid-feedback">
+                <div *ngIf="form.vendorId.errors.required">Vendor is required</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="user" class="col-form-label">User</label>
+              <select formControlName="userId" class="form-control" id="user" (change)="changeUser($event)" [ngClass]="{
+                'is-invalid': form.userId.touched && form.userId.errors}">
+                <option value="" disabled>Select a User</option> 
+                <option *ngFor="let user of userList" [value]="user.userId">{{user.companyName}}</option>
+              </select>
+              <div *ngIf="form.vendorId.touched && form.vendorId.errors"  class="invalid-feedback">
+                <div *ngIf="form.vendorId.errors.required">User is required</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="vehicleType" class="col-form-label">Vehicle Type</label>
+              <select formControlName="vehicleTypeId" class="form-control" id="vehicleType" (change)="changeVehicleType($event)" [ngClass]="{
+                'is-invalid': form.vehicleTypeId.touched && form.vehicleTypeId.errors}">
+                <option value="" disabled>Select Vehicle Type</option> 
+                <option *ngFor="let vehicleType of vehicleTypeList" [value]="vehicleType.vehicleTypeId">{{vehicleType.name}}</option>
+              </select>
+              <div *ngIf="form.vehicleTypeId.touched && form.vehicleTypeId.errors"  class="invalid-feedback">
+                <div *ngIf="form.vehicleTypeId.errors.required">Vehicle type is required</div>
+              </div>
+            </div>
             <div class="form-row">
               <label class="col-form-label">Serial Number</label>
               <input

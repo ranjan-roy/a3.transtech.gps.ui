@@ -69,7 +69,7 @@ export class AddUserComponent implements OnInit {
       phone: [rowData.phone, [Validators.required, Validators.maxLength(10)]],
       userName: [rowData.userName, Validators.required],
       password: [rowData.password, Validators.required],
-      vendorId: [rowData.vendorId?.toString(), Validators.required],
+      vendorId: this.rowData?.userId ? [{value: rowData.vendorId?.toString(), disabled: true}, Validators.required]: [rowData.vendorId?.toString(), Validators.required],
       company: [rowData.companyName, Validators.required],
     });
   }
@@ -114,7 +114,6 @@ export class AddUserComponent implements OnInit {
           "Success",
           "User updated successfully"
         );
-        this.addGroup(user);
       });
   }
 
@@ -143,29 +142,5 @@ export class AddUserComponent implements OnInit {
         this.validateAllFormFields(control);
       }
     });
-  }
-
-  addGroup(user) {
-    this.userSvc.addGroup(user.userName).subscribe((group) => {
-      if (group) {
-        this._notificationSvc.success("Success", "Group created successfully");
-        this.addUserGroup(user, group);
-      }
-    });
-  }
-
-  addUserGroup(user, group) {
-    this.userSvc
-      .addUserGroup(user.userId, group["groupId"])
-      .subscribe((usergroup) => {
-        if (usergroup) {
-          this._notificationSvc.success(
-            "Success",
-            "UserGroup created successfully"
-          );
-          this.userForm.reset();
-          this.router.navigate(["/User"]);
-        }
-      });
   }
 }
