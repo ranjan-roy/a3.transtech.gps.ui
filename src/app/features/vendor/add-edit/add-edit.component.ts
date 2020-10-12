@@ -116,6 +116,7 @@ export class AddEditComponent implements OnInit {
               "Vendor added successfully"
             );
             this.vendorForm.reset();
+            this.router.navigate(["/Vendor"]);
           });
       }
     });

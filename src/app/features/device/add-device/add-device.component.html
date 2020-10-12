@@ -32,6 +32,17 @@
               </div>
             </div>
             <div class="form-row">
+              <label for="deviceType" class="col-form-label">Device Type</label>
+              <select formControlName="deviceTypeId" class="form-control" id="deviceType" (change)="changeDeviceType($event)" [ngClass]="{
+                'is-invalid': form.deviceTypeId.touched && form.deviceTypeId.errors}">
+                <option value="" disabled>Select Device Type</option> 
+                <option *ngFor="let deviceType of deviceTypeList" [value]="deviceType.deviceTypeId">{{deviceType.name}}</option>
+              </select>
+              <div *ngIf="form.deviceTypeId.touched && form.deviceTypeId.errors"  class="invalid-feedback">
+                <div *ngIf="form.deviceTypeId.errors.required">Device type is required</div>
+              </div>
+            </div>
+            <div class="form-row">
               <label for="vehicleType" class="col-form-label">Vehicle Type</label>
               <select formControlName="vehicleTypeId" class="form-control" id="vehicleType" (change)="changeVehicleType($event)" [ngClass]="{
                 'is-invalid': form.vehicleTypeId.touched && form.vehicleTypeId.errors}">

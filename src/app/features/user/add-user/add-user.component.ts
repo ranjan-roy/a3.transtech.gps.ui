@@ -112,8 +112,9 @@ export class AddUserComponent implements OnInit {
       .subscribe((user) => {
         this._notificationSvc.success(
           "Success",
-          "User updated successfully"
+          "User added successfully"
         );
+        this.router.navigate(["/User"]);
       });
   }
 

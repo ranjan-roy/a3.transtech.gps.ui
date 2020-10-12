@@ -30,6 +30,7 @@ export class AddDeviceComponent implements OnInit {
   vendorList: any;
   userList: any;
   vehicleTypeList: any;
+  deviceTypeList: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,6 +58,11 @@ export class AddDeviceComponent implements OnInit {
     this.deviceSvc.getAllVehicleType().subscribe((res) => {
       this.vehicleTypeList = res;
     });
+
+    this.deviceSvc.getAllDeviceType().subscribe((res) => {
+      this.deviceTypeList = res;
+    });
+    
   }
 
   changeVendor(e) {
@@ -76,6 +82,14 @@ export class AddDeviceComponent implements OnInit {
     });
   }
 
+  changeDeviceType(e) {
+    this.formGroup.get('deviceTypeId').setValue(parseInt(e.target.value), {
+      onlySelf: true
+    });
+    console.log(e.target.value);
+    console.log(this.formGroup.get('deviceTypeId'));
+  }
+
   changeUser(e) {
     this.formGroup.get('userId').setValue(parseInt(e.target.value), {
       onlySelf: true
@@ -87,6 +101,7 @@ export class AddDeviceComponent implements OnInit {
       vendorId: this.rowData?.deviceId ? [{value: rowData.vendorId?.toString(), disabled: true}, Validators.required]: [rowData.vendorId?.toString(), Validators.required],
       userId: this.rowData?.deviceId ? [{value: rowData.userId?.toString(), disabled: true}, Validators.required]: [rowData.userId?.toString(), Validators.required],
       vehicleTypeId: [rowData.vehicleTypeId, Validators.required],
+      deviceTypeId: [rowData.deviceTypeId, Validators.required],
       serial: [rowData.serial, Validators.required],
       name: [rowData.name, Validators.required],
     });
@@ -119,6 +134,7 @@ export class AddDeviceComponent implements OnInit {
       vendorId: formValue.vendorId,
       userId: formValue.userId,
       vehicleTypeId: formValue.vehicleTypeId,
+      deviceTypeId: formValue.deviceTypeId,
       serial: formValue.serial,
       name: formValue.name,
       deviceId: 0,
@@ -126,7 +142,8 @@ export class AddDeviceComponent implements OnInit {
 
     this.deviceSvc.addDevice(device).subscribe((newDevice) => {
       if (newDevice) {
-        this._notificationSvc.success("Success", "User added successfully");
+        this._notificationSvc.success("Success", "Device added successfully");
+        this.router.navigate(["/Device"]);
       }
     });
   }
@@ -136,6 +153,7 @@ export class AddDeviceComponent implements OnInit {
       ...this.rowData,
       deviceId: this.rowData.deviceId,
       vehicleTypeId: this.rowData.vehicleTypeId,
+      deviceTypeId: this.rowData.deviceTypeId,
       serial: formValue.serial,
       name: formValue.name,
     };
