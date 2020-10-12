@@ -3,6 +3,7 @@ import { DeviceService } from "../device.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
+import { ImageFormatterComponent } from '../../../shared/table/cell-action/cell-image.component';
 
 @Component({
   selector: "app-device-list",
@@ -34,15 +35,23 @@ export class DeviceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnDefs = [
-      {
-        headerName: "Device Type",
-        field: "deviceType.name",
-        sortable: true,
-        filter: true,
+      { 
+        headerName: '', 
+        field: 'deviceType.deviceTypeId', 
+        width: 80,
+        sortable: false, 
+        autoHeight: true,
+        cellRendererFramework: ImageFormatterComponent 
       },
       {
         headerName: "Vehicle Type",
         field: "vehicleType.name",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Device Type",
+        field: "deviceType.name",
         sortable: true,
         filter: true,
       },

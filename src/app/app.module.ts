@@ -48,6 +48,8 @@ import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
 import { GeofencingModule } from "./features/geofencing/geofencing.module";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
+import { ImageFormatterComponent } from './shared/table/cell-action/cell-image.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -70,6 +72,7 @@ export function tokenGetter() {
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AgGridModule.withComponents([ImageFormatterComponent]),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
@@ -78,7 +81,7 @@ export function tokenGetter() {
     SharedModule,
     CoreModule,
   ],
-  declarations: [AppComponent, ...APP_CONTAINERS, P404Component, P500Component],
+  declarations: [AppComponent, ...APP_CONTAINERS, P404Component, P500Component, ImageFormatterComponent],
   providers: [
     AuthGuardService,
     AuthService,
