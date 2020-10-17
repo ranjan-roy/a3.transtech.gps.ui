@@ -3,7 +3,7 @@ import { DeviceService } from "../alarm.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
-import { ImageFormatterComponent } from '../../../shared/table/cell-action/cell-image.component';
+import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 
 @Component({
   selector: "app-device-list",
@@ -18,7 +18,7 @@ export class AlarmListComponent implements OnInit {
   columnDefs;
   rowDataClicked1 = {};
   rowDataClicked2 = {};
-  rowData: any [];
+  rowData: any[];
   actionItems = [];
   defaultActionItem = [];
   showAction: boolean = false;
@@ -33,19 +33,17 @@ export class AlarmListComponent implements OnInit {
     private storage: StorageService
   ) {
     const navigation = this.router.getCurrentNavigation();
-    let rowDataRecieved = navigation.extras.state;
-    console.log('nav=>=>',rowDataRecieved.deviceAlarms);
   }
-  
+
   ngOnInit(): void {
     this.columnDefs = [
-      { 
-        headerName: '', 
-        field: 'deviceType.deviceTypeId', 
+      {
+        headerName: "",
+        field: "deviceType.deviceTypeId",
         width: 80,
-        sortable: false, 
+        sortable: false,
         autoHeight: true,
-        cellRendererFramework: ImageFormatterComponent 
+        cellRendererFramework: ImageFormatterComponent,
       },
       {
         headerName: "Vehicle Type",
@@ -76,7 +74,7 @@ export class AlarmListComponent implements OnInit {
   loadData() {
     const userId = this.storage.getItem("userId");
     this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
-      console.log('res=>>>',res);
+      console.log("res=>>>", res);
       this.rowData = res;
     });
   }

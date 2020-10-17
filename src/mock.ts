@@ -26,8 +26,8 @@ export const mockUserAccess = [
   },
   {
     screenId: 4,
-    name: "GeoFencing",
-    description: "GeoFencing Management Screen",
+    name: "Geofencing",
+    description: "Geofencing Management Screen",
     path: "string",
     moduleId: 0,
     parentId: 0,

@@ -3,7 +3,7 @@ import { DeviceService } from "../device.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
-import { ImageFormatterComponent } from '../../../shared/table/cell-action/cell-image.component';
+import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 
 @Component({
   selector: "app-device-list",
@@ -35,13 +35,13 @@ export class DeviceListComponent implements OnInit {
 
   ngOnInit(): void {
     this.columnDefs = [
-      { 
-        headerName: '', 
-        field: 'deviceType.deviceTypeId', 
+      {
+        headerName: "",
+        field: "deviceType.deviceTypeId",
         width: 80,
-        sortable: false, 
+        sortable: false,
         autoHeight: true,
-        cellRendererFramework: ImageFormatterComponent 
+        cellRendererFramework: ImageFormatterComponent,
       },
       {
         headerName: "Vehicle Type",
@@ -110,21 +110,14 @@ export class DeviceListComponent implements OnInit {
     if (e.action === "edit") {
       this.router.navigate(["/Device/add-edit"], { state: this.selectedRow });
     }
-    if(e.action === 'view') {
-      this.router.navigate(["/Alarm"], {state: this.selectedRow});
+    if (e.action === "view") {
+      this.router.navigate(["/Alarm"], { state: this.selectedRow });
     }
   }
   setActionItem() {
     this.actionItems = [];
     this.defaultActionItem = [];
     const actions = this.auth.getActions("Device");
-    if (actions.includes("View")) {
-      this.defaultActionItem.push({
-        label: "Alarm",
-        action: "view",
-        iconClass: "icon-eye",
-      });
-    }
     if (actions.includes("Add")) {
       this.defaultActionItem.push({
         label: "Add",

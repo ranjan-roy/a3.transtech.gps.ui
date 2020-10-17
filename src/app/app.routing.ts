@@ -81,12 +81,12 @@ export const routes: Routes = [
       },
       {
         path: "Alarm",
-        // canActivate: [AuthGuardService],
+        canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/alarm/alarm.module").then((m) => m.AlarmModule),
       },
       {
-        path: "GeoFencing",
+        path: "Geofencing",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/geofencing/geofencing.module").then(
