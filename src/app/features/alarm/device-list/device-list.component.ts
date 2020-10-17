@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { DeviceService } from "../device.service";
+import { DeviceService } from "../alarm.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
@@ -10,15 +10,15 @@ import { ImageFormatterComponent } from '../../../shared/table/cell-action/cell-
   templateUrl: "./device-list.component.html",
   styleUrls: ["./device-list.component.css"],
 })
-export class DeviceListComponent implements OnInit {
-  title = "Device";
+export class AlarmListComponent implements OnInit {
+  title = "Alarm";
   pagination = "true";
   paginationPageSize: "10";
   frameworkComponents: any;
   columnDefs;
   rowDataClicked1 = {};
   rowDataClicked2 = {};
-  rowData = [];
+  rowData: any [];
   actionItems = [];
   defaultActionItem = [];
   showAction: boolean = false;
@@ -31,8 +31,12 @@ export class DeviceListComponent implements OnInit {
     private deviceSvc: DeviceService,
     private router: Router,
     private storage: StorageService
-  ) {}
-
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    let rowDataRecieved = navigation.extras.state;
+    console.log('nav=>=>',rowDataRecieved.deviceAlarms);
+  }
+  
   ngOnInit(): void {
     this.columnDefs = [
       { 
@@ -50,37 +54,11 @@ export class DeviceListComponent implements OnInit {
         filter: true,
       },
       {
-        headerName: "Device Type",
-        field: "deviceType.name",
-        sortable: true,
-        filter: true,
-      },
-      {
-        headerName: "Company",
-        field: "user.companyName",
-        sortable: true,
-        filter: true,
-      },
-      {
-        headerName: "Vendor",
-        field: "vendor.name",
-        sortable: true,
-        filter: true,
-      },
-      {
-        headerName: "Serial Number",
-        field: "serial",
-        sortable: true,
-        filter: true,
-      },
-
-      {
         headerName: "Name",
         field: "name",
         sortable: true,
         filter: true,
       },
-
       // {
       //   headerName: "Actions",
       //   field: "action",
@@ -98,7 +76,7 @@ export class DeviceListComponent implements OnInit {
   loadData() {
     const userId = this.storage.getItem("userId");
     this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
-      console.log(res);
+      console.log('res=>>>',res);
       this.rowData = res;
     });
   }
@@ -110,21 +88,11 @@ export class DeviceListComponent implements OnInit {
     if (e.action === "edit") {
       this.router.navigate(["/Device/add-edit"], { state: this.selectedRow });
     }
-    if(e.action === 'view') {
-      this.router.navigate(["/Alarm"], {state: this.selectedRow});
-    }
   }
   setActionItem() {
     this.actionItems = [];
     this.defaultActionItem = [];
     const actions = this.auth.getActions("Device");
-    if (actions.includes("View")) {
-      this.defaultActionItem.push({
-        label: "Alarm",
-        action: "view",
-        iconClass: "icon-eye",
-      });
-    }
     if (actions.includes("Add")) {
       this.defaultActionItem.push({
         label: "Add",
@@ -150,8 +118,8 @@ export class DeviceListComponent implements OnInit {
 
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
-    console.log("selectedRows", selectedRows);
-    this.selectedRow = selectedRows[0];
+    console.log("selectedRows==>", selectedRows[0].deviceAlarms);
+    this.selectedRow = selectedRows[0].deviceAlarms;
     this.showAction = true;
   }
   onGridReady(params) {

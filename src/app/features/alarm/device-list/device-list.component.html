@@ -1,0 +1,77 @@
+<div class="animated fadeIn">
+  <div class="card">
+    <div class="card-header">
+      Alarm
+      <div class="card-header-actions">
+        <span class="pull-right">
+          <a
+            class="card-header-action btn btn-link btn-pencil"
+            type="button"
+            (click)="onBtnClick(action)"
+            *ngFor="let action of defaultActionItem"
+          >
+            <i class="{{ action.iconClass }}"></i>
+
+            {{ action.label }}</a
+          >
+        </span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <ag-grid-angular
+            style="width: 100%; height: 500px"
+            class="ag-theme-alpine"
+            [rowData]="rowData"
+            [columnDefs]="columnDefs"
+            [rowSelection]="rowSelection"
+            (selectionChanged)="onSelectionChanged($event)"
+            (gridReady)="onGridReady($event)"
+          >
+          </ag-grid-angular>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Device ID</th>
+                  <th>Alarm ID</th>
+                  <th>Alarm</th>
+                  <th>Value</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let row of selectedRow">
+                <tr>
+                  <td>{{ row.deviceId }}</td>
+                  <td>{{ row.deviceAlarmId }}</td>
+                  <td>{{ row.alarmText }}</td>
+                  <td>{{ row.value }}</td>
+                  <td>{{ row.alarmStatus }}</td>
+                  <td>
+                    <a
+                      class="card-header-action btn btn-link btn-pencil"
+                      type="button"
+                      (click)="onBtnClick(action)"
+                      *ngFor="let action of actionItems"
+                    >
+                      <i class="{{ action.iconClass }}"></i>
+
+                      {{ action.label }}</a
+                    >
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--/.col-->
+
+  <!--/.row-->
+</div>

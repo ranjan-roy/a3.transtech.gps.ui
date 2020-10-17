@@ -33,6 +33,12 @@ export const navItems: NavData[] = [
     accessLevel: [3],
   },
   {
+    name: "Alarm",
+    url: "/Alarm",
+    icon: "icon-cursor",
+    accessLevel: [3],
+  },
+  {
     name: "GeoFencing",
     url: "/GeoFencing",
     icon: "icon-cursor",

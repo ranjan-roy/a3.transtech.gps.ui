@@ -1,20 +1,18 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { AddDeviceComponent } from "./add-device/add-device.component";
-import { DeviceListComponent } from "./device-list/device-list.component";
-import { DeviceRoutingModule } from "./device-routing.module";
+import { AlarmListComponent } from "./device-list/device-list.component";
+import { AlarmRoutingModule } from "./alarm-routing.module";
 import { AgGridModule } from "ag-grid-angular";
-import { DeviceService } from "./device.service";
+import { DeviceService } from "./alarm.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../../shared/shared.module";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
-import { AlarmListComponent } from '../alarm/device-list/device-list.component';
 
 @NgModule({
-  declarations: [AddDeviceComponent, DeviceListComponent],
+  declarations: [AlarmListComponent],
   imports: [
     CommonModule,
-    DeviceRoutingModule,
+    AlarmRoutingModule,
     FormsModule,
     ReactiveFormsModule,
     AgGridModule.forRoot([CellActionComponent]),
@@ -22,6 +20,6 @@ import { AlarmListComponent } from '../alarm/device-list/device-list.component';
   ],
   providers: [DeviceService],
 
-  bootstrap: [DeviceListComponent],
+  bootstrap: [AlarmListComponent],
 })
-export class DeviceModule {}
+export class AlarmModule {}
