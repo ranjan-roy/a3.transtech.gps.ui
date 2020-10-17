@@ -80,7 +80,13 @@ export const routes: Routes = [
           import("./features/device/device.module").then((m) => m.DeviceModule),
       },
       {
-        path: "GeoFencing",
+        path: "Alarm",
+        canActivate: [AuthGuardService],
+        loadChildren: () =>
+          import("./features/alarm/alarm.module").then((m) => m.AlarmModule),
+      },
+      {
+        path: "Geofencing",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/geofencing/geofencing.module").then(

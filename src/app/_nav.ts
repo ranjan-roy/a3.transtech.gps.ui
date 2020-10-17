@@ -1,41 +1,96 @@
 import { INavData } from "@coreui/angular";
-interface NavData extends INavData {
-  accessLevel: any[];
-}
-export const navItems: NavData[] = [
+export const navItems: INavData[] = [
   {
     name: "Dashboard",
     url: "/Dashboard",
     icon: "icon-speedometer",
-    accessLevel: [1, 2],
   },
   {
     title: true,
     name: "Features",
-    accessLevel: [1, 2, 3],
   },
   {
     name: "Vendor",
     url: "/Vendor",
     icon: "icon-cursor",
-    accessLevel: [1],
   },
   {
     name: "User",
     url: "/User",
     icon: "icon-cursor",
-    accessLevel: [2],
   },
   {
     name: "Device",
     url: "/Device",
     icon: "icon-cursor",
-    accessLevel: [3],
   },
   {
-    name: "GeoFencing",
-    url: "/GeoFencing",
+    name: "Alarm",
+    url: "/Alarm",
     icon: "icon-cursor",
-    accessLevel: [3],
+  },
+  {
+    name: "Geofencing",
+    url: "/Geofencing",
+    icon: "icon-cursor",
   },
 ];
+
+const en = [
+  {
+    screenId: 4,
+    name: "Device",
+    description: "Device Management Screen",
+    path: "string",
+    moduleId: 0,
+    parentId: 0,
+    level: 0,
+    accessLevel: 3,
+    permissions: ["Add", "Edit", "View", "Delete"],
+  },
+  {
+    screenId: 3,
+    name: "Geofencing",
+    description: "GeoFencing Management Screen",
+    path: "string",
+    moduleId: 0,
+    parentId: 0,
+    level: 0,
+    accessLevel: 3,
+    permissions: ["Add", "Edit", "View", "Delete"],
+  },
+  {
+    screenId: 2,
+    name: "User",
+    description: "User Management Screen",
+    path: "string",
+    moduleId: 0,
+    parentId: 0,
+    level: 0,
+    accessLevel: 2,
+    permissions: ["Add", "Edit", "View", "Delete"],
+  },
+  {
+    screenId: 1,
+    name: "Vendor",
+    description: "Vendor Management Screen",
+    path: "string",
+    moduleId: 0,
+    parentId: 0,
+    level: 0,
+    accessLevel: 1,
+    permissions: ["Add", "Edit", "View", "Delete"],
+  },
+  {
+    screenId: 1,
+    name: "Alarm",
+    description: "Alarm Management Screen",
+    path: "string",
+    moduleId: 0,
+    parentId: 0,
+    level: 0,
+    accessLevel: 1,
+    permissions: ["Add", "Edit", "View", "Delete"],
+  },
+];
+window.sessionStorage.setItem("entitlement", JSON.stringify(en));
