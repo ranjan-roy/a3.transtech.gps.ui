@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { AddAlarmComponent } from "./add-alarm/add-alarm.component";
 import { AlarmListComponent } from "./device-list/device-list.component";
 import { AlarmRoutingModule } from "./alarm-routing.module";
 import { AgGridModule } from "ag-grid-angular";
@@ -9,7 +10,7 @@ import { SharedModule } from "../../shared/shared.module";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
 
 @NgModule({
-  declarations: [AlarmListComponent],
+  declarations: [AlarmListComponent, AddAlarmComponent],
   imports: [
     CommonModule,
     AlarmRoutingModule,
@@ -20,6 +21,6 @@ import { CellActionComponent } from "../../shared/table/cell-action/cell-action.
   ],
   providers: [DeviceService],
 
-  bootstrap: [AlarmListComponent],
+  bootstrap: [AlarmListComponent,AddAlarmComponent],
 })
 export class AlarmModule {}

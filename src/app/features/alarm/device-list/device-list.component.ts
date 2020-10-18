@@ -50,12 +50,14 @@ export class AlarmListComponent implements OnInit {
         field: "vehicleType.name",
         sortable: true,
         filter: true,
+        width: 130
       },
       {
         headerName: "Name",
         field: "name",
         sortable: true,
         filter: true,
+        width: 130
       },
       // {
       //   headerName: "Actions",
@@ -81,10 +83,10 @@ export class AlarmListComponent implements OnInit {
   onBtnClick(e) {
     console.log(e);
     if (e.action === "add") {
-      this.router.navigate(["/Device/add-edit"]);
+      this.router.navigate(["/Alarm/add-edit"], {state: this.selectedRow});
     }
     if (e.action === "edit") {
-      this.router.navigate(["/Device/add-edit"], { state: this.selectedRow });
+      this.router.navigate(["/Alarm/add-edit"], { state: this.selectedRow });
     }
   }
   setActionItem() {
@@ -116,7 +118,6 @@ export class AlarmListComponent implements OnInit {
 
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
-    console.log("selectedRows==>", selectedRows[0].deviceAlarms);
     this.selectedRow = selectedRows[0].deviceAlarms;
     this.showAction = true;
   }
