@@ -1,22 +1,6 @@
 <div class="animated fadeIn">
   <div class="card">
-    <div class="card-header">
-      Alarm
-      <div class="card-header-actions">
-        <span class="pull-right">
-          <a
-            class="card-header-action btn btn-link btn-pencil"
-            type="button"
-            (click)="onBtnClick(action)"
-            *ngFor="let action of defaultActionItem"
-          >
-            <i class="{{ action.iconClass }}"></i>
-
-            {{ action.label }}</a
-          >
-        </span>
-      </div>
-    </div>
+    <div class="card-header">Alarm</div>
     <div class="card-body">
       <div class="row">
         <div class="col-md-4">
@@ -36,12 +20,26 @@
             <table class="table">
               <thead>
                 <tr>
-                  <th>Device ID</th>
-                  <th>Alarm ID</th>
-                  <th>Alarm</th>
-                  <th>Value</th>
-                  <th>Status</th>
-                  <th>Actions</th>
+                  <th class="align-baseline">Device ID</th>
+                  <th class="align-baseline">Alarm ID</th>
+                  <th class="align-baseline">Alarm</th>
+                  <th class="align-baseline">Value</th>
+                  <th class="align-baseline">Status</th>
+                  <th>
+                    Actions
+                    <span class="float-right">
+                      <a
+                        class="card-header-action btn btn-link btn-pencil"
+                        type="button"
+                        (click)="onBtnClick(action)"
+                        *ngFor="let action of defaultActionItem"
+                      >
+                        <i class="{{ action.iconClass }}"></i>
+
+                        {{ action.label }}</a
+                      >
+                    </span>
+                  </th>
                 </tr>
               </thead>
               <tbody *ngFor="let row of selectedRow">

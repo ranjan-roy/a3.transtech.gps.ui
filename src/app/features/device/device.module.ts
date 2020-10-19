@@ -8,7 +8,6 @@ import { DeviceService } from "./device.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../../shared/shared.module";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
-import { AlarmListComponent } from '../alarm/device-list/device-list.component';
 
 @NgModule({
   declarations: [AddDeviceComponent, DeviceListComponent],

@@ -36,61 +36,16 @@ export const navItems: INavData[] = [
   },
 ];
 
-const en = [
-  {
-    screenId: 4,
-    name: "Device",
-    description: "Device Management Screen",
-    path: "string",
-    moduleId: 0,
-    parentId: 0,
-    level: 0,
-    accessLevel: 3,
-    permissions: ["Add", "Edit", "View", "Delete"],
-  },
-  {
-    screenId: 3,
-    name: "Geofencing",
-    description: "GeoFencing Management Screen",
-    path: "string",
-    moduleId: 0,
-    parentId: 0,
-    level: 0,
-    accessLevel: 3,
-    permissions: ["Add", "Edit", "View", "Delete"],
-  },
-  {
-    screenId: 2,
-    name: "User",
-    description: "User Management Screen",
-    path: "string",
-    moduleId: 0,
-    parentId: 0,
-    level: 0,
-    accessLevel: 2,
-    permissions: ["Add", "Edit", "View", "Delete"],
-  },
-  {
-    screenId: 1,
-    name: "Vendor",
-    description: "Vendor Management Screen",
-    path: "string",
-    moduleId: 0,
-    parentId: 0,
-    level: 0,
-    accessLevel: 1,
-    permissions: ["Add", "Edit", "View", "Delete"],
-  },
-  {
-    screenId: 1,
-    name: "Alarm",
-    description: "Alarm Management Screen",
-    path: "string",
-    moduleId: 0,
-    parentId: 0,
-    level: 0,
-    accessLevel: 1,
-    permissions: ["Add", "Edit", "View", "Delete"],
-  },
-];
+const en = JSON.parse(window.sessionStorage.getItem("entitlement"));
+en.push({
+  screenId: 1,
+  name: "Alarm",
+  description: "Alarm Management Screen",
+  path: "string",
+  moduleId: 0,
+  parentId: 0,
+  level: 0,
+  accessLevel: 1,
+  permissions: ["Add", "Edit", "View", "Delete"],
+});
 window.sessionStorage.setItem("entitlement", JSON.stringify(en));

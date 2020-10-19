@@ -1,0 +1,253 @@
+<div class="animated fadeIn">
+  <!--/.card-->
+  <!--/.row-->
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <strong>Add Alarm</strong>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+            <div class="form-row">
+              <label for="DeviceAlarm" class="col-form-label"
+                >Device Alarm</label
+              >
+              <select
+                formControlName="deviceAlarmId"
+                class="form-control"
+                id="DeviceAlarm"
+                (change)="changeDeviceAlarm($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    form.deviceAlarmId.touched && form.deviceAlarmId.errors
+                }"
+              >
+                <option value="" disabled>Select a ID</option>
+                <option [value]="deviceAlarmId">0</option>
+              </select>
+              <!-- <div
+                *ngIf="form.vendorId.touched && form.vendorId.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.vendorId.errors.required">
+                  Vendor is required
+                </div>
+              </div> -->
+            </div>
+            <div class="form-row">
+              <label for="user" class="col-form-label">Device ID</label>
+              <select
+                formControlName="deviceId"
+                class="form-control"
+                id="deviceId"
+                [ngClass]="{
+                  'is-invalid': form.deviceId.touched && form.deviceId.errors
+                }"
+              >
+                <option value="" disabled>Select a Device ID</option>
+                <option [value]="deviceId">{{ deviceId }}</option>
+              </select>
+              <div
+                *ngIf="form.deviceId.touched && form.deviceId.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.deviceId.errors.required">ID is required</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="AlarmType" class="col-form-label">Alarm ID</label>
+              <select
+                formControlName="alarmTypeId"
+                class="form-control"
+                id="AlarmType"
+                (change)="changeAlarmType($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    form.alarmTypeId.touched && form.alarmTypeId.errors
+                }"
+              >
+                <option value="" disabled>Select a id</option>
+                <option
+                  *ngFor="let alarmType of alarmTypeList"
+                  [value]="alarmType.alarmTypeId"
+                >
+                  {{ alarmType.alarmTypeId }}
+                </option>
+              </select>
+              <div
+                *ngIf="form.alarmTypeId.touched && form.alarmTypeId.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.alarmTypeId.errors.required">
+                  Alarm id is required
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="alarmText" class="col-form-label">Alarm</label>
+              <input
+                type="text"
+                formControlName="alarmText"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.alarmText.touched && form.alarmText.errors
+                }"
+              />
+              <div
+                *ngIf="form.alarmText.touched && form.alarmText.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.alarmText.errors.required">
+                  Alarm is required
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="value" class="col-form-label">Value</label>
+              <input
+                type="number"
+                formControlName="value"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.value.touched && form.value.errors
+                }"
+              />
+              <div
+                *ngIf="form.value.touched && form.value.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.value.errors.required">Value is required</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="operatorId" class="col-form-label">Operator ID</label>
+              <select
+                formControlName="operatorId"
+                class="form-control"
+                id="operatorId"
+                (change)="changeOperatorId($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    form.operatorId.touched && form.operatorId.errors
+                }"
+              >
+                <option value="" disabled>Select a id</option>
+                <option
+                  *ngFor="let operator of operatorList"
+                  [value]="operator.operatorId"
+                >
+                  {{ operator.operatorId }}
+                </option>
+              </select>
+              <div
+                *ngIf="form.alarmTypeId.touched && form.alarmTypeId.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.alarmTypeId.errors.required">
+                  Alarm id is required
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label for="alarmStatus" class="col-form-label"
+                >Alarm Status</label
+              >
+              <select
+                formControlName="alarmStatus"
+                class="form-control"
+                id="alarmStatus"
+                (change)="changeAlarmStatus($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    form.alarmStatus.touched && form.alarmStatus.errors
+                }"
+              >
+                <option value="" disabled>Select a Status</option>
+                <option
+                  *ngFor="let status of alarmStatusList"
+                  [value]="status.statusId"
+                >
+                  {{ status.statusId }}
+                </option>
+              </select>
+              <div
+                *ngIf="form.alarmStatus.touched && form.alarmStatus.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.alarmStatus.errors.required">
+                  Alarm Status is required
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="col-form-label">Start Date</label>
+              <input
+                type="datetime-local"
+                id="startDate"
+                formControlName="startDate"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.startDate.touched && form.startDate.errors
+                }"
+              />
+              <div
+                *ngIf="form.startDate.touched && form.startDate.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.startDate.errors.required">
+                  Start Time is required
+                </div>
+                <div *ngIf="form.startDate.errors.startDate">
+                  Start Time must be a valid
+                </div>
+              </div>
+            </div>
+            <div class="form-row">
+              <label class="col-form-label">End Date</label>
+              <input
+                type="datetime-local"
+                formControlName="endDate"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid': form.endDate.touched && form.endDate.errors
+                }"
+              />
+              <div
+                *ngIf="form.endDate.touched && form.endDate.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.endDate.errors.required">
+                  End Date is required
+                </div>
+                <div *ngIf="form.endDate.errors.endDate">
+                  End Date must be a valid
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row" style="margin-top: 30px">
+              <button
+                type="submit"
+                class="btn btn-block btn-primary"
+                style="width: 120px"
+                [disabled]="formGroup.invalid"
+              >
+                Submit
+              </button>
+              <button
+                type="reset"
+                style="width: 120px; height: 35px; margin-left: 30px"
+                class="btn btn-sm btn-danger"
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!--/.col-->
+  </div>
+  <!--/.row-->
+</div>
