@@ -12,7 +12,7 @@ import { AuthService } from "../../../core/service/auth.service";
   styleUrls: ["./fencing-list.component.css"],
 })
 export class FencingListComponent implements OnInit {
-  title = "GeoFencing";
+  title = "Geofencing";
   pagination = "true";
   paginationPageSize: "10";
   frameworkComponents: any;
@@ -74,15 +74,15 @@ export class FencingListComponent implements OnInit {
   }
   onBtnClick(e) {
     if (e.action === "add") {
-      this.router.navigate(["/GeoFencing/add-edit"]);
+      this.router.navigate(["/Geofencing/add-edit"]);
     }
     if (e.action === "edit") {
-      this.router.navigate(["/GeoFencing/add-edit"], {
+      this.router.navigate(["/Geofencing/add-edit"], {
         state: this.selectedRow,
       });
     }
     if (e.action === "view") {
-      this.router.navigate(["/GeoFencing/view-fencing"], {
+      this.router.navigate(["/Geofencing/view-fencing"], {
         state: this.selectedRow,
       });
     }
@@ -94,7 +94,7 @@ export class FencingListComponent implements OnInit {
   setActionItem() {
     this.actionItems = [];
     this.defaultActionItem = [];
-    const actions = this.auth.getActions("GeoFencing");
+    const actions = this.auth.getActions("Geofencing");
     if (actions.includes("Add")) {
       this.defaultActionItem.push({
         label: "Add",
