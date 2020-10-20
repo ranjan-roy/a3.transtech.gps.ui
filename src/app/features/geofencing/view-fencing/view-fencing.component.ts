@@ -365,7 +365,7 @@ export class ViewFencingComponent implements OnInit {
             "Success",
             "Geofence Added to Group  successfully"
           );
-          this.router.navigate(["/GeoFencing"]);
+          this.router.navigate(["/Geofencing"]);
         }
       });
   }
