@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { DeviceService } from "../alarm.service";
+import { AlarmService } from "../alarm.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
@@ -22,13 +22,27 @@ export class AlarmListComponent implements OnInit {
   actionItems = [];
   defaultActionItem = [];
   showAction: boolean = false;
-  selectedRow: any;
+  selectedDevice: any;
+  selectedAlarm: any = {
+    deviceAlarmId: null,
+    deviceId: null,
+    alarmTypeId: null,
+    alarmText: "",
+    value: null,
+    operatorId: null,
+    alarmStatus: null,
+    startDate: "",
+    endDate: ""  
+  };
+  clickedAction: any;
   gridApi;
   gridColumnApi;
+  showList: boolean = true;
+  showEdit: boolean = false;
   rowSelection = "single";
   constructor(
     public auth: AuthService,
-    private deviceSvc: DeviceService,
+    private deviceSvc: AlarmService,
     private router: Router,
     private storage: StorageService
   ) {
@@ -59,16 +73,6 @@ export class AlarmListComponent implements OnInit {
         filter: true,
         width: 130
       },
-      // {
-      //   headerName: "Actions",
-      //   field: "action",
-      //   cellRenderer: "buttonRenderer",
-      //   cellRendererParams: {
-      //     label: "Edit",
-      //     onClick: this.onBtnClick.bind(this),
-      //   },
-      //   actionItems: [{ label: "Edit", action: "edit" }],
-      // },
     ];
     this.setActionItem();
   }
@@ -76,17 +80,34 @@ export class AlarmListComponent implements OnInit {
   loadData() {
     const userId = this.storage.getItem("userId");
     this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
-      console.log("res=>>>", res);
       this.rowData = res;
     });
   }
-  onBtnClick(e) {
-    console.log(e);
+  onBtnClick(e, row, id) {
     if (e.action === "add") {
-      this.router.navigate(["/Alarm/add-edit"], {state: this.selectedRow});
-    }
+      this.showEdit = true;
+      this.selectedAlarm = {
+        deviceAlarmId: null,
+        deviceId: null,
+        alarmTypeId: null,
+        alarmText: "",
+        value: null,
+        operatorId: null,
+        alarmStatus: null,
+        startDate: "",
+        endDate: ""  
+      };
+    };
     if (e.action === "edit") {
-      this.router.navigate(["/Alarm/add-edit"], { state: this.selectedRow });
+      this.selectedAlarm = row;
+      this.clickedAction = "edit";
+      this.showEdit = true;
+    };
+    if (e.action === "delete") {
+      this.deviceSvc.deleteAlarm(id).subscribe((res) => {
+        if (res)
+        this.loadData();
+      })
     }
   }
   setActionItem() {
@@ -118,7 +139,7 @@ export class AlarmListComponent implements OnInit {
 
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
-    this.selectedRow = selectedRows[0].deviceAlarms;
+    this.selectedDevice = selectedRows[0];
     this.showAction = true;
   }
   onGridReady(params) {

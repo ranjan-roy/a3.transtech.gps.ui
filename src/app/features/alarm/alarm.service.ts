@@ -6,7 +6,7 @@ import { observable, Observable } from "rxjs";
 @Injectable({
   providedIn: "root",
 })
-export class DeviceService {
+export class AlarmService {
   url = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
