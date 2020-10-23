@@ -11,7 +11,6 @@ import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { VendorService } from "../../vendor/vendor.service";
 import { UserService } from "../../user/user.service";
-import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-add-alarm",
