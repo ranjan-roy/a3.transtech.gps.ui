@@ -50,6 +50,7 @@ import { GeofencingModule } from "./features/geofencing/geofencing.module";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { ImageFormatterComponent } from './shared/table/cell-action/cell-image.component';
 import { AgGridModule } from 'ag-grid-angular';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -80,6 +81,7 @@ export function tokenGetter() {
     }),
     SharedModule,
     CoreModule,
+    NgbModule,
   ],
   declarations: [AppComponent, ...APP_CONTAINERS, P404Component, P500Component, ImageFormatterComponent],
   providers: [

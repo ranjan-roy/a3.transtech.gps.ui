@@ -16,7 +16,7 @@
           </ag-grid-angular>
         </div>
         <div class="col-md-8">
-          <div class="card-body">
+          <div class="card-body" *ngIf="showList">
             <table class="table">
               <thead>
                 <tr>
@@ -27,7 +27,7 @@
                   <th class="align-baseline">Status</th>
                   <th>
                     Actions
-                    <span class="float-right">
+                    <span class="float-right" *ngIf="selectedDevice">
                       <a
                         class="card-header-action btn btn-link btn-pencil"
                         type="button"
@@ -42,8 +42,11 @@
                   </th>
                 </tr>
               </thead>
-              <tbody *ngFor="let row of selectedRow">
-                <tr>
+              <tbody *ngIf="selectedDevice && selectedDevice.deviceAlarms">
+                <tr
+                  [attr.id]="row.deviceAlarmId"
+                  *ngFor="let row of selectedDevice.deviceAlarms"
+                >
                   <td>{{ row.deviceId }}</td>
                   <td>{{ row.deviceAlarmId }}</td>
                   <td>{{ row.alarmText }}</td>
@@ -53,7 +56,7 @@
                     <a
                       class="card-header-action btn btn-link btn-pencil"
                       type="button"
-                      (click)="onBtnClick(action)"
+                      (click)="onBtnClick(action, row, row.deviceAlarmId)"
                       *ngFor="let action of actionItems"
                     >
                       <i class="{{ action.iconClass }}"></i>
@@ -65,10 +68,21 @@
               </tbody>
             </table>
           </div>
+          <div class="card-body" *ngIf="showEdit && selectedDevice">
+            <h3>Alarm Added</h3>
+            <app-add-alarm
+              [selectedAlarm]="selectedAlarm"
+              [selectedDevice]="selectedDevice"
+              [alarmTypeList]="alarmTypeList"
+              [operatorList]="operatorList"
+              [alarmStatusList]="alarmStatusList"
+            ></app-add-alarm>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
   <!--/.col-->
 
   <!--/.row-->

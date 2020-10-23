@@ -4,10 +4,11 @@ import { AddAlarmComponent } from "./add-alarm/add-alarm.component";
 import { AlarmListComponent } from "./device-list/device-list.component";
 import { AlarmRoutingModule } from "./alarm-routing.module";
 import { AgGridModule } from "ag-grid-angular";
-import { DeviceService } from "./alarm.service";
+import { AlarmService } from "./alarm.service";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../../shared/shared.module";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
+import { TimepickerModule } from "ngx-bootstrap/timepicker";
 
 @NgModule({
   declarations: [AlarmListComponent, AddAlarmComponent],
@@ -18,9 +19,10 @@ import { CellActionComponent } from "../../shared/table/cell-action/cell-action.
     ReactiveFormsModule,
     AgGridModule.forRoot([CellActionComponent]),
     SharedModule,
+    TimepickerModule.forRoot(),
   ],
-  providers: [DeviceService],
+  providers: [AlarmService],
 
-  bootstrap: [AlarmListComponent,AddAlarmComponent],
+  bootstrap: [AlarmListComponent, AddAlarmComponent],
 })
 export class AlarmModule {}
