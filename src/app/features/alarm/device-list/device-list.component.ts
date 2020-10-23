@@ -32,7 +32,7 @@ export class AlarmListComponent implements OnInit {
     operatorId: null,
     alarmStatus: null,
     startDate: "",
-    endDate: ""  
+    endDate: "",
   };
   clickedAction: any;
   gridApi;
@@ -40,6 +40,9 @@ export class AlarmListComponent implements OnInit {
   showList: boolean = true;
   showEdit: boolean = false;
   rowSelection = "single";
+  alarmTypeList: any[] = [];
+  operatorList: any[] = [];
+  alarmStatusList: any[] = [];
   constructor(
     public auth: AuthService,
     private deviceSvc: AlarmService,
@@ -64,17 +67,26 @@ export class AlarmListComponent implements OnInit {
         field: "vehicleType.name",
         sortable: true,
         filter: true,
-        width: 130
+        width: 130,
       },
       {
         headerName: "Name",
         field: "name",
         sortable: true,
         filter: true,
-        width: 130
+        width: 130,
       },
     ];
     this.setActionItem();
+    this.deviceSvc.getOperator().subscribe((res) => {
+      this.operatorList = res;
+    });
+    this.deviceSvc.getAlarmStatus().subscribe((res) => {
+      this.alarmStatusList = res;
+    });
+    this.deviceSvc.getAllAlarmType().subscribe((res) => {
+      this.alarmTypeList = res;
+    });
   }
 
   loadData() {
@@ -95,19 +107,18 @@ export class AlarmListComponent implements OnInit {
         operatorId: null,
         alarmStatus: null,
         startDate: "",
-        endDate: ""  
+        endDate: "",
       };
-    };
+    }
     if (e.action === "edit") {
       this.selectedAlarm = row;
       this.clickedAction = "edit";
       this.showEdit = true;
-    };
+    }
     if (e.action === "delete") {
       this.deviceSvc.deleteAlarm(id).subscribe((res) => {
-        if (res)
-        this.loadData();
-      })
+        if (res) this.loadData();
+      });
     }
   }
   setActionItem() {

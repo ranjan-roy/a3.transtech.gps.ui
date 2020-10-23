@@ -22,6 +22,9 @@ export class AlarmService {
   getAllDeviceType(): Observable<any> {
     return this.http.get<any>(`${this.url}/DeviceType/`);
   }
+  getAllAlarmType(): Observable<any> {
+    return this.http.get<any>(`${this.url}/AlarmType/`);
+  }
 
   getAlarmStatus(): Observable<any> {
     return this.http.get<any>(`${this.url}/AlarmStatus/`);
@@ -39,12 +42,11 @@ export class AlarmService {
     return this.http.post<any>(`${this.url}/DeviceAlarm`, payload);
   }
 
-  putAlarm(deviceId,payload): Observable<any> {
+  putAlarm(deviceId, payload): Observable<any> {
     return this.http.put<any>(`${this.url}/DeviceAlarm/${deviceId}`, payload);
   }
 
   deleteAlarm(deviceId): Observable<any> {
     return this.http.delete<any>(`${this.url}/DeviceAlarm/${deviceId}`);
   }
-  
 }

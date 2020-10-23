@@ -35,8 +35,7 @@ export const navItems: INavData[] = [
     icon: "icon-cursor",
   },
 ];
-
-if(window.sessionStorage.getItem("entitlement")) {
+if (window.sessionStorage.getItem("entitlement")) {
   const en = JSON.parse(window.sessionStorage.getItem("entitlement"));
   en.push({
     screenId: 1,
@@ -49,5 +48,5 @@ if(window.sessionStorage.getItem("entitlement")) {
     accessLevel: 1,
     permissions: ["Add", "Edit", "View", "Delete"],
   });
-  window.sessionStorage.setItem("entitlement", JSON.stringify(en));  
+  window.sessionStorage.setItem("entitlement", JSON.stringify(en));
 }

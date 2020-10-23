@@ -27,7 +27,7 @@
                   <th class="align-baseline">Status</th>
                   <th>
                     Actions
-                    <span class="float-right">
+                    <span class="float-right" *ngIf="selectedDevice">
                       <a
                         class="card-header-action btn btn-link btn-pencil"
                         type="button"
@@ -68,11 +68,14 @@
               </tbody>
             </table>
           </div>
-          <div class="card-body" *ngIf="showEdit">
+          <div class="card-body" *ngIf="showEdit && selectedDevice">
             <h3>Alarm Added</h3>
             <app-add-alarm
               [selectedAlarm]="selectedAlarm"
               [selectedDevice]="selectedDevice"
+              [alarmTypeList]="alarmTypeList"
+              [operatorList]="operatorList"
+              [alarmStatusList]="alarmStatusList"
             ></app-add-alarm>
           </div>
         </div>

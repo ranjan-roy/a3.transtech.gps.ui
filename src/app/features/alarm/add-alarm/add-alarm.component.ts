@@ -1,4 +1,4 @@
-import { Component, Input, OnInit,OnChanges } from "@angular/core";
+import { Component, Input, OnInit, OnChanges } from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -9,17 +9,22 @@ import { AlarmService } from "../alarm.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
-import { VendorService } from '../../vendor/vendor.service';
-import { UserService } from '../../user/user.service';
+import { VendorService } from "../../vendor/vendor.service";
+import { UserService } from "../../user/user.service";
+import { NgbTimeStruct } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-add-alarm",
   templateUrl: "./add-alarm.component.html",
   styleUrls: ["./add-alarm.component.css"],
 })
-export class AddAlarmComponent implements OnInit,OnChanges {
-  @Input() selectedAlarm
-  @Input() selectedDevice
+export class AddAlarmComponent implements OnInit, OnChanges {
+  @Input() selectedAlarm;
+  @Input() selectedDevice;
+  @Input() alarmTypeList;
+  @Input() operatorList;
+  @Input() alarmStatusList;
+
   formGroup: FormGroup;
   submitted = false;
   rowData: any = {
@@ -30,26 +35,21 @@ export class AddAlarmComponent implements OnInit,OnChanges {
     value: null,
     operatorId: null,
     alarmStatus: null,
-    startDate: "",
-    endDate: ""  
+    startDate: new Date(),
+    endDate: new Date(),
   };
 
   deviceAlarmId: any;
   selectedDeviceId: any;
   deviceAlarmList: any;
-  alarmTypeList: any;
-  operatorList: any;
-  alarmStatusList: any;
-
-
+  public mytime: Date = new Date();
   constructor(
     private formBuilder: FormBuilder,
     private alarmSvc: AlarmService,
     protected _notificationSvc: NotificationService,
     private router: Router,
     private storage: StorageService
-  ) {
-  }
+  ) {}
 
   ngOnChanges() {
     this.createForm(this.selectedAlarm);
@@ -58,46 +58,25 @@ export class AddAlarmComponent implements OnInit,OnChanges {
   ngOnInit() {
     this.deviceAlarmId = 0;
     this.selectedDeviceId = this.selectedDevice.deviceId;
-    this.alarmSvc.getDeviceAlarmByDeviceId(this.selectedDevice.deviceId).subscribe((res) => {
-      this.alarmTypeList = res;
-    });
-    this.alarmSvc.getOperator().subscribe((res) => {
-      this.operatorList = res;
-    });
-    this.alarmSvc.getAlarmStatus().subscribe((res) => {
-      this.alarmStatusList = res;
-
-    });    
   }
 
   changeAlarmType(e) {
-    this.formGroup.get('alarmTypeId').setValue(parseInt(e.target.value), {
-      onlySelf: true
-    });
-  
-    this.alarmSvc.getDeviceAlarmByDeviceId(this.selectedDevice.deviceId).subscribe((res) => {
-      this.alarmTypeList = res;
+    this.formGroup.get("alarmTypeId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
 
   changeOperatorId(e) {
-    this.formGroup.get('operatorId').setValue(parseInt(e.target.value), {
-      onlySelf: true
-    });
-    this.alarmSvc.getOperator().subscribe((res) => {
-      this.operatorList = res;
+    this.formGroup.get("operatorId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
 
   changeAlarmStatus(e) {
-    this.formGroup.get('alarmStatus').setValue(parseInt(e.target.value), {
-      onlySelf: true
-    });
-    this.alarmSvc.getAlarmStatus().subscribe((res) => {
-      this.alarmStatusList = res;
+    this.formGroup.get("alarmStatus").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
-
 
   createForm(rowData) {
     this.formGroup = this.formBuilder.group({
@@ -148,7 +127,7 @@ export class AddAlarmComponent implements OnInit,OnChanges {
     this.alarmSvc.postAlarm(alarm).subscribe((newAlarm) => {
       if (newAlarm) {
         this._notificationSvc.success("Success", "Alarm added successfully");
-        this.router.navigate(["/Alarm"]);
+        this.formGroup.reset();
       }
     });
   }
@@ -168,7 +147,6 @@ export class AddAlarmComponent implements OnInit,OnChanges {
     this.alarmSvc.putAlarm(alarm.deviceId, alarm).subscribe((res) => {
       this._notificationSvc.success("Success", "Alarm updated successfully");
       this.formGroup.reset();
-      this.router.navigate(["/Alarm"]);
     });
   }
 

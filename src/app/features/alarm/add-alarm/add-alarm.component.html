@@ -37,7 +37,7 @@
               *ngFor="let alarmType of alarmTypeList"
               [value]="alarmType.alarmTypeId"
             >
-              {{ alarmType.alarmText }}
+              {{ alarmType.name }}
             </option>
           </select>
           <div
@@ -127,16 +127,14 @@
       </div>
       <div class="form-row">
         <div class="col-md-6">
-          <label class="col-form-label">Start Date</label>
-          <input
-            type="time"
-            id="startDate"
-            formControlName="startDate"
-            class="form-control"
-            [ngClass]="{
-              'is-invalid': form.startDate.touched && form.startDate.errors
-            }"
-          />
+          <label class="col-form-label">Start Time</label>
+          <timepicker
+            [formControlName]="'startDate'"
+            [hourStep]="true"
+            [minuteStep]="true"
+            [showSeconds]="true"
+          ></timepicker>
+
           <div
             *ngIf="form.startDate.touched && form.startDate.errors"
             class="invalid-feedback"
@@ -150,15 +148,13 @@
           </div>
         </div>
         <div class="col-md-6">
-          <label class="col-form-label">End Date</label>
-          <input
-            type="time"
-            formControlName="endDate"
-            class="form-control"
-            [ngClass]="{
-              'is-invalid': form.endDate.touched && form.endDate.errors
-            }"
-          />
+          <label class="col-form-label">End Time</label>
+          <timepicker
+            [formControlName]="'endDate'"
+            [hourStep]="true"
+            [minuteStep]="true"
+            [showSeconds]="true"
+          ></timepicker>
           <div
             *ngIf="form.endDate.touched && form.endDate.errors"
             class="invalid-feedback"
