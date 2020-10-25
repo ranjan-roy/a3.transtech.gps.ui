@@ -93,6 +93,7 @@ export class AlarmListComponent implements OnInit {
     const userId = this.storage.getItem("userId");
     this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
       this.rowData = res;
+      this.preSelectRow()
     });
   }
   onBtnClick(e, row, id) {
@@ -117,7 +118,7 @@ export class AlarmListComponent implements OnInit {
     }
     if (e.action === "delete") {
       this.deviceSvc.deleteAlarm(id).subscribe((res) => {
-        if (res) this.loadData();
+        if (res) this.preSelectRow();
       });
     }
   }
@@ -157,5 +158,17 @@ export class AlarmListComponent implements OnInit {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
     this.loadData();
+  }
+
+   preSelectRow() {
+    console.log( this.gridApi);
+    this.gridApi.forEachNode( (node)=> {
+      console.log('preSelectRow',node.data);
+      if(node.data.deviceId === this.selectedDevice.deviceId){
+        
+      }
+      this.selectedDevice.deviceAlarms = node.data.deviceAlarms;
+      node.setSelected(node.data.deviceId === this.selectedDevice.deviceId);
+    });
   }
 }
