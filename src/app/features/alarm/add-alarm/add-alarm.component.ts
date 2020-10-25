@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, OnChanges } from "@angular/core";
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  Output,
+  EventEmitter,
+} from "@angular/core";
 import {
   FormBuilder,
   FormGroup,
@@ -23,6 +30,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   @Input() alarmTypeList;
   @Input() operatorList;
   @Input() alarmStatusList;
+  @Output() onAddEditComplete = new EventEmitter();
 
   formGroup: FormGroup;
   submitted = false;
@@ -127,6 +135,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       if (newAlarm) {
         this._notificationSvc.success("Success", "Alarm added successfully");
         this.formGroup.reset();
+        this.onAddEditComplete.emit(newAlarm);
       }
     });
   }

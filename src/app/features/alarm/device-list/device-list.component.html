@@ -4,7 +4,6 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-4">
-          <button (click)="preSelectRow()"> Select </button>
           <ag-grid-angular
             style="width: 100%; height: 500px"
             class="ag-theme-alpine"
@@ -77,6 +76,7 @@
               [alarmTypeList]="alarmTypeList"
               [operatorList]="operatorList"
               [alarmStatusList]="alarmStatusList"
+              (onAddEditComplete)="updateTable($event)"
             ></app-add-alarm>
           </div>
         </div>
