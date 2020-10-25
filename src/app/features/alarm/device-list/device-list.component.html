@@ -76,6 +76,7 @@
               [alarmTypeList]="alarmTypeList"
               [operatorList]="operatorList"
               [alarmStatusList]="alarmStatusList"
+              (onAddEditComplete)="updateTable($event)"
             ></app-add-alarm>
           </div>
         </div>
