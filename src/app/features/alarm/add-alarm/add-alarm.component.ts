@@ -16,8 +16,6 @@ import { AlarmService } from "../alarm.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
-import { VendorService } from "../../vendor/vendor.service";
-import { UserService } from "../../user/user.service";
 
 @Component({
   selector: "app-add-alarm",
@@ -112,7 +110,8 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       this.validateAllFormFields(this.formGroup);
       return;
     }
-    if (this.rowData.deviceId) {
+
+    if (this.selectedAlarm.deviceAlarmId) {
       this.updateDeviceAlarm(this.formGroup.value);
     } else {
       this.addDeviceAlarm(this.formGroup.value);
@@ -142,17 +141,19 @@ export class AddAlarmComponent implements OnInit, OnChanges {
 
   updateDeviceAlarm(formValue) {
     const alarm = {
-      deviceAlarmId: this.selectedAlarm.deviceAlarmId,
+      deviceAlarmId: this.selectedAlarm.deviceAlarmId || 0,
       deviceId: this.selectedDevice.deviceId,
       alarmTypeId: formValue.alarmTypeId,
-      alarmText: this.rowData.alarmText,
-      value: this.rowData.value,
-      operatorId: this.rowData.operatorId,
-      alarmStatus: this.rowData.alarmStatus,
-      startDate: this.rowData.startDate,
-      endDate: this.rowData.endDate,
+      alarmText: formValue.alarmText,
+      value: formValue.value,
+      operatorId: formValue.operatorId,
+      alarmStatus: formValue.alarmStatus,
+      startDate: formValue.startDate,
+      endDate: formValue.endDate,
     };
-    this.alarmSvc.putAlarm(alarm.deviceId, alarm).subscribe((res) => {
+    console.log(alarm);
+
+    this.alarmSvc.putAlarm(alarm.deviceAlarmId, alarm).subscribe((res) => {
       this._notificationSvc.success("Success", "Alarm updated successfully");
       this.formGroup.reset();
     });
