@@ -34,6 +34,28 @@
               </div>
               <form [formGroup]="a3FormGroup" (ngSubmit)="saveSelectedShape()">
                 <div class="form-row">
+                  <label for="vendor" class="col-form-label">Vendor</label>
+                  <select formControlName="vendorId" class="form-control" id="vendor" (change)="changeVendor($event)" [ngClass]="{
+                    'is-invalid': form.vendorId.touched && form.vendorId.errors}">
+                    <option value="" disabled>Select a Vendor</option> 
+                    <option *ngFor="let vendor of vendorList" [value]="vendor.vendorId">{{vendor.name}}</option>
+                  </select>
+                  <div *ngIf="form.vendorId.touched && form.vendorId.errors"  class="invalid-feedback">
+                    <div *ngIf="form.vendorId.errors.required">Vendor is required</div>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <label for="user" class="col-form-label">User</label>
+                  <select formControlName="userId" class="form-control" id="user" (change)="changeUser($event)" [ngClass]="{
+                    'is-invalid': form.userId.touched && form.userId.errors}">
+                    <option value="" disabled>Select a User</option> 
+                    <option *ngFor="let user of userList" [value]="user.userId">{{user.companyName}}</option>
+                  </select>
+                  <div *ngIf="form.userId.touched && form.userId.errors"  class="invalid-feedback">
+                    <div *ngIf="form.userId.errors.required">User is required</div>
+                  </div>
+                </div>
+                <div class="form-row">
                   <label class="col-form-label">Name</label>
                   <input
                     type="text"

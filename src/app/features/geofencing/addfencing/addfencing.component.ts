@@ -10,6 +10,8 @@ import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
+import { VendorService } from '../../vendor/vendor.service';
+import { UserService } from '../../user/user.service';
 declare const google: any;
 
 /** Demo Component for @angular/google-maps/map */
@@ -48,6 +50,8 @@ export class AddfencingComponent implements OnInit {
   rowData: any = {
     address: "",
     geofenceId: 0,
+    vendorId:0,
+    userId:0,
     name: "",
     description: "",
     city: "",
@@ -63,11 +67,14 @@ export class AddfencingComponent implements OnInit {
     elevation: 0,
   };
   addressText: string;
-
+  vendorList: any;
+  userList: any;
   constructor(
     private formBuilder: FormBuilder,
     private ngZone: NgZone,
     private geofenceSvc: GeofencingService,
+    private vendorSvc: VendorService,
+    private userSvc: UserService,
     protected _notificationSvc: NotificationService,
     private router: Router,
     private storage: StorageService
@@ -82,7 +89,25 @@ export class AddfencingComponent implements OnInit {
     return this.a3FormGroup.controls;
   }
   ngOnInit() {
-    // this.setCurrentPosition();
+    this.vendorSvc.getAllVendor().subscribe((res) => {
+      this.vendorList = res;
+    });
+  }
+
+  changeVendor(e) {
+    this.a3FormGroup.get('vendorId').setValue(parseInt(e.target.value), {
+      onlySelf: true
+    });
+  
+    this.userSvc.getUsersByVendorId(this.a3FormGroup.value.vendorId).subscribe((res) => {
+      this.userList = res;
+    });
+  }
+
+  changeUser(e) {
+    this.a3FormGroup.get('userId').setValue(parseInt(e.target.value), {
+      onlySelf: true
+    });
   }
 
   onMapReady(map) {
@@ -289,6 +314,8 @@ export class AddfencingComponent implements OnInit {
     const payload = {
       ...this.rowData,
       name: formValue.name,
+      vendorId: formValue.vendorId,
+      userId: formValue.userId,
       country: formValue.country || "",
       state: formValue.state || "",
       city: formValue.city || "",
@@ -341,44 +368,16 @@ export class AddfencingComponent implements OnInit {
           "Success",
           "Geofence Added to Group  successfully"
         );
-        this.getGroupId(geofence);
+        this.router.navigate(["/Geofencing"]);
       }
     });
-  }
-
-  getGroupId(fence) {
-    const userId = this.storage.getItem("userId");
-    this.geofenceSvc.getGroupIdByUser(userId).subscribe((group) => {
-      if (group && group.length) {
-        this._notificationSvc.success(
-          "Success",
-          "Group Id Fetched successfully"
-        );
-        this.addDeviceToUserGroup(fence, group[0]);
-      }
-    });
-  }
-
-  addDeviceToUserGroup(fence, group) {
-    this.geofenceSvc
-      .addGeofenceToGroup({
-        geofenceId: fence.geofenceId,
-        groupId: group.groupId,
-      })
-      .subscribe((usergroup) => {
-        if (usergroup) {
-          this._notificationSvc.success(
-            "Success",
-            "Geofence Added to Group  successfully"
-          );
-          this.router.navigate(["/Geofencing"]);
-        }
-      });
   }
 
   createForm(rowData) {
     this.a3FormGroup = this.formBuilder.group({
       name: [rowData.name, [Validators.required]],
+      vendorId:[rowData.vendorId, [Validators.required]],
+      userId:[rowData.userId, [Validators.required]],
       description: [rowData.description],
       city: [rowData.city],
       state: [rowData.state],
