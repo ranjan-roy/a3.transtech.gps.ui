@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
+import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
 import { AlarmService } from "../alarm.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
+import { AddAlarmComponent } from "../add-alarm/add-alarm.component";
 
 @Component({
   selector: "app-device-list",
@@ -11,6 +13,8 @@ import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-
   styleUrls: ["./device-list.component.css"],
 })
 export class AlarmListComponent implements OnInit {
+  @ViewChild("modaltemplate") templateRef: TemplateRef<any>;
+  modalRef: BsModalRef;
   title = "Alarm";
   pagination = "true";
   paginationPageSize: "10";
@@ -45,11 +49,20 @@ export class AlarmListComponent implements OnInit {
   alarmStatusList: any[] = [];
   constructor(
     public auth: AuthService,
+    private modalService: BsModalService,
     private deviceSvc: AlarmService,
     private router: Router,
     private storage: StorageService
   ) {
     const navigation = this.router.getCurrentNavigation();
+  }
+
+  openModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template);
+  }
+
+  hideModal(template: TemplateRef<any>) {
+    this.modalRef.hide();
   }
 
   ngOnInit(): void {
@@ -112,11 +125,13 @@ export class AlarmListComponent implements OnInit {
         startDate: "",
         endDate: "",
       };
+      this.openModal(this.templateRef);
     }
     if (e.action === "edit") {
       this.selectedAlarm = row;
       this.clickedAction = "edit";
       this.showEdit = true;
+      this.openModal(this.templateRef);
     }
     if (e.action === "delete") {
       this.deviceSvc.deleteAlarm(id).subscribe((res) => {
@@ -177,5 +192,6 @@ export class AlarmListComponent implements OnInit {
 
   updateTable(alarm) {
     this.loadData();
+    this.hideModal(this.templateRef);
   }
 }

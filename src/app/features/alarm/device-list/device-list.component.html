@@ -68,17 +68,33 @@
               </tbody>
             </table>
           </div>
-          <div class="card-body" *ngIf="showEdit && selectedDevice">
-            <h3>Alarm Added</h3>
-            <app-add-alarm
-              [selectedAlarm]="selectedAlarm"
-              [selectedDevice]="selectedDevice"
-              [alarmTypeList]="alarmTypeList"
-              [operatorList]="operatorList"
-              [alarmStatusList]="alarmStatusList"
-              (onAddEditComplete)="updateTable($event)"
-            ></app-add-alarm>
-          </div>
+          <ng-template #modaltemplate>
+            <div class="modal-content" style="min-width: 800px">
+              <div class="modal-header">
+                <h3 class="modal-title pull-left">Alarm Added</h3>
+                <button
+                  type="button"
+                  class="close pull-right"
+                  aria-label="Close"
+                  (click)="modalRef.hide()"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div class="card-body" *ngIf="showEdit && selectedDevice">
+                  <app-add-alarm
+                    [selectedAlarm]="selectedAlarm"
+                    [selectedDevice]="selectedDevice"
+                    [alarmTypeList]="alarmTypeList"
+                    [operatorList]="operatorList"
+                    [alarmStatusList]="alarmStatusList"
+                    (onAddEditComplete)="updateTable($event)"
+                  ></app-add-alarm>
+                </div>
+              </div>
+            </div>
+          </ng-template>
         </div>
       </div>
     </div>

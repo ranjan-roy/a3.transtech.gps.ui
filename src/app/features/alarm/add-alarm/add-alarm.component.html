@@ -166,7 +166,7 @@
           </div>
         </div>
       </div>
-      <div class="form-row" style="margin-top: 30px">
+      <div *ngIf="show" class="form-row" style="margin-top: 30px">
         <button
           type="submit"
           class="btn btn-block btn-primary"
@@ -182,6 +182,9 @@
         >
           Reset
         </button>
+      </div>
+      <div *ngIf="!show" class="form-row" style="margin-top: 30px">
+        <h4>Coming Soon !!</h4>
       </div>
     </form>
   </div>
