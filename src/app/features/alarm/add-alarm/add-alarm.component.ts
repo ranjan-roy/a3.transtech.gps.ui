@@ -32,6 +32,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
 
   formGroup: FormGroup;
   submitted = false;
+  show = true;
   rowData: any = {
     deviceAlarmId: null,
     deviceId: null,
@@ -43,6 +44,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     startDate: new Date(),
     endDate: new Date(),
   };
+  activeAlarmType = ["1", "5", "6", "10"];
 
   deviceAlarmId: any;
   selectedDeviceId: any;
@@ -66,9 +68,15 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   }
 
   changeAlarmType(e) {
-    this.formGroup.get("alarmTypeId").setValue(parseInt(e.target.value), {
+    let val = e.target.value;
+    this.formGroup.get("alarmTypeId").setValue(parseInt(val), {
       onlySelf: true,
     });
+    if (this.activeAlarmType.includes(val)) {
+      this.show = true;
+    } else {
+      this.show = false;
+    }
   }
 
   changeOperatorId(e) {
@@ -156,6 +164,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.alarmSvc.putAlarm(alarm.deviceAlarmId, alarm).subscribe((res) => {
       this._notificationSvc.success("Success", "Alarm updated successfully");
       this.formGroup.reset();
+      this.onAddEditComplete.emit(res);
     });
   }
 

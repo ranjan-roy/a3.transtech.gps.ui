@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "../../shared/shared.module";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
 import { TimepickerModule } from "ngx-bootstrap/timepicker";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [AlarmListComponent, AddAlarmComponent],
@@ -20,6 +21,7 @@ import { TimepickerModule } from "ngx-bootstrap/timepicker";
     AgGridModule.forRoot([CellActionComponent]),
     SharedModule,
     TimepickerModule.forRoot(),
+    ModalModule.forRoot(),
   ],
   providers: [AlarmService],
 
