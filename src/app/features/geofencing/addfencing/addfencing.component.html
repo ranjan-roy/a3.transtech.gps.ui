@@ -41,7 +41,9 @@
                     <option *ngFor="let vendor of vendorList" [value]="vendor.vendorId">{{vendor.name}}</option>
                   </select>
                   <div *ngIf="form.vendorId.touched && form.vendorId.errors"  class="invalid-feedback">
-                    <div *ngIf="form.vendorId.errors.required">Vendor is required</div>
+                    <div *ngIf="form.vendorId.errors.required">
+                      *Pleas Select Vendor.
+                    </div>
                   </div>
                 </div>
                 <div class="form-row">
@@ -52,7 +54,8 @@
                     <option *ngFor="let user of userList" [value]="user.userId">{{user.companyName}}</option>
                   </select>
                   <div *ngIf="form.userId.touched && form.userId.errors"  class="invalid-feedback">
-                    <div *ngIf="form.userId.errors.required">User is required</div>
+                    <div *ngIf="form.userId.errors.required">
+                      *Please Select User.</div>
                   </div>
                 </div>
                 <div class="form-row">
@@ -61,6 +64,7 @@
                     type="text"
                     formControlName="name"
                     class="form-control"
+                    pattern="^[A-Za-z][A-Za-z ]+$"
                     [ngClass]="{
                       'is-invalid': form.name.touched && form.name.errors
                     }"
@@ -69,18 +73,41 @@
                     *ngIf="form.name.touched && form.name.errors"
                     class="invalid-feedback"
                   >
-                    <div *ngIf="form.name.errors.required">
-                      Name is required
-                    </div>
+                  <div *ngIf="form.name.errors.required">
+                    *Name is required.
+                  </div>
+                  <div *ngIf="form.name.errors.pattern">
+                    *Please provide Valid Name.
+                  </div>
                   </div>
                 </div>
                 <div class="form-row">
                   <label class="col-form-label">Description</label>
                   <input
                     type="text"
+                    minlength="3"
+                    maxlength="255"
                     formControlName="description"
+                    pattern="^[a-zA-Z][a-zA-Z0-9 ]+[ A-Za-z0-9_@()./#&+-]*$"
+                    required
+                    [ngClass]="{
+                      'is-invalid':
+                        form.description.touched && form.description.errors
+                    }"
                     class="form-control"
+                    pattern="^[a-zA-Z][a-zA-Z0-9 ]+[ A-Za-z0-9_@()./#&+-]*$"
                   />
+                  <div
+                *ngIf="form.description.touched && form.description.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.description.errors.required">
+                  *Description is required.
+                </div>
+                <div *ngIf="form.description.errors.pattern">
+                  *Please provide valid Description.
+                </div>
+              </div>
                 </div>
                 <div class="form-row">
                   <label class="col-form-label">City</label>
@@ -88,7 +115,24 @@
                     type="text"
                     formControlName="city"
                     class="form-control"
+                    required
+                    pattern="^[A-Za-z][A-Za-z ]+$"
+                    [ngClass]="{
+                      'is-invalid':
+                        form.city.touched && form.city.errors
+                    }"
                   />
+                  <div
+                *ngIf="form.city.touched && form.city.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.city.errors.required">
+                  *City is required.
+                </div>
+                <div *ngIf="form.city.errors.pattern">
+                  *Please provide valid City Name.
+                </div>
+              </div>
                 </div>
                 <div class="form-row">
                   <label class="col-form-label">State</label>
@@ -96,7 +140,24 @@
                     type="text"
                     formControlName="state"
                     class="form-control"
+                    required
+                    pattern="^[A-Za-z][A-Za-z ]+$"
+                    [ngClass]="{
+                      'is-invalid':
+                        form.state.touched && form.state.errors
+                    }"
                   />
+                  <div
+                *ngIf="form.state.touched && form.state.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.state.errors.required">
+                  *State is required.
+                </div>
+                <div *ngIf="form.state.errors.pattern">
+                  *Please provide valid State Name.
+                </div>
+              </div>
                 </div>
                 <div class="form-row">
                   <label class="col-form-label">Country</label>
@@ -104,22 +165,36 @@
                     type="text"
                     formControlName="country"
                     class="form-control"
+                    required
+                    pattern="^[A-Za-z][A-Za-z ]+$"
+                    [ngClass]="{
+                      'is-invalid':
+                        form.country.touched && form.country.errors
+                    }"
                   />
+                  <div
+                *ngIf="form.country.touched && form.country.errors"
+                class="invalid-feedback"
+              >
+                <div *ngIf="form.country.errors.required">
+                  *Country is required.
+                </div>
+                <div *ngIf="form.country.errors.pattern">
+                  *Please provide valid Country Name.
+                </div>
+              </div>
                 </div>
                 <div class="form-row" style="margin-top: 30px">
                   <button
                     type="submit"
                     class="btn btn-block btn-primary"
-                    style="width: 120px"
-                    [disabled]="a3FormGroup.invalid || !selectedShape"
-                  >
+                    style="width: 120px">
                     Submit
                   </button>
                   <button
                     type="reset"
                     style="width: 120px; height: 35px; margin-left: 30px"
-                    class="btn btn-sm btn-danger"
-                  >
+                    class="btn btn-sm btn-danger">
                     Reset
                   </button>
                 </div>

@@ -17,7 +17,9 @@
                 <option *ngFor="let vendor of vendorList" [value]="vendor.vendorId">{{vendor.name}}</option>
               </select>
               <div *ngIf="form.vendorId.touched && form.vendorId.errors"  class="invalid-feedback">
-                <div *ngIf="form.vendorId.errors.required">Vendor is required</div>
+                <div *ngIf="form.vendorId.errors.required">
+                  *Please Select Vendor.
+                </div>
               </div>
             </div>
             <div class="form-row">
@@ -28,7 +30,9 @@
                 <option *ngFor="let user of userList" [value]="user.userId">{{user.companyName}}</option>
               </select>
               <div *ngIf="form.vendorId.touched && form.vendorId.errors"  class="invalid-feedback">
-                <div *ngIf="form.vendorId.errors.required">User is required</div>
+                <div *ngIf="form.vendorId.errors.required">
+                  *Please Select User.
+                </div>
               </div>
             </div>
             <div class="form-row">
@@ -39,7 +43,9 @@
                 <option *ngFor="let deviceType of deviceTypeList" [value]="deviceType.deviceTypeId">{{deviceType.name}}</option>
               </select>
               <div *ngIf="form.deviceTypeId.touched && form.deviceTypeId.errors"  class="invalid-feedback">
-                <div *ngIf="form.deviceTypeId.errors.required">Device type is required</div>
+                <div *ngIf="form.deviceTypeId.errors.required">
+                  *Please Select Device Type.
+                </div>
               </div>
             </div>
             <div class="form-row">
@@ -50,7 +56,9 @@
                 <option *ngFor="let vehicleType of vehicleTypeList" [value]="vehicleType.vehicleTypeId">{{vehicleType.name}}</option>
               </select>
               <div *ngIf="form.vehicleTypeId.touched && form.vehicleTypeId.errors"  class="invalid-feedback">
-                <div *ngIf="form.vehicleTypeId.errors.required">Vehicle type is required</div>
+                <div *ngIf="form.vehicleTypeId.errors.required">
+                  *Please Select Vehicle type.
+                </div>
               </div>
             </div>
             <div class="form-row">
@@ -58,6 +66,9 @@
               <input
                 type="text"
                 formControlName="serial"
+                pattern="^[0-9 ]*[1-9][0-9 ]*$"
+                minlength="10"
+                maxlength="30"
                 class="form-control"
                 [ngClass]="{
                   'is-invalid': form.serial.touched && form.serial.errors
@@ -67,12 +78,12 @@
                 *ngIf="form.serial.touched && form.serial.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="form.serial.errors.required">
-                  Serial Number is required
-                </div>
-                <div *ngIf="form.serial.errors.userName">
-                  Serial Number must be a valid
-                </div>
+              <div *ngIf="form.serial.errors.required">
+                *Serial Number is required.
+              </div>
+              <div *ngIf="form.serial.errors.pattern">
+                *Please provide valid Serial Number.
+              </div>
               </div>
             </div>
             <div class="form-row">
@@ -80,6 +91,9 @@
               <input
                 type="text"
                 formControlName="name"
+                pattern="^[A-Za-z][A-Za-z ]+$"
+                minlength="2"
+                maxlength="100"
                 class="form-control"
                 [ngClass]="{
                   'is-invalid': form.name.touched && form.name.errors
@@ -89,33 +103,35 @@
                 *ngIf="form.name.touched && form.name.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="form.name.errors.required">
-                  Name is required
-                </div>
-                <div *ngIf="form.name.errors.userName">
-                  Name must be a valid
-                </div>
+              <div *ngIf="form.name.errors.required">
+                *Name is Required.
+              </div>
+              <div *ngIf="form.name.errors.pattern">
+                *Please provide valid Name.
+              </div>
+              <div *ngIf="form.name.errors.minlength">
+                *Name should contain atleast 2 characters.
+              </div>
               </div>
             </div>
-            
-
-            
-
-            <div class="form-row" style="margin-top: 30px;">
+         <div class="form-row" style="margin-top: 30px;">
               <button
                 type="submit"
                 class="btn btn-block btn-primary"
-                style="width: 120px;"
-                [disabled]="formGroup.invalid"
-              >
+                style="width: 120px;">
                 Submit
               </button>
               <button
                 type="reset"
                 style="width: 120px; height: 35px; margin-left: 30px;"
-                class="btn btn-sm btn-danger"
-              >
+                class="btn btn-sm btn-danger">
                 Reset
+              </button>
+              <button
+                type="button"
+                style="width: 120px; height: 35px; margin-left: 600px;"
+                class="btn btn-block btn-primary">
+                Cancel
               </button>
             </div>
           </form>

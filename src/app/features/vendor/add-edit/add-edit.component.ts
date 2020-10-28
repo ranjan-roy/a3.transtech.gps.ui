@@ -50,7 +50,7 @@ export class AddEditComponent implements OnInit {
       code: [rowData.code, Validators.required],
       name: [rowData.name, Validators.required],
       description: [rowData.description],
-      email: [rowData.mail, [Validators.required, Validators.email]],
+      email: [rowData.mail, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       phone: [rowData.phone, [Validators.required, Validators.maxLength(10)]],
       mobile: [rowData.mobile, [Validators.required, Validators.maxLength(10)]],
     });

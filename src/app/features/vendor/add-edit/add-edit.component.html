@@ -5,7 +5,7 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <strong>Add Vendors</strong>
+          <strong>Add Vendor</strong>
         </div>
         <div class="card-body">
           <form [formGroup]="vendorForm" (ngSubmit)="onSubmit()">
@@ -31,6 +31,9 @@
               <input
                 type="text"
                 formControlName="name"
+                pattern="^[A-Za-z][A-Za-z ]+$"
+                minlength="2"
+                maxlength="100"
                 class="form-control"
                 [ngClass]="{
                   'is-invalid': form.name.touched && form.name.errors
@@ -40,7 +43,15 @@
                 *ngIf="form.name.touched && form.name.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="form.name.errors.required">Name is required</div>
+              <div *ngIf="form.name.errors.required">
+                *Name is required
+             </div>
+             <div *ngIf="form.name.errors.pattern">
+               *Please provide Valid Name.
+            </div>
+            <div *ngIf="form.name.errors.minlength">
+             *Minimum characters should be 2.
+          </div>
               </div>
             </div>
             <div class="form-row">
@@ -57,22 +68,28 @@
                     form.description.touched && form.description.errors
                 }"
                 rows="9"
+                minlength="3"
+                maxlength="255"
                 class="form-control"
                 placeholder="Description.."
+                pattern="^[a-zA-Z][a-zA-Z0-9 ]+[ A-Za-z0-9_@()./#&+-]*$"
               ></textarea>
               <div
                 *ngIf="form.description.touched && form.description.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="form.description.errors.required">
-                  Description is required
-                </div>
+              <div *ngIf="form.description.errors.required">
+                *Description is required.
+              </div>
+              <div *ngIf="form.description.errors.pattern">
+                *Please provide valid Description.
+              </div>
               </div>
             </div>
             <div class="form-row">
-              <label class="col-form-label">Email</label>
+              <label class="col-form-label" for="email">Email</label>
               <input
-                type="text"
+                type="email"
                 formControlName="email"
                 class="form-control"
                 [ngClass]="{
@@ -81,11 +98,12 @@
               />
               <div
                 *ngIf="form.email.touched && form.email.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="form.email.errors.required">Email is required</div>
-                <div *ngIf="form.email.errors.email">
-                  Email must be a valid email address
+                class="invalid-feedback">
+                <div *ngIf="form.email.errors.required">
+                  *Email is required.
+                </div>
+                <div *ngIf="form.email.errors.pattern">
+                  *Please provide valid Email address.
                 </div>
               </div>
             </div>
@@ -94,7 +112,10 @@
               <input
                 type="text"
                 formControlName="userName"
+                minlength="6"
+                maxlength="30"
                 class="form-control"
+                pattern="^[a-zA-Z][a-zA-Z0-9 ]+[ A-Za-z0-9_@()./#&+-]*$"
                 [ngClass]="{
                   'is-invalid': form.userName.touched && form.userName.errors
                 }"
@@ -103,12 +124,15 @@
                 *ngIf="form.userName.touched && form.userName.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="form.userName.errors.required">
-                  User Name is required
-                </div>
-                <div *ngIf="form.userName.errors.userName">
-                  User Name must be a valid
-                </div>
+              <div *ngIf="form.userName.errors.required">
+                *User Name is required.
+              </div>
+              <div *ngIf="form.userName.errors.pattern">
+                *Please provide valid Username.
+              </div>
+              <div *ngIf="form.userName.errors.minlength">
+                *Username should be atleast 6 characters long.
+              </div>
               </div>
             </div>
             <div class="form-row" *ngIf="!this.rowData.vendorId">
@@ -116,6 +140,9 @@
               <input
                 type="password"
                 formControlName="password"
+                minlength="8"
+                maxlength="15"
+                pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*?[$@£!%*#?&]).{8,15}$"
                 class="form-control"
                 [ngClass]="{
                   'is-invalid': form.password.touched && form.password.errors
@@ -125,36 +152,45 @@
                 *ngIf="form.password.touched && form.password.errors"
                 class="invalid-feedback"
               >
-                <div *ngIf="form.password.errors.required">
-                  Password is required
-                </div>
-                <div *ngIf="form.password.errors.password">
-                  Password must be a Strong or 8 Charactor.
-                </div>
+              <div *ngIf="form.password.errors.required">
+                *Password is required.
+               </div>
+               <div *ngIf="form.password.errors.minlength">
+                 *Password must be 8 Characters long.
+               </div>
+               <div *ngIf="form.password.errors.pattern">
+                 *Password must contain atleast one Uppercase letter, one number and one special character.
+               </div>
               </div>
             </div>
             <div class="form-row">
               <label class="col-form-label" for="phone">Phone </label>
               <input
-                type="text"
+                type="number"
                 formControlName="phone"
                 class="form-control"
+                pattern="^[0-9 ]*[1-9][0-9 ]*$"
                 [ngClass]="{
                   'is-invalid': form.phone.touched && form.phone.errors
                 }"
               />
               <div
                 *ngIf="form.phone.touched && form.phone.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="form.phone.errors.required">phone is required</div>
+                class="invalid-feedback">
+              <div *ngIf="form.phone.errors.required">
+                *phone is required
+              </div>
+              <div *ngIf="form.phone.errors.pattern">
+                *Please provide valid Phone Number.
+              </div>
               </div>
             </div>
             <div class="form-row">
               <label class="col-form-label" for="mobile">Mobile </label>
               <input
-                type="text"
+                type="number"
                 formControlName="mobile"
+                pattern="([7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"
                 class="form-control"
                 [ngClass]="{
                   'is-invalid': form.mobile.touched && form.mobile.errors
@@ -162,11 +198,13 @@
               />
               <div
                 *ngIf="form.mobile.touched && form.mobile.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="form.mobile.errors.required">
-                  Mobile is required
-                </div>
+                class="invalid-feedback">
+              <div *ngIf="form.mobile.errors.required">
+                *Mobile is required.
+              </div>
+              <div *ngIf="form.mobile.errors.pattern">
+                *Please provide valid Mobile Number.
+              </div>
               </div>
             </div>
             <div class="form-row" style="margin-top: 30px;">
@@ -183,6 +221,12 @@
                 class="btn btn-sm btn-danger"
               >
                 Reset
+              </button>
+              <button
+                type="button"
+                style="width: 120px; height: 35px; margin-left: 600px;"
+                class="btn btn-block btn-primary">
+                Cancel
               </button>
             </div>
           </form>

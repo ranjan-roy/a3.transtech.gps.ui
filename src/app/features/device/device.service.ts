@@ -26,6 +26,10 @@ export class DeviceService {
   addDevice(payload) {
     return this.http.post(`${this.url}/Device`, payload);
   }
+  
+  deleteDevice(user) {
+    return this.http.delete(`${this.url}/Device/${user.deviceId}`);
+  }
   getGroupIdByUser(id): Observable<any> {
     return this.http.get<any>(`${this.url}/Group/GetByUser/${id}`);
   }

@@ -55,9 +55,22 @@ export class UserListComponent implements OnInit {
         sortable: true,
         filter: true,
       },
-      {
+      /* {
         headerName: "Phone",
         field: "phone",
+        sortable: true,
+        filter: true,
+      }, */
+
+      {
+        headerName: "Contact Primary",
+        field: "contactprimary",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Contact Secondary",
+        field: "contactsecondary",
         sortable: true,
         filter: true,
       },
