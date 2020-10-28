@@ -135,10 +135,7 @@
             [showSeconds]="true"
           ></timepicker>
 
-          <div
-            *ngIf="form.startDate.touched && form.startDate.errors"
-            class="invalid-feedback"
-          >
+          <div *ngIf="form.startDate.errors" class="invalid-feedback">
             <div *ngIf="form.startDate.errors.required">
               Start Time is required
             </div>
@@ -155,10 +152,7 @@
             [minuteStep]="true"
             [showSeconds]="true"
           ></timepicker>
-          <div
-            *ngIf="form.endDate.touched && form.endDate.errors"
-            class="invalid-feedback"
-          >
+          <div *ngIf="form.endDate.errors" class="invalid-feedback">
             <div *ngIf="form.endDate.errors.required">End Date is required</div>
             <div *ngIf="form.endDate.errors.endDate">
               End Date must be a valid

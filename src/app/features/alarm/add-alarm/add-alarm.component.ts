@@ -77,6 +77,40 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     } else {
       this.show = false;
     }
+    console.log(e.target.value);
+
+    this.valueField.setValidators(null);
+    this.alarmStatusField.setValidators(null);
+    this.operatorIdField.setValidators(null);
+    this.startDateField.setValidators(null);
+    this.endDateField.setValidators(null);
+
+    switch (e.target.value) {
+      case "1":
+        this.valueField.setValidators(Validators.required);
+        this.operatorIdField.setValidators(Validators.required);
+        break;
+      case "5":
+      case "6":
+        this.valueField.setValidators(null);
+        this.operatorIdField.setValidators(null);
+        this.alarmStatusField.setValidators(Validators.required);
+        break;
+      case "10":
+        this.valueField.setValidators(Validators.required);
+        this.operatorIdField.setValidators(Validators.required);
+        this.startDateField.setValidators(Validators.required);
+        this.endDateField.setValidators(Validators.required);
+        break;
+    }
+    this.updateValidity();
+  }
+  updateValidity() {
+    this.valueField.updateValueAndValidity();
+    this.alarmStatusField.updateValueAndValidity();
+    this.operatorIdField.updateValueAndValidity();
+    this.startDateField.updateValueAndValidity();
+    this.endDateField.updateValueAndValidity();
   }
 
   changeOperatorId(e) {
@@ -95,14 +129,28 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.formGroup = this.formBuilder.group({
       alarmTypeId: [rowData.alarmTypeId, Validators.required],
       alarmText: [rowData.alarmText, Validators.required],
-      value: [rowData.value, Validators.required],
-      operatorId: [rowData.operatorId, Validators.required],
-      alarmStatus: [rowData.alarmStatus, Validators.required],
-      startDate: [rowData.startDate, Validators.required],
-      endDate: [rowData.endDate, Validators.required],
+      value: [rowData.value],
+      operatorId: [rowData.operatorId],
+      alarmStatus: [rowData.alarmStatus],
+      startDate: [rowData.startDate],
+      endDate: [rowData.endDate],
     });
   }
-
+  get valueField() {
+    return this.formGroup.get("value") as FormControl;
+  }
+  get operatorIdField() {
+    return this.formGroup.get("operatorId") as FormControl;
+  }
+  get alarmStatusField() {
+    return this.formGroup.get("alarmStatus") as FormControl;
+  }
+  get startDateField() {
+    return this.formGroup.get("startDate") as FormControl;
+  }
+  get endDateField() {
+    return this.formGroup.get("endDate") as FormControl;
+  }
   get form() {
     return this.formGroup.controls;
   }
