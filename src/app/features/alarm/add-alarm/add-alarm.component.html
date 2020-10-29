@@ -49,7 +49,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" [hidden]="!fieldsState.alarmStatus">
           <label for="alarmStatus" class="col-form-label">Alarm Status</label>
           <select
             formControlName="alarmStatus"
@@ -79,7 +79,7 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="col-md-6">
+        <div class="col-md-6" [hidden]="!fieldsState.value">
           <label for="value" class="col-form-label">Value</label>
           <input
             type="number"
@@ -96,7 +96,7 @@
             <div *ngIf="form.value.errors.required">Value is required</div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" [hidden]="!fieldsState.operatorId">
           <label for="operatorId" class="col-form-label">Operator</label>
           <select
             formControlName="operatorId"
@@ -126,7 +126,7 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="col-md-6">
+        <div class="col-md-6" [hidden]="!fieldsState.startDate">
           <label class="col-form-label">Start Time</label>
           <timepicker
             [formControlName]="'startDate'"
@@ -144,7 +144,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" [hidden]="!fieldsState.endDate">
           <label class="col-form-label">End Time</label>
           <timepicker
             [formControlName]="'endDate'"
