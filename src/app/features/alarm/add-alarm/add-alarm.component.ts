@@ -34,17 +34,25 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   submitted = false;
   show = true;
   rowData: any = {
-    deviceAlarmId: null,
-    deviceId: null,
-    alarmTypeId: null,
+    deviceAlarmId: 0,
+    deviceId: 0,
+    alarmTypeId: 0,
     alarmText: "",
-    value: null,
-    operatorId: null,
-    alarmStatus: null,
+    value: 0,
+    operatorId: 0,
+    alarmStatus: 0,
     startDate: new Date(),
     endDate: new Date(),
   };
   activeAlarmType = ["1", "5", "6", "10"];
+  fieldsState = {
+    alarmText: false,
+    value: false,
+    operatorId: false,
+    alarmStatus: false,
+    startDate: false,
+    endDate: false,
+  };
 
   deviceAlarmId: any;
   selectedDeviceId: any;
@@ -85,18 +93,36 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.startDateField.setValidators(null);
     this.endDateField.setValidators(null);
 
+    this.fieldsState.value = false;
+    this.fieldsState.operatorId = false;
+    this.fieldsState.alarmStatus = false;
+    this.fieldsState.alarmText = false;
+    this.fieldsState.startDate = false;
+    this.fieldsState.endDate = false;
+
     switch (e.target.value) {
       case "1":
         this.valueField.setValidators(Validators.required);
         this.operatorIdField.setValidators(Validators.required);
+        this.fieldsState.value = true;
+        this.fieldsState.operatorId = true;
         break;
       case "5":
       case "6":
+        this.fieldsState.value = true;
+        this.fieldsState.operatorId = true;
+        this.fieldsState.alarmStatus = true;
+
         this.valueField.setValidators(null);
         this.operatorIdField.setValidators(null);
         this.alarmStatusField.setValidators(Validators.required);
+
         break;
       case "10":
+        this.fieldsState.value = true;
+        this.fieldsState.operatorId = true;
+        this.fieldsState.startDate = true;
+        this.fieldsState.endDate = true;
         this.valueField.setValidators(Validators.required);
         this.operatorIdField.setValidators(Validators.required);
         this.startDateField.setValidators(Validators.required);
@@ -180,11 +206,11 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       deviceId: this.selectedDevice.deviceId,
       alarmTypeId: formValue.alarmTypeId,
       alarmText: formValue.alarmText,
-      value: formValue.value,
-      operatorId: formValue.operatorId,
-      alarmStatus: formValue.alarmStatus,
-      startDate: formValue.startDate,
-      endDate: formValue.endDate,
+      value: parseInt(formValue.value),
+      operatorId: parseInt(formValue.operatorId),
+      alarmStatus: parseInt(formValue.alarmStatus || 0),
+      startDate: formValue.startDate || new Date(),
+      endDate: formValue.endDate || new Date(),
     };
     this.alarmSvc.postAlarm(alarm).subscribe((newAlarm) => {
       if (newAlarm) {
@@ -201,11 +227,11 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       deviceId: this.selectedDevice.deviceId,
       alarmTypeId: formValue.alarmTypeId,
       alarmText: formValue.alarmText,
-      value: formValue.value,
-      operatorId: formValue.operatorId,
-      alarmStatus: formValue.alarmStatus,
-      startDate: formValue.startDate,
-      endDate: formValue.endDate,
+      value: parseInt(formValue.value),
+      operatorId: parseInt(formValue.operatorId),
+      alarmStatus: parseInt(formValue.alarmStatus || 0),
+      startDate: formValue.startDate || new Date(),
+      endDate: formValue.endDate || new Date(),
     };
     console.log(alarm);
 
