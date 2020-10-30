@@ -32,7 +32,7 @@
               'is-invalid': form.alarmTypeId.touched && form.alarmTypeId.errors
             }"
           >
-            <option value="" disabled>Select a id</option>
+            <option value="" disabled>Select Alarm Type</option>
             <option
               *ngFor="let alarmType of alarmTypeList"
               [value]="alarmType.alarmTypeId"
@@ -107,7 +107,7 @@
               'is-invalid': form.operatorId.touched && form.operatorId.errors
             }"
           >
-            <option value="" disabled>Select a id</option>
+            <option value="" disabled>Select Operator</option>
             <option
               *ngFor="let operator of operatorList"
               [value]="operator.operatorId"

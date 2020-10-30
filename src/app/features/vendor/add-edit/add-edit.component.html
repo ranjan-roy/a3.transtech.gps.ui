@@ -166,10 +166,10 @@
             <div class="form-row">
               <label class="col-form-label" for="phone">Phone </label>
               <input
-                type="number"
+                type="text"
                 formControlName="phone"
                 class="form-control"
-                pattern="^[0-9 ]*[1-9][0-9 ]*$"
+                pattern="([7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"
                 [ngClass]="{
                   'is-invalid': form.phone.touched && form.phone.errors
                 }"
@@ -188,7 +188,7 @@
             <div class="form-row">
               <label class="col-form-label" for="mobile">Mobile </label>
               <input
-                type="number"
+                type="text"
                 formControlName="mobile"
                 pattern="([7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"
                 class="form-control"
