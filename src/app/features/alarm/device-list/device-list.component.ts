@@ -6,6 +6,7 @@ import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 import { AddAlarmComponent } from "../add-alarm/add-alarm.component";
+import { NotificationService } from "../../../core/service/notification.server";
 
 @Component({
   selector: "app-device-list",
@@ -14,6 +15,8 @@ import { AddAlarmComponent } from "../add-alarm/add-alarm.component";
 })
 export class AlarmListComponent implements OnInit {
   @ViewChild("modaltemplate") templateRef: TemplateRef<any>;
+  @ViewChild("confirmTemplate") confirmTemplate: TemplateRef<any>;
+
   modalRef: BsModalRef;
   title = "Alarm";
   pagination = "true";
@@ -52,7 +55,8 @@ export class AlarmListComponent implements OnInit {
     private modalService: BsModalService,
     private deviceSvc: AlarmService,
     private router: Router,
-    private storage: StorageService
+    private storage: StorageService,
+    protected _notificationSvc: NotificationService
   ) {
     const navigation = this.router.getCurrentNavigation();
   }
@@ -134,9 +138,8 @@ export class AlarmListComponent implements OnInit {
       this.openModal(this.templateRef);
     }
     if (e.action === "delete") {
-      this.deviceSvc.deleteAlarm(id).subscribe((res) => {
-        if (res) this.loadData();
-      });
+      this.selectedAlarm = row;
+      this.openConfirmModal(this.confirmTemplate);
     }
   }
   setActionItem() {
@@ -193,5 +196,27 @@ export class AlarmListComponent implements OnInit {
   updateTable(alarm) {
     this.loadData();
     this.hideModal(this.templateRef);
+  }
+  openConfirmModal(template: TemplateRef<any>) {
+    this.modalRef = this.modalService.show(template, { class: "modal-sm" });
+  }
+
+  confirm(): void {
+    this.deviceSvc
+      .deleteAlarm(this.selectedAlarm.deviceAlarmId)
+      .subscribe((res) => {
+        if (res) {
+          this._notificationSvc.success(
+            "Success",
+            "Alarm deleted successfully"
+          );
+          this.loadData();
+          this.modalRef.hide();
+        }
+      });
+  }
+
+  decline(): void {
+    this.modalRef.hide();
   }
 }
