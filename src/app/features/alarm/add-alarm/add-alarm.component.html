@@ -10,7 +10,7 @@
             formControlName="alarmTypeId"
             class="form-control"
             id="AlarmType"
-            (change)="changeAlarmType($event)"
+            (change)="changeAlarmType($event.target.value)"
             [ngClass]="{
               'is-invalid': form.alarmTypeId.touched && form.alarmTypeId.errors
             }"
@@ -33,25 +33,26 @@
           </div>
         </div>
         <div class="col-md-6">
-        <label for="alarmText" class="col-form-label">Alarm Text</label>
-        <input
-          type="text"
-          formControlName="alarmText"
-          class="form-control"
-          [ngClass]="{
-            'is-invalid': form.alarmText.touched && form.alarmText.errors
-          }"
-        />
-        <div
-          *ngIf="form.alarmText.touched && form.alarmText.errors"
-          class="invalid-feedback"
-        >
-          <div *ngIf="form.alarmText.errors.required">Alarm text is required</div>
+          <label for="alarmText" class="col-form-label">Alarm Text</label>
+          <input
+            type="text"
+            formControlName="alarmText"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': form.alarmText.touched && form.alarmText.errors
+            }"
+          />
+          <div
+            *ngIf="form.alarmText.touched && form.alarmText.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="form.alarmText.errors.required">
+              Alarm text is required
+            </div>
+          </div>
         </div>
       </div>
-      </div>
       <div class="form-row">
-        
         <div class="col-md-6" [hidden]="!fieldsState.alarmStatus">
           <label for="alarmStatus" class="col-form-label">Alarm Status</label>
           <select

@@ -44,7 +44,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     startDate: new Date(),
     endDate: new Date(),
   };
-  activeAlarmType = ["1", "5", "6", "10"];
+  activeAlarmType = [1, 5, 6, 10];
   fieldsState = {
     alarmText: false,
     value: false,
@@ -76,8 +76,10 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   }
 
   changeAlarmType(e) {
-    let val = e.target.value;
-    this.formGroup.get("alarmTypeId").setValue(parseInt(val), {
+    let val = parseInt(e);
+    console.log(e);
+
+    this.formGroup.get("alarmTypeId").setValue(val, {
       onlySelf: true,
     });
     if (this.activeAlarmType.includes(val)) {
@@ -99,20 +101,20 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.fieldsState.startDate = false;
     this.fieldsState.endDate = false;
 
-    switch (e.target.value) {
-      case "1":
+    switch (e) {
+      case 1:
         this.valueField.setValidators(Validators.required);
         this.operatorIdField.setValidators(Validators.required);
         this.fieldsState.value = true;
         this.fieldsState.operatorId = true;
         break;
-      case "5":
-      case "6":
+      case 5:
+      case 6:
         this.fieldsState.alarmStatus = true;
         this.alarmStatusField.setValidators(Validators.required);
 
         break;
-      case "10":
+      case 10:
         this.fieldsState.operatorId = true;
         this.fieldsState.startDate = true;
         this.fieldsState.endDate = true;
@@ -153,6 +155,11 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       startDate: [rowData.startDate],
       endDate: [rowData.endDate],
     });
+    console.log(rowData);
+
+    if (rowData.alarmTypeId) {
+      this.changeAlarmType(rowData.alarmTypeId);
+    }
   }
   get valueField() {
     return this.formGroup.get("value") as FormControl;
