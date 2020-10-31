@@ -85,7 +85,6 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     } else {
       this.show = false;
     }
-    console.log(e.target.value);
 
     this.valueField.setValidators(null);
     this.alarmStatusField.setValidators(null);
@@ -109,21 +108,14 @@ export class AddAlarmComponent implements OnInit, OnChanges {
         break;
       case "5":
       case "6":
-        this.fieldsState.value = true;
-        this.fieldsState.operatorId = true;
         this.fieldsState.alarmStatus = true;
-
-        this.valueField.setValidators(null);
-        this.operatorIdField.setValidators(null);
         this.alarmStatusField.setValidators(Validators.required);
 
         break;
       case "10":
-        this.fieldsState.value = true;
         this.fieldsState.operatorId = true;
         this.fieldsState.startDate = true;
         this.fieldsState.endDate = true;
-        this.valueField.setValidators(Validators.required);
         this.operatorIdField.setValidators(Validators.required);
         this.startDateField.setValidators(Validators.required);
         this.endDateField.setValidators(Validators.required);
@@ -233,7 +225,6 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       startDate: formValue.startDate || new Date(),
       endDate: formValue.endDate || new Date(),
     };
-    console.log(alarm);
 
     this.alarmSvc.putAlarm(alarm.deviceAlarmId, alarm).subscribe((res) => {
       this._notificationSvc.success("Success", "Alarm updated successfully");

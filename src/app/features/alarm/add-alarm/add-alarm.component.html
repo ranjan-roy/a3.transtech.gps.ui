@@ -4,23 +4,6 @@
   <div *ngIf="formGroup">
     <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
       <div class="form-row">
-        <label for="alarmText" class="col-form-label">Alarm</label>
-        <input
-          type="text"
-          formControlName="alarmText"
-          class="form-control"
-          [ngClass]="{
-            'is-invalid': form.alarmText.touched && form.alarmText.errors
-          }"
-        />
-        <div
-          *ngIf="form.alarmText.touched && form.alarmText.errors"
-          class="invalid-feedback"
-        >
-          <div *ngIf="form.alarmText.errors.required">Alarm is required</div>
-        </div>
-      </div>
-      <div class="form-row">
         <div class="col-md-6">
           <label for="AlarmType" class="col-form-label">Alarm Type</label>
           <select
@@ -45,10 +28,30 @@
             class="invalid-feedback"
           >
             <div *ngIf="form.alarmTypeId.errors.required">
-              Alarm id is required
+              Alarm type is required
             </div>
           </div>
         </div>
+        <div class="col-md-6">
+        <label for="alarmText" class="col-form-label">Alarm Text</label>
+        <input
+          type="text"
+          formControlName="alarmText"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid': form.alarmText.touched && form.alarmText.errors
+          }"
+        />
+        <div
+          *ngIf="form.alarmText.touched && form.alarmText.errors"
+          class="invalid-feedback"
+        >
+          <div *ngIf="form.alarmText.errors.required">Alarm text is required</div>
+        </div>
+      </div>
+      </div>
+      <div class="form-row">
+        
         <div class="col-md-6" [hidden]="!fieldsState.alarmStatus">
           <label for="alarmStatus" class="col-form-label">Alarm Status</label>
           <select
@@ -60,7 +63,7 @@
               'is-invalid': form.alarmStatus.touched && form.alarmStatus.errors
             }"
           >
-            <option value="" disabled>Select a Status</option>
+            <option value="" disabled>Alarm Status</option>
             <option
               *ngFor="let status of alarmStatusList"
               [value]="status.statusId"
@@ -79,23 +82,6 @@
         </div>
       </div>
       <div class="form-row">
-        <div class="col-md-6" [hidden]="!fieldsState.value">
-          <label for="value" class="col-form-label">Value</label>
-          <input
-            type="number"
-            formControlName="value"
-            class="form-control"
-            [ngClass]="{
-              'is-invalid': form.value.touched && form.value.errors
-            }"
-          />
-          <div
-            *ngIf="form.value.touched && form.value.errors"
-            class="invalid-feedback"
-          >
-            <div *ngIf="form.value.errors.required">Value is required</div>
-          </div>
-        </div>
         <div class="col-md-6" [hidden]="!fieldsState.operatorId">
           <label for="operatorId" class="col-form-label">Operator</label>
           <select
@@ -116,12 +102,29 @@
             </option>
           </select>
           <div
-            *ngIf="form.alarmTypeId.touched && form.alarmTypeId.errors"
+            *ngIf="form.operatorId.touched && form.operatorId.errors"
             class="invalid-feedback"
           >
-            <div *ngIf="form.alarmTypeId.errors.required">
-              Alarm id is required
+            <div *ngIf="form.operatorId.errors.required">
+              Operator is required
             </div>
+          </div>
+        </div>
+        <div class="col-md-6" [hidden]="!fieldsState.value">
+          <label for="value" class="col-form-label">Value</label>
+          <input
+            type="number"
+            formControlName="value"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': form.value.touched && form.value.errors
+            }"
+          />
+          <div
+            *ngIf="form.value.touched && form.value.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="form.value.errors.required">Value is required</div>
           </div>
         </div>
       </div>
@@ -153,9 +156,9 @@
             [showSeconds]="true"
           ></timepicker>
           <div *ngIf="form.endDate.errors" class="invalid-feedback">
-            <div *ngIf="form.endDate.errors.required">End Date is required</div>
+            <div *ngIf="form.endDate.errors.required">End Time is required</div>
             <div *ngIf="form.endDate.errors.endDate">
-              End Date must be a valid
+              End Time must be a valid
             </div>
           </div>
         </div>
