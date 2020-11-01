@@ -229,7 +229,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
 
   addDeviceAlarm(formValue) {
     const alarm = {
-      geofenceId: formValue.geofenceId,
+      geofenceId: formValue.geofenceId || 0,
       deviceAlarmId: this.selectedAlarm.deviceAlarmId || 0,
       deviceId: this.selectedDevice.deviceId,
       alarmTypeId: formValue.alarmTypeId,
@@ -254,7 +254,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       deviceAlarmId: this.selectedAlarm.deviceAlarmId || 0,
       deviceId: this.selectedDevice.deviceId,
       alarmTypeId: formValue.alarmTypeId,
-      geofenceId: formValue.geofenceId,
+      geofenceId: formValue.geofenceId || 0,
       alarmText: formValue.alarmText,
       value: parseInt(formValue.value),
       operatorId: parseInt(formValue.operatorId),
