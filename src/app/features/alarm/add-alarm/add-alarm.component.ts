@@ -40,6 +40,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     alarmTypeId: 0,
     alarmText: "",
     value: 0,
+    tolerance: 0,
     operatorId: 0,
     alarmStatus: 0,
     geofenceId: 0,
@@ -54,7 +55,8 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     alarmStatus: false,
     startDate: false,
     endDate: false,
-    geofenceId: false
+    geofenceId: false,
+    tolerance: false
   };
 
   deviceAlarmId: any;
@@ -70,8 +72,8 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   ) { }
 
   get alarmStatusListCalculated() {
-    if(this.formGroup.value.alarmTypeId && this.alarmTypeList.find(x=> x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier){
-      return this.alarmStatusList.filter(x=> x.alarmGroupIdentifier == this.alarmTypeList.find(x=> x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier);
+    if (this.formGroup.value.alarmTypeId && this.alarmTypeList.find(x => x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier) {
+      return this.alarmStatusList.filter(x => x.alarmGroupIdentifier == this.alarmTypeList.find(x => x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier);
     }
   }
 
@@ -104,6 +106,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.startDateField.setValidators(null);
     this.endDateField.setValidators(null);
     this.geofenceIdField.setValidators(null);
+    this.toleranceField.setValidators(null);
 
     this.fieldsState.value = false;
     this.fieldsState.operatorId = false;
@@ -112,13 +115,16 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.fieldsState.alarmText = false;
     this.fieldsState.startDate = false;
     this.fieldsState.endDate = false;
+    this.fieldsState.tolerance = false;
 
     switch (val) {
       case 1:
         this.valueField.setValidators(Validators.required);
         this.operatorIdField.setValidators(Validators.required);
+        this.toleranceField.setValidators(Validators.required);
         this.fieldsState.value = true;
         this.fieldsState.operatorId = true;
+        this.fieldsState.tolerance = true;
         break;
       case 5:
       case 6:
@@ -150,6 +156,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.startDateField.updateValueAndValidity();
     this.endDateField.updateValueAndValidity();
     this.geofenceIdField.updateValueAndValidity();
+    this.toleranceField.updateValueAndValidity();
   }
 
   changeOperatorId(e) {
@@ -178,7 +185,8 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       alarmStatus: [rowData.alarmStatus],
       startDate: [rowData.startDate],
       endDate: [rowData.endDate],
-      geofenceId: [rowData.geofenceId]
+      geofenceId: [rowData.geofenceId],
+      tolerance: [rowData.tolerance]
     });
 
     if (rowData.alarmTypeId) {
@@ -206,6 +214,9 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   }
   get geofenceIdField() {
     return this.formGroup.get("geofenceId") as FormControl;
+  }
+  get toleranceField() {
+    return this.formGroup.get("tolerance") as FormControl;
   }
 
   onReset() {
@@ -235,6 +246,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       alarmTypeId: formValue.alarmTypeId,
       alarmText: formValue.alarmText,
       value: parseInt(formValue.value),
+      tolerance: parseInt(formValue.tolerance),
       operatorId: parseInt(formValue.operatorId),
       alarmStatus: parseInt(formValue.alarmStatus || 0),
       startDate: formValue.startDate || new Date(),
@@ -257,6 +269,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       geofenceId: formValue.geofenceId || 0,
       alarmText: formValue.alarmText,
       value: parseInt(formValue.value),
+      tolerance: parseInt(formValue.tolerance),
       operatorId: parseInt(formValue.operatorId),
       alarmStatus: parseInt(formValue.alarmStatus || 0),
       startDate: formValue.startDate || new Date(),
