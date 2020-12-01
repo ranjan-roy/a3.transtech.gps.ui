@@ -31,6 +31,7 @@ export class AddfencingComponent implements OnInit {
   selectedShape: any;
   selectedArea = 0;
   zoom;
+  currentMap: google.maps.Map;
   private geoCoder;
   address: any = {};
   placeSearch: any;
@@ -50,8 +51,8 @@ export class AddfencingComponent implements OnInit {
   rowData: any = {
     address: "",
     geofenceId: 0,
-    vendorId:0,
-    userId:0,
+    vendorId: 0,
+    userId: 0,
     name: "",
     description: "",
     city: "",
@@ -65,10 +66,13 @@ export class AddfencingComponent implements OnInit {
     },
     srid: "",
     elevation: 0,
+    mapParam: ""
   };
   addressText: string;
   vendorList: any;
   userList: any;
+  mapParam: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private ngZone: NgZone,
@@ -83,6 +87,15 @@ export class AddfencingComponent implements OnInit {
     if (navigation.extras.state) {
       this.rowData = navigation.extras.state;
     }
+
+    this.mapParam = this.rowData.mapParam.split("/").map(x => {
+      const arr = x.split(":");
+      let ret = {};
+      ret["name"] = arr[0];
+      ret["value"] = arr[1];
+      return ret;
+    });
+    this.pointList = this.rowData.polygon.coordinates.map(x => ({ lat: x.latitude, lng: x.longitude }));
     this.createForm(this.rowData);
   }
   get form() {
@@ -98,7 +111,7 @@ export class AddfencingComponent implements OnInit {
     this.a3FormGroup.get('vendorId').setValue(parseInt(e.target.value), {
       onlySelf: true
     });
-  
+
     this.userSvc.getUsersByVendorId(this.a3FormGroup.value.vendorId).subscribe((res) => {
       this.userList = res;
     });
@@ -115,7 +128,7 @@ export class AddfencingComponent implements OnInit {
     this.enableSearch(map);
   }
 
-  initDrawingManager = (map: any) => {
+  initDrawingManager = (map: google.maps.Map) => {
     const self = this;
     let polygonCoords;
 
@@ -133,11 +146,13 @@ export class AddfencingComponent implements OnInit {
         fillOpacity: 0.35,
       });
       map.panTo(polygonCoords[0]);
-      map.setZoom(8);
+      map.setZoom(parseInt(this.mapParam.find(x => x.name == "zoom").value));
+      map.setCenter(new google.maps.LatLng(this.mapParam.find(x => x.name == "lat").value, this.mapParam.find(x => x.name == "lng").value))
       myPolygon.setMap(map);
 
-      document.getElementById("deleteEdit").onclick = function () {
+      document.getElementById("deleteEdit").onclick =  ()=> {
         myPolygon.setMap(null);
+        this.pointList=[];
       };
     }
     const options = {
@@ -158,6 +173,7 @@ export class AddfencingComponent implements OnInit {
       this.drawingManager,
       "overlaycomplete",
       (event) => {
+        this.currentMap = map;
         if (event.type === google.maps.drawing.OverlayType.POLYGON) {
           const paths = event.overlay.getPaths();
           for (let p = 0; p < paths.getLength(); p++) {
@@ -328,6 +344,8 @@ export class AddfencingComponent implements OnInit {
       address: this.addressText,
       alias: "string",
       geofenceTypeId: 1,
+      //mapParam: `{"lat":${this.currentMap.getCenter().lat()}, "lng":${this.currentMap.getCenter().lng()}, "zoom":${this.currentMap.getZoom()}}`
+      mapParam: `lat:${this.currentMap.getCenter().lat()}/lng:${this.currentMap.getCenter().lng()}/zoom:${this.currentMap.getZoom()}`
     };
 
     if (this.selectedShape) {
@@ -376,12 +394,18 @@ export class AddfencingComponent implements OnInit {
   createForm(rowData) {
     this.a3FormGroup = this.formBuilder.group({
       name: [rowData.name, [Validators.required]],
-      vendorId:[rowData.vendorId, [Validators.required]],
-      userId:[rowData.userId, [Validators.required]],
+      vendorId: [rowData.vendorId, [Validators.required]],
+      userId: [rowData.userId, [Validators.required]],
       description: [rowData.description],
       city: [rowData.city],
       state: [rowData.state],
       country: [rowData.country],
     });
+
+    if (this.a3FormGroup.value.vendorId) {
+      this.userSvc.getUsersByVendorId(this.a3FormGroup.value.vendorId).subscribe((res) => {
+        this.userList = res;
+      });
+    }
   }
 }
