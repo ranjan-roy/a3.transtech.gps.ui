@@ -5,6 +5,7 @@
         deviceinfo.vehicleType.vehicleTypeId
       }}.svg"
       alt="..."
+      height="180px"
     />
   </div>
   <div class="col-md-8">
@@ -17,15 +18,30 @@
       <small class="text-muted">{{ deviceinfo.dateTime }}</small>
       <div class="row">
         <div class="col-sm">
-          <p class="card-text">Speed</p>
+          <p class="card-text">
+            <span class="pr-2"
+              ><img
+                src="../../../assets/img/icon/tachometer-alt-solid.svg"
+                height="16px"
+                width="16px"
+            /></span>
+            {{ deviceinfo.speed }}km/hr
+          </p>
         </div>
         <div class="col-sm">
-          <p class="card-text"><i class="fa fa-power-off"></i>Ign</p>
+          <p class="card-text">
+            <span *ngIf="deviceinfo.ignition == true"
+              ><i class="fa fa-power-off text-success pr-2"></i>ON</span
+            >
+            <span *ngIf="deviceinfo.ignition == false"
+              ><i class="fa fa-power-off text-danger pr-2"></i>OFF</span
+            >
+          </p>
         </div>
       </div>
       <div class="row">
         <div class="col-sm">
-          <p class="card-text">{{ deviceinfo.speed }}/km</p>
+          <p class="card-text"></p>
         </div>
       </div>
     </div>

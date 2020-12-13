@@ -9,6 +9,9 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { SharedModule } from '../../shared/shared.module';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
+import { AgmCoreModule } from "@agm/core";
+import { environment } from '../../../environments/environment';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 @NgModule({
   imports: [
@@ -19,6 +22,9 @@ import { CommonModule } from '@angular/common';
     BsDropdownModule,
     ButtonsModule.forRoot(),
     SharedModule,
+    GoogleMapsModule,
+    
+    
     
     
 
