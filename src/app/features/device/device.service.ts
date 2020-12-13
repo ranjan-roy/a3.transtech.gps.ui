@@ -40,5 +40,7 @@ export class DeviceService {
   updateDevice(payload) {
     return this.http.put(`${this.url}/Device/${payload.deviceId}`, payload);
   }
-  
+  getDevicePosition(): Observable<any> {
+    return this.http.get<any>(`${this.url}/Device/GetDevicePosition`);
+  }
 }

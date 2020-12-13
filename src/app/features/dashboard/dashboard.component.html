@@ -103,29 +103,23 @@
           <!-- Widget End -->
           <div class="row">
             <div class="col-lg-8">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="/assets/img/vehicleType/6.svg" alt="..." />
+              <div>
+                <div class="input-group mb-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    aria-label="Text input with dropdown button"
+                  />
+                  <select class="form-select">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                  </select>
                 </div>
-                <div class="col-md-8">
-                  <div class="card-body">
-                    <h5 class="card-title">Maruti Suzuki</h5>
-                    <p class="card-text">
-                      <i class="fa fa-info-circle ms-1"></i>Info
-                    </p>
-                    <p class="card-text">
-                      <i class="fa fa-battery-full bg-success ms-1"></i>PWR
-                    </p>
-                    <p class="card-text">
-                      <i class="fa fa-power-off"></i>
-                    </p>
-                    <p class="card-text">
-                      <small class="text-muted"
-                        >Last updated 21-09-2020 18:34:26</small
-                      >
-                    </p>
-                  </div>
-                </div>
+              </div>
+              <div class="card" *ngFor="let device of deviceList">
+                <app-vehicle-info [deviceinfo]="device"> </app-vehicle-info>
               </div>
             </div>
             <div class="col-lg-4">Map coming soon</div>
