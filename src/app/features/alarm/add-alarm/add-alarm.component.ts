@@ -47,7 +47,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     startDate: new Date(),
     endDate: new Date(),
   };
-  activeAlarmType = [1, 5, 6, 10, 4];
+  activeAlarmType = [1, 5, 6, 8, 10, 11, 4];
   fieldsState = {
     alarmText: false,
     value: false,
