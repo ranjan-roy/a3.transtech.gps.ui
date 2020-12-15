@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-vehicle-info',
@@ -7,9 +8,14 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class VehicleInfoComponent implements OnInit {
   @Input() deviceinfo
+  
+  @Output() showMap=new EventEmitter()
   constructor() { }
 
   ngOnInit(): void {
   }
+  viewMap(){
+    this.showMap.emit(this.deviceinfo)
+   }
 
 }

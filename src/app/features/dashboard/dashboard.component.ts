@@ -29,9 +29,9 @@ export class DashboardComponent implements OnInit {
     lat: 0,
     lng: 0,
   }
-  zoom: number = 30;
+  zoom: number = 20;
   markers: Marker[] = [];
-
+  viewMap:boolean=false
   constructor(
     private deviceSvc: DeviceService,
     private storage: StorageService,
@@ -52,8 +52,7 @@ export class DashboardComponent implements OnInit {
     });
   }
   setDeviceSummary() {
-    this.deviceSummary.lat = this.deviceList[0].latitude
-    this.deviceSummary.lng = this.deviceList[0].longitude
+    
     this.deviceSummary.total = this.deviceList.length
     this.deviceList.map((value: any, index: number) => {
       if (value.ignition == true) {
@@ -62,16 +61,22 @@ export class DashboardComponent implements OnInit {
       else {
         this.deviceSummary.idle = this.deviceSummary.idle + 1
       }
-      this.markers.push({
-        lat: value.latitude,
-        lng: value.longitude,
-        label: 'S',
-        draggable: false,
-        title: value.name,
-        www: ''
-      })
+     
     })
   }
-
+  onShowMap(value){
+    this.deviceSummary.lat = value.latitude
+    this.deviceSummary.lng = value.longitude
+    this.viewMap=true
+    this.markers=[{
+      lat: value.latitude,
+      lng: value.longitude,
+      label: 'S',
+      draggable: false,
+      title: value.name,
+      www: ''
+    }]
+}
+  
 
 }
