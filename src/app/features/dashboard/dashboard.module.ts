@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { AgmCoreModule } from "@agm/core";
 import { environment } from '../../../environments/environment';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { DashboardFilterComponent } from './dashboard-filter/dashboard-filter.component';
+import { DashboardWidgetsComponent } from './dashboard-widgets/dashboard-widgets.component';
 
 @NgModule({
   imports: [
@@ -23,12 +25,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
     ButtonsModule.forRoot(),
     SharedModule,
     GoogleMapsModule,
-    
-    
-    
-    
-
   ],
-  declarations: [ DashboardComponent ]
+  declarations: [DashboardComponent, DashboardFilterComponent, DashboardWidgetsComponent]
 })
 export class DashboardModule { }

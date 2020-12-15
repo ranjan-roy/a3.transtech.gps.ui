@@ -1,0 +1,29 @@
+<div>
+    <div class="input-group mb-3">
+        <input name="searchText" [(ngModel)]="searchText" type="text" class="form-control"
+            aria-label="Text input with dropdown button" placeholder="Search ..." />
+        <div class="btn-group" dropdown>
+            <button dropdownToggle type="button"
+                class="btn  btn-outline-secondary rounded-0 border-left-0 dropdown-toggle">
+                {{filterBy}} <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem"><a class="dropdown-item" (click)="setFilterBy('name')">Name</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="setFilterBy('geoLocation')">Address</a></li>
+            </ul>
+        </div>
+        <div class="btn-group" dropdown>
+            <button dropdownToggle type="button"
+                class="btn btn-outline-secondary rounded-0 border-left-0  dropdown-toggle">
+                {{ignitionState}} <span class="caret"></span>
+            </button>
+            <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem"><a class="dropdown-item" (click)="setIgnitionState(true)">ON</a></li>
+                <li role="menuitem"><a class="dropdown-item" (click)="setIgnitionState(false)">OFF</a></li>
+            </ul>
+        </div>
+        <div class="input-group-append">
+            <button class="btn btn-outline-secondary btn-dark" type="button" id="button-addon2">Go</button>
+        </div>
+    </div>
+</div>
