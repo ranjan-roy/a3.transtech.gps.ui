@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DeviceService } from ".././device/device.service";
-import { Router } from "@angular/router";
 import { StorageService } from "../../core/service/storage.service";
-import { GeofencingService } from '../geofencing/geofencing.service';
 
 interface Marker {
   lat: number;
@@ -19,6 +17,7 @@ interface Marker {
 export class DashboardComponent implements OnInit {
 
   public deviceList = [];
+  public rows = [];
   public deviceSummary = {
     running: 0,
     idle: 0,
@@ -31,7 +30,7 @@ export class DashboardComponent implements OnInit {
   }
   zoom: number = 20;
   markers: Marker[] = [];
-  viewMap:boolean=false
+  viewMap: boolean = false
   constructor(
     private deviceSvc: DeviceService,
     private storage: StorageService,
@@ -48,11 +47,11 @@ export class DashboardComponent implements OnInit {
     this.deviceSvc.getDevicePosition().subscribe((res) => {
       console.log(res);
       this.deviceList = res;
+      this.rows = res;
       this.setDeviceSummary();
     });
   }
   setDeviceSummary() {
-    
     this.deviceSummary.total = this.deviceList.length
     this.deviceList.map((value: any, index: number) => {
       if (value.ignition == true) {
@@ -61,14 +60,14 @@ export class DashboardComponent implements OnInit {
       else {
         this.deviceSummary.idle = this.deviceSummary.idle + 1
       }
-     
     })
   }
-  onShowMap(value){
+
+  onShowMap(value) {
     this.deviceSummary.lat = value.latitude
     this.deviceSummary.lng = value.longitude
-    this.viewMap=true
-    this.markers=[{
+    this.viewMap = true
+    this.markers = [{
       lat: value.latitude,
       lng: value.longitude,
       label: 'S',
@@ -76,9 +75,31 @@ export class DashboardComponent implements OnInit {
       title: value.name,
       www: ''
     }]
-}
-onSetDeviceFilter(filterQuery){
-  
-}
+  }
+
+  checkRule(filterQuery, item) {
+    let isMatch = false;
+    if (filterQuery.name) {
+      isMatch = item.name.toLowerCase().includes(filterQuery.name);
+    }
+    if (filterQuery.geoLocation) {
+      isMatch = item.geoLocation.toLowerCase().includes(filterQuery.geoLocation);
+    }
+    if (filterQuery.ignition !== null) {
+      isMatch = item.ignition == filterQuery.ignition
+    }
+    return isMatch;
+  }
+
+  onSetDeviceFilter(filterQuery) {
+    console.log(filterQuery);
+    const filteredRows = [];
+    this.deviceList.forEach(item => {
+      if (this.checkRule(filterQuery, item)) {
+        filteredRows.push(item)
+      }
+    });
+    this.rows = filteredRows;
+  }
 
 }
