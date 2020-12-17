@@ -77,6 +77,8 @@ export class DashboardComponent implements OnInit {
       www: ''
     }]
 }
+onSetDeviceFilter(filterQuery){
   
+}
 
 }

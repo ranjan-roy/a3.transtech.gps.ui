@@ -17,6 +17,7 @@
             <div [ngClass]="{ 'col-lg-8': viewMap, 'col-lg-12': !viewMap }">
               <app-dashboard-filter
                 [deviceList]="deviceList"
+                (setDeviceFilter)="onSetDeviceFilter($event)"
               ></app-dashboard-filter>
               <div class="border-bottom" *ngFor="let device of deviceList">
                 <app-vehicle-info
