@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DeviceService } from ".././device/device.service";
 import { StorageService } from "../../core/service/storage.service";
+import { mockDeviceList } from './dashboard.constant';
 
 interface Marker {
   lat: number;
@@ -78,21 +79,25 @@ export class DashboardComponent implements OnInit {
   }
 
   checkRule(filterQuery, item) {
-    let isMatch = false;
+    let match = {
+      name: true,
+      location: true,
+      ignition: true
+    }
     if (filterQuery.name) {
-      isMatch = item.name.toLowerCase().includes(filterQuery.name);
+      match.name = item.name.toLowerCase().includes(filterQuery.name);
     }
     if (filterQuery.geoLocation) {
-      isMatch = item.geoLocation.toLowerCase().includes(filterQuery.geoLocation);
+      match.location = item.geoLocation.toLowerCase().includes(filterQuery.geoLocation);
     }
+
     if (filterQuery.ignition !== null) {
-      isMatch = item.ignition == filterQuery.ignition
+      match.ignition = item.ignition == filterQuery.ignition;
     }
-    return isMatch;
+    return (match.name || match.location) && match.ignition;
   }
 
   onSetDeviceFilter(filterQuery) {
-    console.log(filterQuery);
     const filteredRows = [];
     this.deviceList.forEach(item => {
       if (this.checkRule(filterQuery, item)) {

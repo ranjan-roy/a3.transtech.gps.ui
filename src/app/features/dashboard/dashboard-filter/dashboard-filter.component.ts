@@ -54,16 +54,16 @@ export class DashboardFilterComponent implements OnInit {
   setFilterBy(state) {
     if (state == "name") {
       this.filterBy = "Filter By Name";
-      this.filterQuery.name = this.searchText;
+      this.filterQuery.name = this.searchText.toLowerCase()
       this.filterQuery.geoLocation = '';
     } else if (state == "geoLocation") {
       this.filterBy = "Filter By Address"
       this.filterQuery.name = '';
-      this.filterQuery.geoLocation = this.searchText;
+      this.filterQuery.geoLocation = this.searchText.toLowerCase()
     } else {
       this.filterBy = "Filter By All"
       this.filterQuery.name = this.searchText;
-      this.filterQuery.geoLocation = this.searchText;
+      this.filterQuery.geoLocation = this.searchText.toLowerCase()
     }
     this.setDeviceFilter.emit(this.filterQuery)
   }
