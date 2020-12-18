@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-6 col-lg-4">
+        <div class="card">
+            <div class="card-body p-0 clearfix">
+                <i class="fa fa-car bg-success p-4 font-2xl mr-1 px-1 float-left"></i>
+                <div class="h5 mb-0 pt-3">
+                    {{ deviceSummary.running }}
+                </div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs">
+                    Running
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-4">
+        <div class="card">
+            <div class="card-body p-0 clearfix">
+                <i class="fa fa-car bg-light p-4 font-2xl mr-1 px-1 float-left"></i>
+                <div class="h5 mb-0 pt-3">
+                    {{ deviceSummary.idle }}
+                </div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs">
+                    Idle
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-4">
+        <div class="card">
+            <div class="card-body p-0 clearfix">
+                <i class="fa fa-car bg-primary p-4 font-2xl mr-1 px-1 float-left"></i>
+                <div class="h5 mb-0 pt-3">
+                    {{ deviceSummary.total }}
+                </div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs">
+                    Total Vehicle
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
