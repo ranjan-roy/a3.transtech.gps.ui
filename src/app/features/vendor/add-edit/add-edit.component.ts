@@ -37,7 +37,6 @@ export class AddEditComponent implements OnInit {
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-      console.log(navigation.extras.state);
 
       this.rowData = navigation.extras.state;
     }

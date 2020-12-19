@@ -43,7 +43,6 @@ export class AddDeviceComponent implements OnInit {
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-      console.log(navigation.extras.state);
 
       this.rowData = navigation.extras.state;
     }
@@ -71,7 +70,6 @@ export class AddDeviceComponent implements OnInit {
     });
   
     this.userSvc.getUsersByVendorId(this.formGroup.value.vendorId).subscribe((res) => {
-      console.log(res)
       this.userList = res;
     });
   }
@@ -86,8 +84,6 @@ export class AddDeviceComponent implements OnInit {
     this.formGroup.get('deviceTypeId').setValue(parseInt(e.target.value), {
       onlySelf: true
     });
-    console.log(e.target.value);
-    console.log(this.formGroup.get('deviceTypeId'));
   }
 
   changeUser(e) {

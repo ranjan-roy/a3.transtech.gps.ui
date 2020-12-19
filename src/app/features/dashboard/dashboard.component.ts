@@ -46,7 +46,6 @@ export class DashboardComponent implements OnInit {
 
   loadData() {
     this.deviceSvc.getDevicePosition().subscribe((res) => {
-      console.log(res);
       this.deviceList = res;
       this.rows = res;
       this.setDeviceSummary();
