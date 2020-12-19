@@ -150,9 +150,9 @@ export class AddfencingComponent implements OnInit {
       map.setCenter(new google.maps.LatLng(this.mapParam.find(x => x.name == "lat").value, this.mapParam.find(x => x.name == "lng").value))
       myPolygon.setMap(map);
 
-      document.getElementById("deleteEdit").onclick =  ()=> {
+      document.getElementById("deleteEdit").onclick = () => {
         myPolygon.setMap(null);
-        this.pointList=[];
+        this.pointList = [];
       };
     }
     const options = {
