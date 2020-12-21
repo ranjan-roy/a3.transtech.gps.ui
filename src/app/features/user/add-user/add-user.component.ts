@@ -67,10 +67,10 @@ export class AddUserComponent implements OnInit {
 
   createForm(rowData) {
     this.userForm = this.formBuilder.group({
-      email: [rowData.mail, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      email: [rowData.email, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
       //phone: [rowData.phone, [Validators.required, Validators.maxLength(10)]],
-      contactprimary: [rowData.contactprimary, Validators.required],
-      contactsecondary: [rowData.contactsecondary],
+      contactPrimary: [rowData.contactPrimary, Validators.required],
+      contactSecondary: [rowData.contactSecondary],
       userName: [rowData.userName, Validators.required],
       password: [rowData.password, Validators.required],
       vendorId: this.rowData?.userId ? [{value: rowData.vendorId?.toString(), disabled: true}, Validators.required]: [rowData.vendorId?.toString(), Validators.required],
@@ -111,8 +111,8 @@ export class AddUserComponent implements OnInit {
         password: formValue.password,
         email: formValue.email,
         //phone: formValue.phone,
-        contactprimary: formValue.contactprimary,
-        contactsecondary:formValue.contactsecondary,
+        contactPrimary: formValue.contactPrimary.toString(),
+        contactSecondary:formValue.contactSecondary.toString(),
         userId: 0,
       })
       .subscribe((user) => {
@@ -132,8 +132,8 @@ export class AddUserComponent implements OnInit {
       password: formValue.password,
       email: formValue.email,
       //phone: formValue.phone,
-      contactprimary: formValue.contactprimary,
-      contactsecondary:formValue.contactsecondary,
+      contactPrimary: formValue.contactPrimary.toString(),
+      contactSecondary:formValue.contactSecondary.toString(),
     };
     this.userSvc.updateUser(user).subscribe((res) => {
       this._notificationSvc.success("Success", "User updated successfully");

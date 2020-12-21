@@ -61,7 +61,10 @@ export class AddDeviceComponent implements OnInit {
     this.deviceSvc.getAllDeviceType().subscribe((res) => {
       this.deviceTypeList = res;
     });
-    
+
+    this.userSvc.getUsersByVendorId(this.rowData.vendorId).subscribe((res) => {
+      this.userList = res;
+    });
   }
 
   changeVendor(e) {
