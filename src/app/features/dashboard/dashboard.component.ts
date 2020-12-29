@@ -20,10 +20,11 @@ export class DashboardComponent implements OnInit {
   public deviceList = [];
   public rows = [];
   public deviceSummary = {
+    online: 0,
     running: 0,
     idle: 0,
     stopped: 0,
-    nodata: 0,
+    ignition: 0,
     inactive: 0,
     total: 0,
     lat: 0,
@@ -54,11 +55,20 @@ export class DashboardComponent implements OnInit {
   setDeviceSummary() {
     this.deviceSummary.total = this.deviceList.length
     this.deviceList.map((value: any, index: number) => {
-      if (value.ignition == true) {
+      if (value.online == true) {
+        this.deviceSummary.online = this.deviceSummary.online + 1
+      } else {
+        this.deviceSummary.inactive = this.deviceSummary.inactive + 1
+      }
+
+      if (value.stop == true && value.ignition == true) {
+        this.deviceSummary.stopped = this.deviceSummary.stopped + 1
+      } else if (value.speed > 0 && value.stop == false) {
         this.deviceSummary.running = this.deviceSummary.running + 1
       }
-      else {
-        this.deviceSummary.idle = this.deviceSummary.idle + 1
+
+      if(value.ignition == true) {
+        this.deviceSummary.ignition = this.deviceSummary.ignition + 1
       }
     })
   }

@@ -1,9 +1,35 @@
 <div class="row">
-    <div class="col-6 col-lg-4">
+    <div class="col-6 col-lg-2">
         <div class="card">
             <div class="card-body p-0 clearfix">
-                <i class="fa fa-car bg-success p-4 font-2xl mr-1 px-1 float-left"></i>
-                <div class="h5 mb-0 pt-3">
+                <i class="fa fa-car bg-primary p-4 font-2xl mr-3 px-1 float-left"></i>
+                <div class="h5 mb-0 pt-3 text-primary">
+                    {{ deviceSummary.online }}
+                </div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs">
+                    Online
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <div class="card">
+            <div class="card-body p-0 clearfix">
+                <i class="fa fa-car bg-warning p-4 font-2xl mr-3 px-1 float-left"></i>
+                <div class="h5 mb-0 pt-3 text-warning">
+                    {{ deviceSummary.inactive }}
+                </div>
+                <div class="text-muted text-uppercase font-weight-bold font-xs">
+                    Inactive
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <div class="card">
+            <div class="card-body p-0 clearfix">
+                <i class="fa fa-car bg-success p-4 font-2xl mr-3 px-1 float-left"></i>
+                <div class="h5 mb-0 pt-3 text-success">
                     {{ deviceSummary.running }}
                 </div>
                 <div class="text-muted text-uppercase font-weight-bold font-xs">
@@ -12,28 +38,41 @@
             </div>
         </div>
     </div>
-    <div class="col-6 col-lg-4">
+    <div class="col-6 col-lg-2">
         <div class="card">
             <div class="card-body p-0 clearfix">
-                <i class="fa fa-car bg-light p-4 font-2xl mr-1 px-1 float-left"></i>
-                <div class="h5 mb-0 pt-3">
-                    {{ deviceSummary.idle }}
+                <i class="fa fa-car bg-info p-4 font-2xl mr-3 float-left"></i>
+                <div class="h5 mb-0 pt-3 text-info">
+                    {{ deviceSummary.ignition }}
                 </div>
                 <div class="text-muted text-uppercase font-weight-bold font-xs">
-                    Idle
+                    Ignition
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-6 col-lg-4">
+    <div class="col-6 col-lg-2">
         <div class="card">
             <div class="card-body p-0 clearfix">
-                <i class="fa fa-car bg-primary p-4 font-2xl mr-1 px-1 float-left"></i>
+                <i class="fa fa-car bg-danger p-4 font-2xl mr-3 px-1 float-left"></i>
+                <div class="h5 mb-0 pt-3 text-danger">
+                    {{ deviceSummary.stopped }}
+                </div>
+                <div class="text-muted text-uppercase  font-weight-bold font-xs">
+                    Stopped
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-lg-2">
+        <div class="card">
+            <div class="card-body p-0 clearfix">
+                <i class="fa fa-car bg-light p-4 font-2xl mr-3 px-1 float-left"></i>
                 <div class="h5 mb-0 pt-3">
                     {{ deviceSummary.total }}
                 </div>
                 <div class="text-muted text-uppercase font-weight-bold font-xs">
-                    Total Vehicle
+                    Total
                 </div>
             </div>
         </div>

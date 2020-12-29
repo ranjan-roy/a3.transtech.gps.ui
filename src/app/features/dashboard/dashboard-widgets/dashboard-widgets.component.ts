@@ -8,10 +8,12 @@ import { DeviceSummary } from '../dashboard.constant';
 })
 export class DashboardWidgetsComponent implements OnInit {
   @Input() deviceSummary: DeviceSummary = {
+    online: 0,
     running: 0,
     idle: 0,
     stopped: 0,
-    nodata: 0,
+    nodata:0,
+    ignition: 0,
     inactive: 0,
     total: 0,
     lat: 0,
