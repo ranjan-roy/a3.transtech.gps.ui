@@ -87,14 +87,8 @@ export class AddfencingComponent implements OnInit {
     if (navigation.extras.state) {
       this.rowData = navigation.extras.state;
     }
-
-    this.mapParam = this.rowData.mapParam.split("/").map(x => {
-      const arr = x.split(":");
-      let ret = {};
-      ret["name"] = arr[0];
-      ret["value"] = arr[1];
-      return ret;
-    });
+  
+    this.mapParam = JSON.parse(this.rowData.mapParam);
     this.pointList = this.rowData.polygon.coordinates.map(x => ({ lat: x.latitude, lng: x.longitude }));
     this.createForm(this.rowData);
   }
@@ -145,9 +139,11 @@ export class AddfencingComponent implements OnInit {
         strokeWeight: 2,
         fillOpacity: 0.35,
       });
+
       map.panTo(polygonCoords[0]);
-      map.setZoom(parseInt(this.mapParam.find(x => x.name == "zoom").value));
-      map.setCenter(new google.maps.LatLng(this.mapParam.find(x => x.name == "lat").value, this.mapParam.find(x => x.name == "lng").value))
+      map.setZoom(this.mapParam.zoom);
+      map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
+     
       myPolygon.setMap(map);
 
       document.getElementById("deleteEdit").onclick = () => {
@@ -344,8 +340,8 @@ export class AddfencingComponent implements OnInit {
       address: this.addressText,
       alias: "string",
       geofenceTypeId: 1,
-      //mapParam: `{"lat":${this.currentMap.getCenter().lat()}, "lng":${this.currentMap.getCenter().lng()}, "zoom":${this.currentMap.getZoom()}}`
-      mapParam: `lat:${this.currentMap.getCenter().lat()}/lng:${this.currentMap.getCenter().lng()}/zoom:${this.currentMap.getZoom()}`
+      mapParam: `{"lat":${this.currentMap.getCenter().lat()}, "lng":${this.currentMap.getCenter().lng()}, "zoom":${this.currentMap.getZoom()}}`
+      //mapParam: `lat:${this.currentMap.getCenter().lat()}/lng:${this.currentMap.getCenter().lng()}/zoom:${this.currentMap.getZoom()}`
     };
 
     if (this.selectedShape) {

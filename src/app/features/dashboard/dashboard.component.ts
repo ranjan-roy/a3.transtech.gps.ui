@@ -61,13 +61,13 @@ export class DashboardComponent implements OnInit {
         this.deviceSummary.inactive = this.deviceSummary.inactive + 1
       }
 
-      if (value.stop == true && value.ignition == true) {
+      if (value.stop == true && value.ignition == true && value.online == true) {
         this.deviceSummary.stopped = this.deviceSummary.stopped + 1
-      } else if (value.speed > 0 && value.stop == false) {
+      } else if (value.speed > 0 && value.stop == false && value.online == true && value.ignition == true) {
         this.deviceSummary.running = this.deviceSummary.running + 1
       }
 
-      if(value.ignition == true) {
+      if(value.ignition == true && value.online == true) {
         this.deviceSummary.ignition = this.deviceSummary.ignition + 1
       }
     })
