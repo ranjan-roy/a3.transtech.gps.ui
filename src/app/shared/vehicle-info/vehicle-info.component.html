@@ -1,56 +1,77 @@
 <div class="row g-0">
-  <div class="col-md-4">
-    <img
-      src="/assets/img/vehicleType/{{
-        deviceinfo.vehicleType.vehicleTypeId
-      }}.svg"
-      alt="..."
-      height="180px"
-    />
-  </div>
-  <div class="col-md-8">
+  <div class="col-md-12">
     <div class="card-body">
-      <h5 class="card-title">{{ deviceinfo.name }}</h5>
-      <!-- <h6 class="card-title">MH12QW9520</h6> -->
-      <p class="card-text">
-        <small class="text-muted"> {{ deviceinfo.geoLocation }}</small>
-      </p>
-      <small class="text-muted">{{ deviceinfo.dateTime }}</small>
-      <div class="row">
-        <div class="col-sm">
-          <p class="card-text">
-            <span class="pr-2"
-              ><img
+      <table class="table table-responsive-sm table-hover table-outline mb-0">
+        <thead class="thead-light">
+          <tr>
+            <th>Vehicle</th>
+            <th>Vehicle No.</th>
+            <th class="text-center">Geo Location</th>
+            <th>Date/Time</th>
+            <th>Ignition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center">
+              <img
+                src="/assets/img/vehicleType/{{
+                  deviceinfo.vehicleType.vehicleTypeId
+                }}.svg"
+                alt="..."
+                height="80px"
+              />
+            </td>
+
+            <td>
+              {{ deviceinfo.name }}
+            </td>
+
+            <td class="text-center">
+              {{ deviceinfo.geoLocation }}
+            </td>
+
+            <td>
+              {{ deviceinfo.dateTime }}
+            </td>
+            <td>
+              <img
                 src="../../../assets/img/icon/tachometer-alt-solid.svg"
                 height="16px"
                 width="16px"
-            /></span>
-            {{ deviceinfo.speed }}km/hr
-          </p>
-        </div>
-        <div class="col-sm">
-          <p class="card-text">
-            <span *ngIf="deviceinfo.ignition == true"
-              ><i class="fa fa-power-off text-success pr-2"></i>ON</span
-            >
-            <span *ngIf="deviceinfo.ignition == false"
-              ><i class="fa fa-power-off text-danger pr-2"></i>OFF</span
-            >
-          </p>
-        </div>
-        <button
-          type="button"
-          class="btn btn-dark float-right mb-2"
-          (click)="viewMap()"
-        >
-          View Map
-        </button>
-      </div>
-      <div class="row">
+              />
+              {{ deviceinfo.speed }}km/hr
+            </td>
+            <td class="text-center">
+              <p class="card-text">
+                <span *ngIf="deviceinfo.ignition == true"
+                  ><i class="fa fa-power-off text-success pr-2"></i>ON</span
+                >
+                <span *ngIf="deviceinfo.ignition == false"
+                  ><i class="fa fa-power-off text-danger pr-2"></i>OFF</span
+                >
+              </p>
+            </td>
+            <td>
+              <div class="small text-muted">
+                <button
+                  type="button"
+                  class="btn btn-dark float-right mb-2"
+                  (click)="viewMap()"
+                >
+                  View Map
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- <div class="row">
         <div class="col-sm">
           <p class="card-text"></p>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
