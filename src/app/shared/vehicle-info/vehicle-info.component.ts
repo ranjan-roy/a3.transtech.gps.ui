@@ -1,21 +1,18 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 @Component({
-  selector: 'app-vehicle-info',
-  templateUrl: './vehicle-info.component.html',
-  styleUrls: ['./vehicle-info.component.css']
+  selector: "app-vehicle-info",
+  templateUrl: "./vehicle-info.component.html",
+  styleUrls: ["./vehicle-info.component.css"],
 })
 export class VehicleInfoComponent implements OnInit {
-  @Input() deviceinfo
-  
-  @Output() showMap=new EventEmitter()
-  constructor() { }
+  @Input() deviceList;
+  @Output() showMap = new EventEmitter();
+  deviceinfo: any;
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  viewMap(deviceinfo) {
+    this.showMap.emit(deviceinfo);
   }
-  viewMap(){
-    this.showMap.emit(this.deviceinfo)
-   }
-
 }

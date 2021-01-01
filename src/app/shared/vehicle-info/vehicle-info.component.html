@@ -1,77 +1,69 @@
 <div class="row g-0">
   <div class="col-md-12">
-    <div class="card-body">
-      <table class="table table-responsive-sm table-hover table-outline mb-0">
-        <thead class="thead-light">
-          <tr>
-            <th>Vehicle</th>
-            <th>Vehicle No.</th>
-            <th class="text-center">Geo Location</th>
-            <th>Date/Time</th>
-            <th>Ignition</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="text-center">
-              <img
-                src="/assets/img/vehicleType/{{
-                  deviceinfo.vehicleType.vehicleTypeId
-                }}.svg"
-                alt="..."
-                height="80px"
-              />
-            </td>
+    <table class="table table-responsive-sm table-hover table-outline mb-0">
+      <thead class="thead-light">
+        <tr>
+          <th></th>
+          <th>Vehicle</th>
+          <th>Date/Time</th>
+          <th>Speed</th>
+          <th>Ignition</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="deviceList">
+        <tr *ngFor="let device of deviceList">
+          <td class="text-center">
+            <img
+              src="/assets/img/vehicleType/{{
+                device.vehicleType.vehicleTypeId
+              }}.svg"
+              alt="..."
+              height="80px"
+            />
+          </td>
 
-            <td>
-              {{ deviceinfo.name }}
-            </td>
+          <td>
+            <div>{{ device.name }}</div>
+            <div class="small text-muted">
+              {{ device.geoLocation }}
+            </div>
+          </td>
 
-            <td class="text-center">
-              {{ deviceinfo.geoLocation }}
-            </td>
-
-            <td>
-              {{ deviceinfo.dateTime }}
-            </td>
-            <td>
-              <img
-                src="../../../assets/img/icon/tachometer-alt-solid.svg"
-                height="16px"
-                width="16px"
-              />
-              {{ deviceinfo.speed }}km/hr
-            </td>
-            <td class="text-center">
-              <p class="card-text">
-                <span *ngIf="deviceinfo.ignition == true"
-                  ><i class="fa fa-power-off text-success pr-2"></i>ON</span
-                >
-                <span *ngIf="deviceinfo.ignition == false"
-                  ><i class="fa fa-power-off text-danger pr-2"></i>OFF</span
-                >
-              </p>
-            </td>
-            <td>
-              <div class="small text-muted">
-                <button
-                  type="button"
-                  class="btn btn-dark float-right mb-2"
-                  (click)="viewMap()"
-                >
-                  View Map
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- <div class="row">
-        <div class="col-sm">
-          <p class="card-text"></p>
-        </div>
-      </div> -->
-    </div>
+          <td>
+            {{ device.dateTime | date: "medium" }}
+          </td>
+          <td>
+            <img
+              src="../../../assets/img/icon/tachometer-alt-solid.svg"
+              height="16px"
+              width="16px"
+            />
+            {{ device.speed }}km/hr
+          </td>
+          <td class="text-center">
+            <p class="card-text">
+              <span *ngIf="device.ignition == true"
+                ><i class="fa fa-power-off text-success pr-2"></i>ON</span
+              >
+              <span *ngIf="device.ignition == false"
+                ><i class="fa fa-power-off text-danger pr-2"></i>OFF</span
+              >
+            </p>
+          </td>
+          <td>
+            <div class="small text-muted">
+              <button
+                type="button"
+                class="btn btn-dark float-right mb-2"
+                (click)="viewMap(device)"
+              >
+                View Map
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

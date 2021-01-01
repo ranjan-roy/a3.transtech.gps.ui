@@ -8,20 +8,33 @@
         <div class="card-header">Welcome to GPS UI Dashboard</div>
         <div class="card-body">
           <!-- Widget start -->
-          <app-dashboard-widgets [deviceSummary]="deviceSummary"></app-dashboard-widgets>
+          <app-dashboard-widgets
+            [deviceSummary]="deviceSummary"
+          ></app-dashboard-widgets>
 
           <!-- Widget End -->
           <div class="row">
             <div [ngClass]="{ 'col-lg-8': viewMap, 'col-lg-12': !viewMap }">
-              <app-dashboard-filter [deviceList]="deviceList" (setDeviceFilter)="onSetDeviceFilter($event)">
+              <app-dashboard-filter
+                [deviceList]="deviceList"
+                (setDeviceFilter)="onSetDeviceFilter($event)"
+              >
               </app-dashboard-filter>
-              <div class="border-bottom" *ngFor="let device of rows">
-                <app-vehicle-info [deviceinfo]="device" (showMap)="onShowMap($event)">
+              <div class="border-bottom">
+                <app-vehicle-info
+                  [deviceList]="rows"
+                  (showMap)="onShowMap($event)"
+                >
                 </app-vehicle-info>
               </div>
             </div>
             <div class="col-lg-4" *ngIf="viewMap">
-              <google-maps [markers]="markers" [lat]="deviceSummary.lat" [lng]="deviceSummary.lng" [zoom]="zoom">
+              <google-maps
+                [markers]="markers"
+                [lat]="deviceSummary.lat"
+                [lng]="deviceSummary.lng"
+                [zoom]="zoom"
+              >
               </google-maps>
             </div>
           </div>
