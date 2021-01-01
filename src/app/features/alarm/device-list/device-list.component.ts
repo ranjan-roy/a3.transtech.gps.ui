@@ -7,6 +7,7 @@ import { AuthService } from "../../../core/service/auth.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 import { AddAlarmComponent } from "../add-alarm/add-alarm.component";
 import { NotificationService } from "../../../core/service/notification.server";
+import { GeofencingService } from '../../geofencing/geofencing.service';
 
 @Component({
   selector: "app-device-list",
@@ -47,6 +48,7 @@ export class AlarmListComponent implements OnInit {
   showList: boolean = true;
   showEdit: boolean = false;
   rowSelection = "single";
+  geofenceList: any[] = [];
   alarmTypeList: any[] = [];
   operatorList: any[] = [];
   alarmStatusList: any[] = [];
@@ -54,6 +56,7 @@ export class AlarmListComponent implements OnInit {
     public auth: AuthService,
     private modalService: BsModalService,
     private deviceSvc: AlarmService,
+    private geofenceSvc: GeofencingService,
     private router: Router,
     private storage: StorageService,
     protected _notificationSvc: NotificationService
@@ -103,6 +106,10 @@ export class AlarmListComponent implements OnInit {
     });
     this.deviceSvc.getAllAlarmType().subscribe((res) => {
       this.alarmTypeList = res;
+    });
+    const userId = this.storage.getItem("userId");
+    this.geofenceSvc.geGeofenceByUser(userId).subscribe((res) => {
+      this.geofenceList = res;
     });
   }
 

@@ -139,52 +139,52 @@
             </div>-->
 
             <div class="form-row">
-              <label class="col-form-label" for="contactprimary">Contact Primary</label>
+              <label class="col-form-label" for="contactPrimary">Contact Primary</label>
               <input
                 type="number"
-                formControlName="contactprimary"
+                formControlName="contactPrimary"
                 pattern="([7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"
                 class="form-control"
                 [ngClass]="{
-                  'is-invalid': form.contactprimary.touched && form.contactprimary.errors
+                  'is-invalid': form.contactPrimary.touched && form.contactPrimary.errors
                 }"
               />
               <div
-                *ngIf="form.contactprimary.touched && form.contactprimary.errors"
+                *ngIf="form.contactPrimary.touched && form.contactPrimary.errors"
                 class="invalid-feedback">
-                <div *ngIf="form.contactprimary.errors.required">
+                <div *ngIf="form.contactPrimary.errors.required">
                   *Mobile is required.
                 </div>
-                <div *ngIf="form.contactprimary.errors.pattern">
+                <div *ngIf="form.contactPrimary.errors.pattern">
                   *Please provide valid Mobile Number.
                 </div>
-               <!-- <div *ngIf="form.contactprimary.errors.minlength">
+               <!-- <div *ngIf="form.contactPrimary.errors.minlength">
                   *Mobile Number should of 10 Number long.
                 </div> -->
               </div>
             </div>
 
             <div class="form-row">
-              <label class="col-form-label" for="contactsecondary">Contact Secondary</label>
+              <label class="col-form-label" for="contactSecondary">Contact Secondary</label>
               <input
                 type="number"
-                formControlName="contactsecondary"
+                formControlName="contactSecondary"
                 pattern="([7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9])"
                 class="form-control"
                 [ngClass]="{
-                  'is-invalid': form.contactsecondary.touched && form.contactsecondary.errors
+                  'is-invalid': form.contactSecondary.touched && form.contactSecondary.errors
                 }"
               />
               <div
-                *ngIf="form.contactsecondary.touched && form.contactsecondary.errors"
+                *ngIf="form.contactSecondary.touched && form.contactSecondary.errors"
                 class="invalid-feedback">
-                 <div *ngIf="form.contactsecondary.errors.pattern">
+                 <div *ngIf="form.contactSecondary.errors.pattern">
                   *Please provide valid Mobile Number.
                 </div>
-             <!-- <div *ngIf="form.contactsecondary.errors.required">
+             <!-- <div *ngIf="form.contactSecondary.errors.required">
                   *Mobile is required.
                 </div>
-               <div *ngIf="form.contactsecondary.errors.minlength">
+               <div *ngIf="form.contactSecondary.errors.minlength">
                   *Mobile Number should of 10 Number long.
                 </div> -->
               </div>

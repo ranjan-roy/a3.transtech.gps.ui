@@ -1,7 +1,9 @@
 export interface DeviceSummary {
+    online: Number;
     running: Number;
     idle: Number;
     stopped: Number;
+    ignition: Number;
     nodata: Number;
     inactive: Number;
     total: Number;

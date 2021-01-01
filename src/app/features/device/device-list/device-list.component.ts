@@ -98,12 +98,10 @@ export class DeviceListComponent implements OnInit {
   loadData() {
     const userId = this.storage.getItem("userId");
     this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
-      console.log(res);
       this.rowData = res;
     });
   }
   onBtnClick(e) {
-    console.log(e);
     if (e.action === "add") {
       this.router.navigate(["/Device/add-edit"]);
     }
@@ -148,7 +146,6 @@ export class DeviceListComponent implements OnInit {
 
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
-    console.log("selectedRows", selectedRows);
     this.selectedRow = selectedRows[0];
     this.showAction = true;
   }

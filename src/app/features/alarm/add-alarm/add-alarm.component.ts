@@ -28,6 +28,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   @Input() alarmTypeList;
   @Input() operatorList;
   @Input() alarmStatusList;
+  @Input() geofenceList;
   @Output() onAddEditComplete = new EventEmitter();
 
   formGroup: FormGroup;
@@ -39,12 +40,14 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     alarmTypeId: 0,
     alarmText: "",
     value: 0,
+    tolerance: 0,
     operatorId: 0,
     alarmStatus: 0,
+    geofenceId: 0,
     startDate: new Date(),
     endDate: new Date(),
   };
-  activeAlarmType = [1, 5, 6, 10];
+  activeAlarmType = [1, 5, 6, 8, 10, 11, 4];
   fieldsState = {
     alarmText: false,
     value: false,
@@ -52,6 +55,8 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     alarmStatus: false,
     startDate: false,
     endDate: false,
+    geofenceId: false,
+    tolerance: false
   };
 
   deviceAlarmId: any;
@@ -64,7 +69,13 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     protected _notificationSvc: NotificationService,
     private router: Router,
     private storage: StorageService
-  ) {}
+  ) { }
+
+  get alarmStatusListCalculated() {
+    if (this.formGroup.value.alarmTypeId && this.alarmTypeList.find(x => x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier) {
+      return this.alarmStatusList.filter(x => x.alarmGroupIdentifier == this.alarmTypeList.find(x => x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier);
+    }
+  }
 
   ngOnChanges() {
     this.createForm(this.selectedAlarm);
@@ -77,8 +88,9 @@ export class AddAlarmComponent implements OnInit, OnChanges {
 
   changeAlarmType(e) {
     let val = parseInt(e);
-    console.log(e);
-
+    // this.formGroup.get("alarmStatus").setValue(0, {
+    //   onlySelf: true,
+    // });
     this.formGroup.get("alarmTypeId").setValue(val, {
       onlySelf: true,
     });
@@ -93,20 +105,26 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.operatorIdField.setValidators(null);
     this.startDateField.setValidators(null);
     this.endDateField.setValidators(null);
+    this.geofenceIdField.setValidators(null);
+    this.toleranceField.setValidators(null);
 
     this.fieldsState.value = false;
     this.fieldsState.operatorId = false;
+    this.fieldsState.geofenceId = false;
     this.fieldsState.alarmStatus = false;
     this.fieldsState.alarmText = false;
     this.fieldsState.startDate = false;
     this.fieldsState.endDate = false;
+    this.fieldsState.tolerance = false;
 
-    switch (e) {
+    switch (val) {
       case 1:
         this.valueField.setValidators(Validators.required);
         this.operatorIdField.setValidators(Validators.required);
+        this.toleranceField.setValidators(Validators.required);
         this.fieldsState.value = true;
         this.fieldsState.operatorId = true;
+        this.fieldsState.tolerance = true;
         break;
       case 5:
       case 6:
@@ -122,6 +140,12 @@ export class AddAlarmComponent implements OnInit, OnChanges {
         this.startDateField.setValidators(Validators.required);
         this.endDateField.setValidators(Validators.required);
         break;
+      case 4:
+        this.fieldsState.geofenceId = true;
+        this.fieldsState.alarmStatus = true;
+        this.geofenceIdField.setValidators(Validators.required);
+        this.alarmStatusField.setValidators(Validators.required);
+        break;
     }
     this.updateValidity();
   }
@@ -131,6 +155,8 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.operatorIdField.updateValueAndValidity();
     this.startDateField.updateValueAndValidity();
     this.endDateField.updateValueAndValidity();
+    this.geofenceIdField.updateValueAndValidity();
+    this.toleranceField.updateValueAndValidity();
   }
 
   changeOperatorId(e) {
@@ -144,6 +170,11 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       onlySelf: true,
     });
   }
+  changeGeofence(e) {
+    this.formGroup.get("geofenceId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
+    });
+  }
 
   createForm(rowData) {
     this.formGroup = this.formBuilder.group({
@@ -154,13 +185,15 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       alarmStatus: [rowData.alarmStatus],
       startDate: [rowData.startDate],
       endDate: [rowData.endDate],
+      geofenceId: [rowData.geofenceId],
+      tolerance: [rowData.tolerance]
     });
-    console.log(rowData);
 
     if (rowData.alarmTypeId) {
       this.changeAlarmType(rowData.alarmTypeId);
     }
   }
+
   get valueField() {
     return this.formGroup.get("value") as FormControl;
   }
@@ -178,6 +211,12 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   }
   get form() {
     return this.formGroup.controls;
+  }
+  get geofenceIdField() {
+    return this.formGroup.get("geofenceId") as FormControl;
+  }
+  get toleranceField() {
+    return this.formGroup.get("tolerance") as FormControl;
   }
 
   onReset() {
@@ -201,11 +240,13 @@ export class AddAlarmComponent implements OnInit, OnChanges {
 
   addDeviceAlarm(formValue) {
     const alarm = {
+      geofenceId: formValue.geofenceId || 0,
       deviceAlarmId: this.selectedAlarm.deviceAlarmId || 0,
       deviceId: this.selectedDevice.deviceId,
       alarmTypeId: formValue.alarmTypeId,
       alarmText: formValue.alarmText,
       value: parseInt(formValue.value),
+      tolerance: parseInt(formValue.tolerance),
       operatorId: parseInt(formValue.operatorId),
       alarmStatus: parseInt(formValue.alarmStatus || 0),
       startDate: formValue.startDate || new Date(),
@@ -225,8 +266,10 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       deviceAlarmId: this.selectedAlarm.deviceAlarmId || 0,
       deviceId: this.selectedDevice.deviceId,
       alarmTypeId: formValue.alarmTypeId,
+      geofenceId: formValue.geofenceId || 0,
       alarmText: formValue.alarmText,
       value: parseInt(formValue.value),
+      tolerance: parseInt(formValue.tolerance),
       operatorId: parseInt(formValue.operatorId),
       alarmStatus: parseInt(formValue.alarmStatus || 0),
       startDate: formValue.startDate || new Date(),

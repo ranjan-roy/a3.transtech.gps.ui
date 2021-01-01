@@ -53,6 +53,32 @@
         </div>
       </div>
       <div class="form-row">
+        <div class="col-md-6" [hidden]="!fieldsState.geofenceId">
+          <label class="col-form-label">Geofence</label>
+          <select
+            formControlName="geofenceId"
+            class="form-control"
+            id="geofenceId"
+            (change)="changeGeofence($event)"
+            [ngClass]="{
+              'is-invalid': form.geofenceId.touched && form.geofenceId.errors
+            }"
+          >
+            <option value="" disabled>Select Geofence</option>
+            <option
+              *ngFor="let geofence of geofenceList"
+              [value]="geofence.geofenceId"
+            >
+              {{ geofence.name }}
+            </option>
+          </select>
+
+          <div *ngIf="form.geofenceId.errors" class="invalid-feedback">
+            <div *ngIf="form.geofenceId.errors.required">
+              Geofence is required
+            </div>
+          </div>
+        </div>
         <div class="col-md-6" [hidden]="!fieldsState.alarmStatus">
           <label for="alarmStatus" class="col-form-label">Alarm Status</label>
           <select
@@ -66,7 +92,7 @@
           >
             <option value="" disabled>Alarm Status</option>
             <option
-              *ngFor="let status of alarmStatusList"
+              *ngFor="let status of alarmStatusListCalculated"
               [value]="status.statusId"
             >
               {{ status.status }}
@@ -161,6 +187,25 @@
             <div *ngIf="form.endDate.errors.endDate">
               End Time must be a valid
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-md-6" [hidden]="!fieldsState.tolerance">
+          <label for="value" class="col-form-label">Tolerance(Second)</label>
+          <input
+            type="number"
+            formControlName="tolerance"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': form.tolerance.touched && form.tolerance.errors
+            }"
+          />
+          <div
+            *ngIf="form.tolerance.touched && form.tolerance.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="form.tolerance.errors.required">Tolerance is required</div>
           </div>
         </div>
       </div>

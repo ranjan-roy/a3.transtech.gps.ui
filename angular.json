@@ -18,7 +18,8 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/assets/data.json"
+              "src/assets/data.json",
+              "src/app-privacy-policy.html"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",

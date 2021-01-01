@@ -19,10 +19,11 @@ export class DashboardComponent implements OnInit {
   public deviceList = [];
   public rows = [];
   public deviceSummary = {
+    online: 0,
     running: 0,
     idle: 0,
     stopped: 0,
-    nodata: 0,
+    ignition: 0,
     inactive: 0,
     total: 0,
     lat: 0,
@@ -43,23 +44,38 @@ export class DashboardComponent implements OnInit {
   }
 
   loadData() {
-    // this.deviceSvc.getDevicePosition().subscribe((res) => {
-    //   console.log(res);
-    //   this.deviceList = res;
-    //   this.rows = res;
-    //   this.setDeviceSummary();
-    // });
-    this.deviceList = mockDeviceList;
-    this.rows = mockDeviceList;
-    this.setDeviceSummary();
+    this.deviceSvc.getDevicePosition().subscribe((res) => {
+      this.deviceList = res;
+      this.rows = res;
+      this.setDeviceSummary();
+    });
   }
   setDeviceSummary() {
     this.deviceSummary.total = this.deviceList.length;
     this.deviceList.map((value: any, index: number) => {
-      if (value.ignition == true) {
-        this.deviceSummary.running = this.deviceSummary.running + 1;
+      if (value.online == true) {
+        this.deviceSummary.online = this.deviceSummary.online + 1;
       } else {
-        this.deviceSummary.idle = this.deviceSummary.idle + 1;
+        this.deviceSummary.inactive = this.deviceSummary.inactive + 1;
+      }
+
+      if (
+        value.stop == true &&
+        value.ignition == true &&
+        value.online == true
+      ) {
+        this.deviceSummary.stopped = this.deviceSummary.stopped + 1;
+      } else if (
+        value.speed > 0 &&
+        value.stop == false &&
+        value.online == true &&
+        value.ignition == true
+      ) {
+        this.deviceSummary.running = this.deviceSummary.running + 1;
+      }
+
+      if (value.ignition == true && value.online == true) {
+        this.deviceSummary.ignition = this.deviceSummary.ignition + 1;
       }
     });
   }
