@@ -41,6 +41,12 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    // this.loadLocalData();
+  }
+  loadLocalData() {
+    this.deviceList = mockDeviceList;
+    this.rows = mockDeviceList;
+    this.setDeviceSummary();
   }
 
   loadData() {
@@ -98,13 +104,17 @@ export class DashboardComponent implements OnInit {
 
   checkRule(filterQuery, item) {
     let match = {
-      name: true,
-      location: true,
-      ignition: true,
+      name: false,
+      isNameMatchRequired: !!filterQuery.name,
+      location: false,
+      isLocationMatchRequired: !!filterQuery.geoLocation,
+      ignition: false,
+      isIgnitionMatchRequired: !!filterQuery.ignition,
     };
     if (filterQuery.name) {
       match.name = item.name.toLowerCase().includes(filterQuery.name);
     }
+
     if (filterQuery.geoLocation) {
       match.location = item.geoLocation
         .toLowerCase()
@@ -114,7 +124,19 @@ export class DashboardComponent implements OnInit {
     if (filterQuery.ignition !== null) {
       match.ignition = item.ignition == filterQuery.ignition;
     }
-    return (match.name || match.location) && match.ignition;
+    if (match.isNameMatchRequired && match.isLocationMatchRequired) {
+      return (
+        (match.isNameMatchRequired === match.name ||
+          match.isLocationMatchRequired === match.location) &&
+        match.isIgnitionMatchRequired === match.ignition
+      );
+    }
+
+    return (
+      match.isNameMatchRequired === match.name &&
+      match.isLocationMatchRequired === match.location &&
+      match.isIgnitionMatchRequired === match.ignition
+    );
   }
 
   onSetDeviceFilter(filterQuery) {
