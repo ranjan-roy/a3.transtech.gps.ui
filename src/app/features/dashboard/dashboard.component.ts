@@ -40,8 +40,8 @@ export class DashboardComponent implements OnInit {
   onMapReady() {}
 
   ngOnInit(): void {
-    // this.loadData();
-    this.loadLocalData();
+    this.loadData();
+    // this.loadLocalData();
   }
   loadLocalData() {
     this.deviceList = mockDeviceList;
@@ -143,6 +143,8 @@ export class DashboardComponent implements OnInit {
   onSetDeviceFilter(filterQuery) {
     const filteredRows = [];
     this.deviceList.forEach((item) => {
+      console.log(this.checkRule(filterQuery, item));
+
       if (this.checkRule(filterQuery, item)) {
         filteredRows.push(item);
       }
