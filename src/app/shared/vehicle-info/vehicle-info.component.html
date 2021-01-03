@@ -13,8 +13,7 @@
       </thead>
       <tbody *ngIf="deviceList">
         <tr
-          *ngFor="let device of deviceList"
-          [ngClass]="{ 'offline': device.online == false }" >
+          *ngFor="let device of deviceList">
           <td class="text-center">
             <img
               src="/assets/img/vehicleType/{{
