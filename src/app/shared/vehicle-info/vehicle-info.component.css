@@ -5,3 +5,7 @@
 .vehicle-type{
     width: 5%;
 }
+
+.low-opacity{
+    opacity: 50%;
+}

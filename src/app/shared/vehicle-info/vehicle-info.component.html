@@ -12,7 +12,10 @@
         </tr>
       </thead>
       <tbody *ngIf="deviceList">
-        <tr *ngFor="let device of deviceList">
+        <tr
+          *ngFor="let device of deviceList"
+          [ngClass]="{ 'low-opacity': device.online === false }"
+        >
           <td class="text-center">
             <img
               src="/assets/img/vehicleType/{{
@@ -21,10 +24,13 @@
               alt="..."
               height="80px"
             />
+            <span *ngIf="device.online === false" class="text-danger"><b>OFFLINE</b></span>
           </td>
 
           <td>
-            <div><b>{{ device.name }}</b></div>
+            <div>
+              <b>{{ device.name }}</b>
+            </div>
             <div class="small text-muted">
               {{ device.geoLocation }}
             </div>
