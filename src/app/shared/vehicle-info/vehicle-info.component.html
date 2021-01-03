@@ -14,7 +14,7 @@
       <tbody *ngIf="deviceList">
         <tr
           *ngFor="let device of deviceList"
-          [ngClass]="{ 'low-opacity': device.online === false }"
+          [ngClass]="{ 'blur-row': device.online === false }"
         >
           <td class="text-center">
             <img
