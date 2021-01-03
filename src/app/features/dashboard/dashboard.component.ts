@@ -29,7 +29,7 @@ export class DashboardComponent implements OnInit {
     lat: 0,
     lng: 0,
   };
-  zoom: number = 20;
+  zoom: number = 15;
   markers: Marker[] = [];
   viewMap: boolean = false;
   constructor(
