@@ -6,6 +6,6 @@
     width: 5%;
 }
 
-.blur-row{
-    opacity: 50%;
+.offline{
+    opacity: 50% !important;
 }
