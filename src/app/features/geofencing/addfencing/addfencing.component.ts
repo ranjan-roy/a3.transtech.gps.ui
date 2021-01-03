@@ -87,18 +87,34 @@ export class AddfencingComponent implements OnInit {
     if (navigation.extras.state) {
       this.rowData = navigation.extras.state;
     }
-  
-    this.mapParam = JSON.parse(this.rowData.mapParam);
+
+    if (this.rowData.mapParam)
+      this.mapParam = JSON.parse(this.rowData.mapParam);
+
     this.pointList = this.rowData.polygon.coordinates.map(x => ({ lat: x.latitude, lng: x.longitude }));
     this.createForm(this.rowData);
   }
   get form() {
     return this.a3FormGroup.controls;
   }
+
   ngOnInit() {
     this.vendorSvc.getAllVendor().subscribe((res) => {
       this.vendorList = res;
     });
+  }
+
+  getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((x)=>this.initMapParam(x));
+    }
+  }
+
+  initMapParam(position) {
+    this.mapParam = { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 15 };
+    this.map.setZoom(this.mapParam.zoom);
+    this.map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
+
   }
 
   changeVendor(e) {
@@ -123,9 +139,12 @@ export class AddfencingComponent implements OnInit {
   }
 
   initDrawingManager = (map: google.maps.Map) => {
+    this.map = map;
     const self = this;
     let polygonCoords;
-
+    if(!this.mapParam)
+      this.getLocation();
+    
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
         (item) => new google.maps.LatLng(item.latitude, item.longitude)
@@ -141,9 +160,10 @@ export class AddfencingComponent implements OnInit {
       });
 
       map.panTo(polygonCoords[0]);
-      map.setZoom(this.mapParam.zoom);
-      map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
-     
+      if(this.mapParam)
+        map.setZoom(this.mapParam.zoom);
+        map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
+
       myPolygon.setMap(map);
 
       document.getElementById("deleteEdit").onclick = () => {
@@ -341,7 +361,6 @@ export class AddfencingComponent implements OnInit {
       alias: "string",
       geofenceTypeId: 1,
       mapParam: `{"lat":${this.currentMap.getCenter().lat()}, "lng":${this.currentMap.getCenter().lng()}, "zoom":${this.currentMap.getZoom()}}`
-      //mapParam: `lat:${this.currentMap.getCenter().lat()}/lng:${this.currentMap.getCenter().lng()}/zoom:${this.currentMap.getZoom()}`
     };
 
     if (this.selectedShape) {

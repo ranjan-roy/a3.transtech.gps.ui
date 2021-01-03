@@ -42,15 +42,32 @@ export class FencingListComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs = [
       {
+        headerName: "Company Name",
+        field: "user.companyName",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Vendor",
+        field: "vendor.name",
+        sortable: true,
+        filter: true,
+      },
+      {
         headerName: "Name",
         field: "name",
         sortable: true,
         filter: true,
       },
-
       {
         headerName: "Description",
         field: "description",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Geofence Type",
+        field: "geofenceType.name",
         sortable: true,
         filter: true,
       },
