@@ -1,70 +1,82 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+} from "@angular/core";
 
 @Component({
-  selector: 'app-dashboard-filter',
-  templateUrl: './dashboard-filter.component.html',
-  styleUrls: ['./dashboard-filter.component.css']
+  selector: "app-dashboard-filter",
+  templateUrl: "./dashboard-filter.component.html",
+  styleUrls: ["./dashboard-filter.component.css"],
 })
 export class DashboardFilterComponent implements OnInit {
   @Input() deviceList: any[] = [];
-  @Output() setDeviceFilter = new EventEmitter()
+  @Output() setDeviceFilter = new EventEmitter();
   searchText = "";
-  filterBy = "Filter By All"
+  filterBy = "Filter By All";
   ignitionState = "Ignition";
 
   filterQuery = {
     ignition: null,
     geoLocation: "",
-    name: ""
-  }
+    name: "",
+  };
 
-  constructor() { }
+  constructor() {}
 
   onSearchTextChanges($event) {
     if (this.searchText) {
       if (this.filterBy == "Filter By Name") {
-        this.filterQuery.name = this.searchText.toLowerCase()
+        this.filterQuery.name = this.searchText.toLowerCase();
       } else if (this.filterBy == "Filter By Address") {
-        this.filterQuery.geoLocation = this.searchText.toLowerCase()
+        this.filterQuery.geoLocation = this.searchText.toLowerCase();
       } else {
-        this.filterQuery.name = this.searchText.toLowerCase()
-        this.filterQuery.geoLocation = this.searchText.toLowerCase()
+        this.filterQuery.name = this.searchText.toLowerCase();
+        this.filterQuery.geoLocation = this.searchText.toLowerCase();
       }
-      this.setDeviceFilter.emit(this.filterQuery)
+      this.setDeviceFilter.emit(this.filterQuery);
+    } else {
+      this.setDeviceFilter.emit({
+        ...this.filterQuery,
+        geoLocation: null,
+        name: null,
+      });
     }
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   setIgnitionState(state) {
     if (state == true) {
       this.ignitionState = "Ignition On";
-      this.filterQuery.ignition = true
+      this.filterQuery.ignition = true;
     } else if (state == false) {
       this.ignitionState = "Ignition Off";
-      this.filterQuery.ignition = false
+      this.filterQuery.ignition = false;
     } else {
       this.ignitionState = "Ignition";
       this.filterQuery.ignition = null;
     }
-    this.setDeviceFilter.emit(this.filterQuery)
+    this.setDeviceFilter.emit(this.filterQuery);
   }
 
   setFilterBy(state) {
     if (state == "name") {
       this.filterBy = "Filter By Name";
-      this.filterQuery.name = this.searchText.toLowerCase()
-      this.filterQuery.geoLocation = '';
+      this.filterQuery.name = this.searchText.toLowerCase();
+      this.filterQuery.geoLocation = "";
     } else if (state == "geoLocation") {
-      this.filterBy = "Filter By Address"
-      this.filterQuery.name = '';
-      this.filterQuery.geoLocation = this.searchText.toLowerCase()
+      this.filterBy = "Filter By Address";
+      this.filterQuery.name = "";
+      this.filterQuery.geoLocation = this.searchText.toLowerCase();
     } else {
-      this.filterBy = "Filter By All"
+      this.filterBy = "Filter By All";
       this.filterQuery.name = this.searchText;
-      this.filterQuery.geoLocation = this.searchText.toLowerCase()
+      this.filterQuery.geoLocation = this.searchText.toLowerCase();
     }
-    this.setDeviceFilter.emit(this.filterQuery)
+    this.setDeviceFilter.emit(this.filterQuery);
   }
 }
