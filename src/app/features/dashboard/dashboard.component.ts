@@ -40,8 +40,8 @@ export class DashboardComponent implements OnInit {
   onMapReady() {}
 
   ngOnInit(): void {
-    this.loadData();
-    // this.loadLocalData();
+    // this.loadData();
+    this.loadLocalData();
   }
   loadLocalData() {
     this.deviceList = mockDeviceList;
@@ -109,7 +109,7 @@ export class DashboardComponent implements OnInit {
       location: false,
       isLocationMatchRequired: !!filterQuery.geoLocation,
       ignition: false,
-      isIgnitionMatchRequired: !!filterQuery.ignition,
+      isIgnitionMatchRequired: filterQuery.ignition !== null,
     };
     if (filterQuery.name) {
       match.name = item.name.toLowerCase().includes(filterQuery.name);
@@ -122,8 +122,9 @@ export class DashboardComponent implements OnInit {
     }
 
     if (filterQuery.ignition !== null) {
-      match.ignition = item.ignition == filterQuery.ignition;
+      match.ignition = item.ignition === filterQuery.ignition;
     }
+
     if (match.isNameMatchRequired && match.isLocationMatchRequired) {
       return (
         (match.isNameMatchRequired === match.name ||
