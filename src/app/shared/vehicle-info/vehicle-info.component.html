@@ -38,12 +38,8 @@
             {{ device.dateTime | date: "medium" }}
           </td>
           <td>
-            <img
-              src="../../../assets/img/icon/tachometer-alt-solid.svg"
-              height="16px"
-              width="16px"
-            />
-            {{ device.speed }}km/hr
+            <i class="nav-icon icon-speedometer ng-star-inserted text-primary "></i>
+            {{ device.speed }} km/hr
           </td>
           <td class="text-center">
             <p class="card-text">
@@ -62,7 +58,7 @@
                 class="btn btn-dark float-right mb-2"
                 (click)="viewMap(device)"
               >
-                Map
+              <i class="fa fa-map-marker text-primary pr-2"></i> Map
               </button>
             </div>
           </td>
