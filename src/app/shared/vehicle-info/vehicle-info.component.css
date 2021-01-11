@@ -1,0 +1,11 @@
+.vehicle{
+    width: 25%;
+}
+
+.vehicle-type{
+    width: 5%;
+}
+
+.offline{
+    opacity: 50% !important;
+}

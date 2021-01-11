@@ -12,26 +12,26 @@ export const navItems: INavData[] = [
   {
     name: "Vendor",
     url: "/Vendor",
-    icon: "icon-cursor",
+    icon: "fa fa-handshake-o",
   },
   {
     name: "User",
     url: "/User",
-    icon: "icon-cursor",
+    icon: "fa fa-users",
   },
   {
     name: "Device",
     url: "/Device",
-    icon: "icon-cursor",
+    icon: "fa fa-usb",
   },
   {
     name: "DeviceAlarm",
     url: "/DeviceAlarm",
-    icon: "icon-cursor",
+    icon: "fa fa-bell",
   },
   {
     name: "Geofencing",
     url: "/Geofencing",
-    icon: "icon-cursor",
+    icon: "fa fa-map",
   },
 ];
