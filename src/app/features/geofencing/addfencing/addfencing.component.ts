@@ -106,7 +106,7 @@ export class AddfencingComponent implements OnInit {
 
   getLocation() {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((x)=>this.initMapParam(x));
+      navigator.geolocation.getCurrentPosition((x) => this.initMapParam(x));
     }
   }
 
@@ -142,9 +142,9 @@ export class AddfencingComponent implements OnInit {
     this.map = map;
     const self = this;
     let polygonCoords;
-    if(!this.mapParam)
+    if (!this.mapParam)
       this.getLocation();
-    
+
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
         (item) => new google.maps.LatLng(item.latitude, item.longitude)
@@ -160,9 +160,9 @@ export class AddfencingComponent implements OnInit {
       });
 
       map.panTo(polygonCoords[0]);
-      if(this.mapParam)
+      if (this.mapParam)
         map.setZoom(this.mapParam.zoom);
-        map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
+      map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
 
       myPolygon.setMap(map);
 
@@ -235,7 +235,7 @@ export class AddfencingComponent implements OnInit {
     if (this.selectedShape) {
       this.selectedShape.setEditable(false);
       this.selectedShape = null;
-      this.pointList = [];
+      // this.pointList = [];
     }
   }
   setSelection(shape) {
