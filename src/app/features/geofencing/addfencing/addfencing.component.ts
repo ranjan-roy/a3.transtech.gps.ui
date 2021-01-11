@@ -87,7 +87,7 @@ export class AddfencingComponent implements OnInit {
     if (navigation.extras.state) {
       this.rowData = navigation.extras.state;
     }
-  
+
     this.mapParam = JSON.parse(this.rowData.mapParam);
     this.pointList = this.rowData.polygon.coordinates.map(x => ({ lat: x.latitude, lng: x.longitude }));
     this.createForm(this.rowData);
@@ -143,7 +143,7 @@ export class AddfencingComponent implements OnInit {
       map.panTo(polygonCoords[0]);
       map.setZoom(this.mapParam.zoom);
       map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
-     
+
       myPolygon.setMap(map);
 
       document.getElementById("deleteEdit").onclick = () => {
@@ -215,7 +215,7 @@ export class AddfencingComponent implements OnInit {
     if (this.selectedShape) {
       this.selectedShape.setEditable(false);
       this.selectedShape = null;
-      this.pointList = [];
+      // this.pointList = [];
     }
   }
   setSelection(shape) {
