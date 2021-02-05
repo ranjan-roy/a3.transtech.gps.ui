@@ -4,7 +4,10 @@ import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
-import * as moment from 'moment';
+import * as moment from "moment";
+import { select, Store } from "@ngrx/store";
+import * as actions from "../../../state/user/user.actions";
+import * as userReducer from "../../../state/user/user.reducers";
 
 @Component({
   selector: "app-user-list",
@@ -31,8 +34,13 @@ export class UserListComponent implements OnInit {
     private userSvc: UserService,
     private router: Router,
     private storage: StorageService,
-    public auth: AuthService
-  ) {}
+    public auth: AuthService,
+    private store: Store<any>
+  ) {
+    this.store.pipe(select(userReducer.selectUser)).subscribe((res) => {
+      this.rowData = res;
+    });
+  }
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -79,8 +87,8 @@ export class UserListComponent implements OnInit {
         sortable: true,
         filter: true,
         cellRenderer: (data) => {
-          return  moment(data.data.createdDate).format('DD/MM/YYYY hh:mm a')
-      }
+          return moment(data.data.createdDate).format("DD/MM/YYYY hh:mm a");
+        },
       },
       {
         headerName: "Last Visit",
@@ -88,17 +96,17 @@ export class UserListComponent implements OnInit {
         sortable: true,
         filter: true,
         cellRenderer: (data) => {
-          return  moment(data.data.lastVisit).format('DD/MM/YYYY hh:mm a')
-      }
+          return moment(data.data.lastVisit).format("DD/MM/YYYY hh:mm a");
+        },
       },
     ];
     this.setActionItem();
   }
 
   loadData() {
-    this.userSvc.getAccessableUsers().subscribe((res) => {
-      this.rowData = res;
-    });
+    if (!this.rowData) {
+      this.store.dispatch(new actions.GetUserInitAction({}));
+    }
   }
   onBtnClick(e) {
     if (e.action === "add") {

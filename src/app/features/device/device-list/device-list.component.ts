@@ -6,7 +6,7 @@ import { AuthService } from "../../../core/service/auth.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 import { select, Store } from "@ngrx/store";
 import * as actions from "../../../state/device/device.actions";
-import * as deviceReducer from '../../../state/device/device.reducers';
+import * as deviceReducer from "../../../state/device/device.reducers";
 
 @Component({
   selector: "app-device-list",
@@ -37,11 +37,9 @@ export class DeviceListComponent implements OnInit {
     private store: Store<any>
   ) {
     const userId = this.storage.getItem("userId");
-    this.store.pipe(select(deviceReducer.selectDevice)).subscribe(res => {
-      console.log(res.device);
+    this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
       this.rowData = res.device;
-    })
-
+    });
   }
 
   ngOnInit(): void {
@@ -108,22 +106,10 @@ export class DeviceListComponent implements OnInit {
 
   loadData() {
     const userId = this.storage.getItem("userId");
-    // this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
-    //   this.rowData = res;
-    // });
-    console.log("Device Pipe");
-    // this.store.pipe(select(deviceReducer.selectDevice)).subscribe(res => {
-    //   this.rowData = res.device;
-    // })
     if (!this.rowData) {
-      this.store.dispatch(new actions.GetDeviceInitAction(1));
+      this.store.dispatch(new actions.GetDeviceInitAction(userId));
     }
-    // this.store.pipe(select(deviceReducer.selectDevice)).subscribe(res => {
-    //   this.rowData = res.device;
-    // })
-
   }
-
 
   onBtnClick(e) {
     if (e.action === "add") {
