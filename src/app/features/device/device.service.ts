@@ -9,9 +9,11 @@ import { Observable } from "rxjs";
 export class DeviceService {
   url = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getDeviceByUserId(id): Observable<any> {
+    console.log("getDeviceByUserId", id);
+
     return this.http.get<any>(`${this.url}/Device/GetByUser/${id}`);
   }
 
@@ -26,7 +28,7 @@ export class DeviceService {
   addDevice(payload) {
     return this.http.post(`${this.url}/Device`, payload);
   }
-  
+
   deleteDevice(user) {
     return this.http.delete(`${this.url}/Device/${user.deviceId}`);
   }
@@ -35,7 +37,7 @@ export class DeviceService {
   }
 
   addDeviceGroup(payload): Observable<any> {
-    return this.http.post<any>(`${this.url}/DeviceGroup`,payload);
+    return this.http.post<any>(`${this.url}/DeviceGroup`, payload);
   }
   updateDevice(payload) {
     return this.http.put(`${this.url}/Device/${payload.deviceId}`, payload);

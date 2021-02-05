@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { DeviceService } from ".././device/device.service";
-import { StorageService } from "../../core/service/storage.service";
 import { mockDeviceList } from "./dashboard.constant";
+import { select, Store } from "@ngrx/store";
+import * as actions from "../../state/device/device.actions";
+import * as deviceReducer from '../../state/device/device.reducers';
 
 interface Marker {
   lat: number;
@@ -33,29 +34,36 @@ export class DashboardComponent implements OnInit {
   markers: Marker[] = [];
   viewMap: boolean = false;
   constructor(
-    private deviceSvc: DeviceService,
-    private storage: StorageService
-  ) {}
+    private store: Store<any>
+  ) {
+    this.store.pipe(select(deviceReducer.selectDevice)).subscribe(res => {
+      if (res.devicePositions && res.devicePositions.length) {
+        console.log(res);
+        this.loadData(res.devicePositions);
+      }
+    })
+  }
 
-  onMapReady() {}
+  onMapReady() { }
 
   ngOnInit(): void {
-    this.loadData();
-    // this.loadLocalData();
+    if (!this.deviceList.length) {
+      this.store.dispatch(new actions.GetDevicePositionInitAction({}));
+    }
   }
+
   loadLocalData() {
     this.deviceList = mockDeviceList;
     this.rows = mockDeviceList;
     this.setDeviceSummary();
   }
 
-  loadData() {
-    this.deviceSvc.getDevicePosition().subscribe((res) => {
-      this.deviceList = res;
-      this.rows = res;
-      this.setDeviceSummary();
-    });
+  loadData(res) {
+    this.deviceList = res;
+    this.rows = res;
+    this.setDeviceSummary();
   }
+
   setDeviceSummary() {
     this.deviceSummary.total = this.deviceList.length;
     this.deviceList.map((value: any, index: number) => {
