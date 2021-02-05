@@ -7,7 +7,10 @@ import { AuthService } from "../../../core/service/auth.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 import { AddAlarmComponent } from "../add-alarm/add-alarm.component";
 import { NotificationService } from "../../../core/service/notification.server";
-import { GeofencingService } from '../../geofencing/geofencing.service';
+import { GeofencingService } from "../../geofencing/geofencing.service";
+import { select, Store } from "@ngrx/store";
+import * as actions from "../../../state/device/device.actions";
+import * as deviceReducer from "../../../state/device/device.reducers";
 
 @Component({
   selector: "app-device-list",
@@ -52,6 +55,7 @@ export class AlarmListComponent implements OnInit {
   alarmTypeList: any[] = [];
   operatorList: any[] = [];
   alarmStatusList: any[] = [];
+
   constructor(
     public auth: AuthService,
     private modalService: BsModalService,
@@ -59,9 +63,17 @@ export class AlarmListComponent implements OnInit {
     private geofenceSvc: GeofencingService,
     private router: Router,
     private storage: StorageService,
-    protected _notificationSvc: NotificationService
+    protected _notificationSvc: NotificationService,
+    private store: Store<any>
   ) {
     const navigation = this.router.getCurrentNavigation();
+    this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
+      console.log(res.device);
+      this.rowData = res.device;
+      if (this.selectedDevice) {
+        this.preSelectRow();
+      }
+    });
   }
 
   openModal(template: TemplateRef<any>) {
@@ -115,12 +127,9 @@ export class AlarmListComponent implements OnInit {
 
   loadData() {
     const userId = this.storage.getItem("userId");
-    this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
-      this.rowData = res;
-      if (this.selectedDevice) {
-        this.preSelectRow();
-      }
-    });
+    if (!this.rowData) {
+      this.store.dispatch(new actions.GetDeviceInitAction(userId));
+    }
   }
   onBtnClick(e, row, id) {
     if (e.action === "add") {

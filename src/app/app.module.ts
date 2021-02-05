@@ -2,6 +2,10 @@ import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { NgModule } from "@angular/core";
 import { LocationStrategy, HashLocationStrategy } from "@angular/common";
+import { StoreModule } from "@ngrx/store";
+import { EffectsModule } from "@ngrx/effects";
+
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
 import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
@@ -50,6 +54,11 @@ import { GeofencingModule } from "./features/geofencing/geofencing.module";
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { ImageFormatterComponent } from "./shared/table/cell-action/cell-image.component";
 import { AgGridModule } from "ag-grid-angular";
+import { environment } from "../environments/environment";
+import { reducers } from "./state";
+import { UserEffects } from "./state/user/user.effects";
+import { DeviceEffects } from "./state/device/device.effects";
+import { VendorEffects } from "./state/vendor/vendor.effects";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -80,6 +89,13 @@ export function tokenGetter() {
     }),
     SharedModule,
     CoreModule,
+    // initialize store by providing a set of reducers
+    StoreModule.forRoot(reducers, {}),
+    EffectsModule.forRoot([UserEffects, DeviceEffects, VendorEffects]),
+    // Note that you must instrument after importing StoreModule (non-prod)
+    !environment.production
+      ? StoreDevtoolsModule.instrument({ maxAge: 15 })
+      : [],
   ],
   declarations: [
     AppComponent,
@@ -98,4 +114,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -4,6 +4,9 @@ import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
+import { select, Store } from "@ngrx/store";
+import * as actions from "../../../state/device/device.actions";
+import * as deviceReducer from "../../../state/device/device.reducers";
 
 @Component({
   selector: "app-device-list",
@@ -30,8 +33,14 @@ export class DeviceListComponent implements OnInit {
     public auth: AuthService,
     private deviceSvc: DeviceService,
     private router: Router,
-    private storage: StorageService
-  ) {}
+    private storage: StorageService,
+    private store: Store<any>
+  ) {
+    const userId = this.storage.getItem("userId");
+    this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
+      this.rowData = res.device;
+    });
+  }
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -97,10 +106,11 @@ export class DeviceListComponent implements OnInit {
 
   loadData() {
     const userId = this.storage.getItem("userId");
-    this.deviceSvc.getDeviceByUserId(userId).subscribe((res) => {
-      this.rowData = res;
-    });
+    if (!this.rowData) {
+      this.store.dispatch(new actions.GetDeviceInitAction(userId));
+    }
   }
+
   onBtnClick(e) {
     if (e.action === "add") {
       this.router.navigate(["/Device/add-edit"]);

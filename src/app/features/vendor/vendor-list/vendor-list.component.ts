@@ -3,6 +3,9 @@ import { VendorService } from "../vendor.service";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../core/service/auth.service";
+import { select, Store } from "@ngrx/store";
+import * as actions from "../../../state/vendor/vendor.actions";
+import * as vendorReducer from "../../../state/vendor/vendor.reducers";
 
 @Component({
   selector: "app-vendor-list",
@@ -29,11 +32,15 @@ export class VendorListComponent implements OnInit {
   constructor(
     private vendorSvc: VendorService,
     private router: Router,
-    public auth: AuthService
+    public auth: AuthService,
+    private store: Store<any>
   ) {
     this.frameworkComponents = {
       buttonRenderer: CellActionComponent,
     };
+    this.store.pipe(select(vendorReducer.selectVendor)).subscribe((res) => {
+      this.rowData = res.vendors;
+    });
   }
 
   ngOnInit(): void {
@@ -92,9 +99,12 @@ export class VendorListComponent implements OnInit {
   }
 
   loadData() {
-    this.vendorSvc.getVendor().subscribe((res) => {
-      this.rowData = res;
-    });
+    // this.vendorSvc.getVendor().subscribe((res) => {
+    //   this.rowData = res;
+    // });
+    if (!this.rowData) {
+      this.store.dispatch(new actions.GetVendorInitAction({}));
+    }
   }
   onBtnClick(e) {
     if (e.action === "add") {
@@ -136,7 +146,6 @@ export class VendorListComponent implements OnInit {
   }
 
   deleteVender(id) {
-
     this.vendorSvc.deleteVendor(id).subscribe((res) => {
       this.loadData();
     });
