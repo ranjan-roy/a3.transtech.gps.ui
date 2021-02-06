@@ -5,27 +5,26 @@
       <div class="row">
         <div class="col-md-4">
           <ag-grid-angular
-            style="width: 100%; height: 500px"
+            style="height: 500px; width: 370px;"
             class="ag-theme-alpine"
             [rowData]="rowData"
             [columnDefs]="columnDefs"
             [rowSelection]="rowSelection"
+            (gridReady)="onReady($event)"
+                 (rowDataChanged)="onRowDataChanged()"
             (selectionChanged)="onSelectionChanged($event)"
             (gridReady)="onGridReady($event)"
           >
           </ag-grid-angular>
         </div>
         <div class="col-md-8">
-          <div class="card-body" *ngIf="showList">
-            <table class="table">
-              <thead>
+          <div *ngIf="showList">
+            <table class="table" class="table table-responsive-sm table-hover table-outline mb-0">
+              <thead class="thead-light">
                 <tr>
-                  <th class="align-baseline">Device ID</th>
-                  <th class="align-baseline">Alarm ID</th>
-                  <th class="align-baseline">Alarm</th>
-                  <th class="align-baseline">Value</th>
-                  <th class="align-baseline">Status</th>
-                  <th>
+                  <th class="align-baseline alarm-type-header">Alarm Type</th>
+                  <th class="align-baseline">Alarm Condition</th>
+                  <th class="action-control">
                     Actions
                     <span class="float-right" *ngIf="selectedDevice">
                       <a
@@ -47,11 +46,9 @@
                   [attr.id]="row.deviceAlarmId"
                   *ngFor="let row of selectedDevice.deviceAlarms"
                 >
-                  <td>{{ row.deviceId }}</td>
-                  <td>{{ row.deviceAlarmId }}</td>
-                  <td>{{ row.alarmText }}</td>
-                  <td>{{ row.value }}</td>
-                  <td>{{ row.alarmStatus }}</td>
+                 
+                  <td>{{ row.alarmType.name }}</td>
+                  <td>{{ row.alarmCondition }}</td>
                   <td>
                     <a
                       class="card-header-action btn btn-link btn-pencil"

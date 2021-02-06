@@ -138,7 +138,7 @@
           </div>
         </div>
         <div class="col-md-6" [hidden]="!fieldsState.value">
-          <label for="value" class="col-form-label">Value</label>
+          <label for="value" class="col-form-label">Speed</label>
           <input
             type="number"
             formControlName="value"
@@ -151,7 +151,24 @@
             *ngIf="form.value.touched && form.value.errors"
             class="invalid-feedback"
           >
-            <div *ngIf="form.value.errors.required">Value is required</div>
+            <div *ngIf="form.value.errors.required">Speed is required</div>
+          </div>
+        </div>
+        <div class="col-md-6" [hidden]="!fieldsState.tolerance">
+          <label for="value" class="col-form-label">Tolerance(Second)</label>
+          <input
+            type="number"
+            formControlName="tolerance"
+            class="form-control"
+            [ngClass]="{
+              'is-invalid': form.tolerance.touched && form.tolerance.errors
+            }"
+          />
+          <div
+            *ngIf="form.tolerance.touched && form.tolerance.errors"
+            class="invalid-feedback"
+          >
+            <div *ngIf="form.tolerance.errors.required">Tolerance is required</div>
           </div>
         </div>
       </div>
@@ -190,25 +207,7 @@
           </div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="col-md-6" [hidden]="!fieldsState.tolerance">
-          <label for="value" class="col-form-label">Tolerance(Second)</label>
-          <input
-            type="number"
-            formControlName="tolerance"
-            class="form-control"
-            [ngClass]="{
-              'is-invalid': form.tolerance.touched && form.tolerance.errors
-            }"
-          />
-          <div
-            *ngIf="form.tolerance.touched && form.tolerance.errors"
-            class="invalid-feedback"
-          >
-            <div *ngIf="form.tolerance.errors.required">Tolerance is required</div>
-          </div>
-        </div>
-      </div>
+     
       <div *ngIf="show" class="form-row" style="margin-top: 30px">
         <button
           type="submit"

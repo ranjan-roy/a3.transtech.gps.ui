@@ -18,8 +18,7 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.userAccessLevel = parseInt(this.storage.getItem("accessLevel"));
-    this.navItems = navItems.filter((nav) => this.auth.isAllowed(nav.name));
+    this.navItems = navItems.filter((nav) => this.auth.isAllowed(nav.name) || nav.title);
   }
 }
