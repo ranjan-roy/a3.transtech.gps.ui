@@ -56,24 +56,38 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     startDate: false,
     endDate: false,
     geofenceId: false,
-    tolerance: false
+    tolerance: false,
   };
 
   deviceAlarmId: any;
   selectedDeviceId: any;
   deviceAlarmList: any;
   public mytime: Date = new Date();
+  formSubmitted = false;
   constructor(
     private formBuilder: FormBuilder,
     private alarmSvc: AlarmService,
     protected _notificationSvc: NotificationService,
     private router: Router,
     private storage: StorageService
-  ) { }
+  ) {
+    this.formSubmitted = false;
+  }
 
   get alarmStatusListCalculated() {
-    if (this.formGroup.value.alarmTypeId && this.alarmTypeList.find(x => x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier) {
-      return this.alarmStatusList.filter(x => x.alarmGroupIdentifier == this.alarmTypeList.find(x => x.alarmTypeId == this.formGroup.value.alarmTypeId).alarmGroupIdentifier);
+    if (
+      this.formGroup.value.alarmTypeId &&
+      this.alarmTypeList.find(
+        (x) => x.alarmTypeId == this.formGroup.value.alarmTypeId
+      ).alarmGroupIdentifier
+    ) {
+      return this.alarmStatusList.filter(
+        (x) =>
+          x.alarmGroupIdentifier ==
+          this.alarmTypeList.find(
+            (x) => x.alarmTypeId == this.formGroup.value.alarmTypeId
+          ).alarmGroupIdentifier
+      );
     }
   }
 
@@ -186,7 +200,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       startDate: [rowData.startDate],
       endDate: [rowData.endDate],
       geofenceId: [rowData.geofenceId],
-      tolerance: [rowData.tolerance]
+      tolerance: [rowData.tolerance],
     });
 
     if (rowData.alarmTypeId) {
@@ -279,6 +293,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.alarmSvc.putAlarm(alarm.deviceAlarmId, alarm).subscribe((res) => {
       this._notificationSvc.success("Success", "Alarm updated successfully");
       this.formGroup.reset();
+      this.formSubmitted = true;
       this.onAddEditComplete.emit(res);
     });
   }

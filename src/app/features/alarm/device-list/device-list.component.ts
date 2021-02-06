@@ -78,10 +78,12 @@ export class AlarmListComponent implements OnInit {
   subscribeEvents() {
     this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
       console.log("subscribeEvents", res.device);
-      this.rowData = res.device;
-      // if (this.selectedDevice) {
-      //   this.preSelectRow();
-      // }
+      if (res.device) {
+        this.rowData = res.device;
+        if (this.selectedDevice && this.rowData) {
+          this.preSelectRow();
+        }
+      }
     });
 
     // geGeofenceByUser
@@ -155,9 +157,9 @@ export class AlarmListComponent implements OnInit {
     }
   }
 
-  loadData() {
+  loadData(forceReload: boolean = false) {
     const userId = this.storage.getItem("userId");
-    if (!this.rowData) {
+    if (forceReload || !this.rowData) {
       this.store.dispatch(new deviceActions.GetDeviceInitAction(userId));
     }
   }
@@ -229,7 +231,10 @@ export class AlarmListComponent implements OnInit {
   preSelectRow() {
     this.rowData.forEach((row) => {
       if (row.deviceId === this.selectedDevice.deviceId) {
-        this.selectedDevice.deviceAlarms = row.deviceAlarms;
+        this.selectedDevice = {
+          ...this.selectedDevice,
+          deviceAlarms: [...row.deviceAlarms],
+        };
       }
     });
     setTimeout(() => {
@@ -240,8 +245,8 @@ export class AlarmListComponent implements OnInit {
   }
 
   updateTable(alarm) {
-    this.loadData();
     this.hideModal(this.templateRef);
+    this.loadData(true);
   }
   openConfirmModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, { class: "modal-sm" });
@@ -256,7 +261,7 @@ export class AlarmListComponent implements OnInit {
             "Success",
             "Alarm deleted successfully"
           );
-          this.loadData();
+          this.loadData(true);
           this.modalRef.hide();
         }
       });
@@ -267,11 +272,15 @@ export class AlarmListComponent implements OnInit {
   }
 
   public onRowDataChanged(): void {
-    this.gridApi.forEachNode(node => node.rowIndex ? 0 : node.setSelected(true));
+    this.gridApi.forEachNode((node) =>
+      node.rowIndex ? 0 : node.setSelected(true)
+    );
   }
 
   public onReady(params) {
-      params.api.sizeColumnsToFit();
-      params.api.forEachNode(node => node.rowIndex ? 0 : node.setSelected(true));
-    }
+    params.api.sizeColumnsToFit();
+    params.api.forEachNode((node) =>
+      node.rowIndex ? 0 : node.setSelected(true)
+    );
+  }
 }

@@ -9,8 +9,9 @@ import { UserService } from "../user.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
-import { VendorService } from '../../vendor/vendor.service';
-
+import { VendorService } from "../../vendor/vendor.service";
+import { select, Store } from "@ngrx/store";
+import * as userActions from "../../../state/user/user.actions";
 @Component({
   selector: "app-add-user",
   templateUrl: "./add-user.component.html",
@@ -27,8 +28,8 @@ export class AddUserComponent implements OnInit {
     createdDate: "",
     email: "",
     //phone: "",
-    contactprimary:"",
-    contactsecondary:"",
+    contactprimary: "",
+    contactsecondary: "",
     lastVisit: "",
     userName: "",
     style: "",
@@ -43,7 +44,8 @@ export class AddUserComponent implements OnInit {
     private vendorSvc: VendorService,
     protected _notificationSvc: NotificationService,
     private router: Router,
-    private storage: StorageService
+    private storage: StorageService,
+    private store: Store
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
@@ -60,20 +62,31 @@ export class AddUserComponent implements OnInit {
   }
 
   changeVendor(e) {
-    this.userForm.get('vendorId').setValue(parseInt(e.target.value), {
-      onlySelf: true
+    this.userForm.get("vendorId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
 
   createForm(rowData) {
     this.userForm = this.formBuilder.group({
-      email: [rowData.email, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      email: [
+        rowData.email,
+        [
+          Validators.required,
+          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+        ],
+      ],
       //phone: [rowData.phone, [Validators.required, Validators.maxLength(10)]],
       contactPrimary: [rowData.contactPrimary, Validators.required],
       contactSecondary: [rowData.contactSecondary],
       userName: [rowData.userName, Validators.required],
       password: [rowData.password, Validators.required],
-      vendorId: this.rowData?.userId ? [{value: rowData.vendorId?.toString(), disabled: true}, Validators.required]: [rowData.vendorId?.toString(), Validators.required],
+      vendorId: this.rowData?.userId
+        ? [
+            { value: rowData.vendorId?.toString(), disabled: true },
+            Validators.required,
+          ]
+        : [rowData.vendorId?.toString(), Validators.required],
       company: [rowData.companyName, Validators.required],
     });
   }
@@ -112,14 +125,12 @@ export class AddUserComponent implements OnInit {
         email: formValue.email,
         //phone: formValue.phone,
         contactPrimary: formValue.contactPrimary.toString(),
-        contactSecondary:formValue.contactSecondary.toString(),
+        contactSecondary: formValue.contactSecondary.toString(),
         userId: 0,
       })
       .subscribe((user) => {
-        this._notificationSvc.success(
-          "Success",
-          "User added successfully"
-        );
+        this._notificationSvc.success("Success", "User added successfully");
+        this.store.dispatch(new userActions.GetUserInitAction({}));
         this.router.navigate(["/User"]);
       });
   }
@@ -133,11 +144,12 @@ export class AddUserComponent implements OnInit {
       email: formValue.email,
       //phone: formValue.phone,
       contactPrimary: formValue.contactPrimary.toString(),
-      contactSecondary:formValue.contactSecondary.toString(),
+      contactSecondary: formValue.contactSecondary.toString(),
     };
     this.userSvc.updateUser(user).subscribe((res) => {
       this._notificationSvc.success("Success", "User updated successfully");
       this.userForm.reset();
+      this.store.dispatch(new userActions.GetUserInitAction({}));
       this.router.navigate(["/User"]);
     });
   }
