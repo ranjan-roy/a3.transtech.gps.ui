@@ -48,7 +48,7 @@
                 >
                  
                   <td>{{ row.alarmType.name }}</td>
-                  <td>{{ row.alarmCondition }}</td>
+                  <td><div [innerHTML]="row.alarmCondition"></div></td>
                   <td>
                     <a
                       class="card-header-action btn btn-link btn-pencil"
