@@ -117,7 +117,7 @@ export class UserListComponent implements OnInit {
     }
     if (e.action === "delete") {
       this.userSvc.deleteUser(this.selectedRow).subscribe((res) => {
-        this.loadData();
+        this.store.dispatch(new actions.GetUserInitAction({}));
       });
     }
   }

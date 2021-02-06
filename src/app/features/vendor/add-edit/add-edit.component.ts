@@ -8,6 +8,8 @@ import {
 import { VendorService } from "../vendor.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
+import { select, Store } from "@ngrx/store";
+import * as vendorActions from "../../../state/vendor/vendor.actions";
 
 @Component({
   selector: "app-add-edit",
@@ -33,23 +35,29 @@ export class AddEditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private vendorSvc: VendorService,
     protected _notificationSvc: NotificationService,
-    private router: Router
+    private router: Router,
+    private store: Store<any>
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-
       this.rowData = navigation.extras.state;
     }
     this.createForm(this.rowData);
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
   createForm(rowData) {
     this.vendorForm = this.formBuilder.group({
       code: [rowData.code, Validators.required],
       name: [rowData.name, Validators.required],
       description: [rowData.description],
-      email: [rowData.mail, [Validators.required, Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$")]],
+      email: [
+        rowData.mail,
+        [
+          Validators.required,
+          Validators.pattern("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$"),
+        ],
+      ],
       phone: [rowData.phone, [Validators.required, Validators.maxLength(10)]],
       mobile: [rowData.mobile, [Validators.required, Validators.maxLength(10)]],
     });
@@ -115,6 +123,7 @@ export class AddEditComponent implements OnInit {
               "Vendor added successfully"
             );
             this.vendorForm.reset();
+            this.store.dispatch(new vendorActions.GetVendorInitAction({}));
             this.router.navigate(["/Vendor"]);
           });
       }
@@ -122,35 +131,36 @@ export class AddEditComponent implements OnInit {
   }
 
   updateVendor(formValue) {
-      const vendor = {
-        vendorId: this.rowData.vendorId,
-        code: formValue.code,
-        name: formValue.name,
-        description: formValue.description,
-        mail: formValue.email,
-        phone: formValue.phone,
-        mobile: formValue.mobile,
-      };
-      this.vendorSvc
-        .updateVendor(this.rowData.vendorId, vendor)
-        .subscribe((res) => {
-          this._notificationSvc.success("Success", "Vendor updated successfully");
-          this.vendorForm.reset();
-          this.router.navigate(["/Vendor"]);
-        });
-    }
-  validateAllFormFields(formGroup: FormGroup) {
-      //{1}
-      Object.keys(formGroup.controls).forEach((field) => {
-        //{2}
-        const control = formGroup.get(field); //{3}
-        if (control instanceof FormControl) {
-          //{4}
-          control.markAsTouched({ onlySelf: true });
-        } else if (control instanceof FormGroup) {
-          //{5}
-          this.validateAllFormFields(control); //{6}
-        }
+    const vendor = {
+      vendorId: this.rowData.vendorId,
+      code: formValue.code,
+      name: formValue.name,
+      description: formValue.description,
+      mail: formValue.email,
+      phone: formValue.phone,
+      mobile: formValue.mobile,
+    };
+    this.vendorSvc
+      .updateVendor(this.rowData.vendorId, vendor)
+      .subscribe((res) => {
+        this._notificationSvc.success("Success", "Vendor updated successfully");
+        this.vendorForm.reset();
+        this.store.dispatch(new vendorActions.GetVendorInitAction({}));
+        this.router.navigate(["/Vendor"]);
       });
-    }
+  }
+  validateAllFormFields(formGroup: FormGroup) {
+    //{1}
+    Object.keys(formGroup.controls).forEach((field) => {
+      //{2}
+      const control = formGroup.get(field); //{3}
+      if (control instanceof FormControl) {
+        //{4}
+        control.markAsTouched({ onlySelf: true });
+      } else if (control instanceof FormGroup) {
+        //{5}
+        this.validateAllFormFields(control); //{6}
+      }
+    });
+  }
 }

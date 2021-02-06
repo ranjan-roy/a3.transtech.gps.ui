@@ -9,8 +9,10 @@ import { DeviceService } from "../device.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
-import { VendorService } from '../../vendor/vendor.service';
-import { UserService } from '../../user/user.service';
+import { VendorService } from "../../vendor/vendor.service";
+import { UserService } from "../../user/user.service";
+import { select, Store } from "@ngrx/store";
+import * as actions from "../../../state/device/device.actions";
 
 @Component({
   selector: "app-add-device",
@@ -39,11 +41,13 @@ export class AddDeviceComponent implements OnInit {
     private userSvc: UserService,
     protected _notificationSvc: NotificationService,
     private router: Router,
-    private storage: StorageService
+    private storage: StorageService,
+    private store: Store<any>
   ) {
     const navigation = this.router.getCurrentNavigation();
+    console.log("constructor", navigation);
     if (navigation.extras.state) {
-
+      console.log("constructor", this.rowData);
       this.rowData = navigation.extras.state;
     }
     this.createForm(this.rowData);
@@ -61,44 +65,59 @@ export class AddDeviceComponent implements OnInit {
     this.deviceSvc.getAllDeviceType().subscribe((res) => {
       this.deviceTypeList = res;
     });
-
-    this.userSvc.getUsersByVendorId(this.rowData.vendorId).subscribe((res) => {
-      this.userList = res;
-    });
+    if (this.rowData.vendorId) {
+      this.userSvc
+        .getUsersByVendorId(this.rowData.vendorId)
+        .subscribe((res) => {
+          this.userList = res;
+        });
+    }
   }
 
   changeVendor(e) {
-    this.formGroup.get('vendorId').setValue(parseInt(e.target.value), {
-      onlySelf: true
+    this.formGroup.get("vendorId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
-  
-    this.userSvc.getUsersByVendorId(this.formGroup.value.vendorId).subscribe((res) => {
-      this.userList = res;
-    });
+
+    this.userSvc
+      .getUsersByVendorId(this.formGroup.value.vendorId)
+      .subscribe((res) => {
+        this.userList = res;
+      });
   }
 
   changeVehicleType(e) {
-    this.formGroup.get('vehicleTypeId').setValue(parseInt(e.target.value), {
-      onlySelf: true
+    this.formGroup.get("vehicleTypeId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
 
   changeDeviceType(e) {
-    this.formGroup.get('deviceTypeId').setValue(parseInt(e.target.value), {
-      onlySelf: true
+    this.formGroup.get("deviceTypeId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
 
   changeUser(e) {
-    this.formGroup.get('userId').setValue(parseInt(e.target.value), {
-      onlySelf: true
+    this.formGroup.get("userId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
 
   createForm(rowData) {
     this.formGroup = this.formBuilder.group({
-      vendorId: this.rowData?.deviceId ? [{value: rowData.vendorId?.toString(), disabled: true}, Validators.required]: [rowData.vendorId?.toString(), Validators.required],
-      userId: this.rowData?.deviceId ? [{value: rowData.userId?.toString(), disabled: true}, Validators.required]: [rowData.userId?.toString(), Validators.required],
+      vendorId: this.rowData?.deviceId
+        ? [
+            { value: rowData.vendorId?.toString(), disabled: true },
+            Validators.required,
+          ]
+        : [rowData.vendorId?.toString(), Validators.required],
+      userId: this.rowData?.deviceId
+        ? [
+            { value: rowData.userId?.toString(), disabled: true },
+            Validators.required,
+          ]
+        : [rowData.userId?.toString(), Validators.required],
       vehicleTypeId: [rowData.vehicleTypeId, Validators.required],
       deviceTypeId: [rowData.deviceTypeId, Validators.required],
       serial: [rowData.serial, Validators.required],
@@ -142,6 +161,7 @@ export class AddDeviceComponent implements OnInit {
     this.deviceSvc.addDevice(device).subscribe((newDevice) => {
       if (newDevice) {
         this._notificationSvc.success("Success", "Device added successfully");
+        this.store.dispatch(new actions.GetDeviceInitAction(device.userId));
         this.router.navigate(["/Device"]);
       }
     });
@@ -159,6 +179,7 @@ export class AddDeviceComponent implements OnInit {
     this.deviceSvc.updateDevice(device).subscribe((res) => {
       this._notificationSvc.success("Success", "Device updated successfully");
       this.formGroup.reset();
+      this.store.dispatch(new actions.GetDeviceInitAction(device.userId));
       this.router.navigate(["/Device"]);
     });
   }
