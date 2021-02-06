@@ -18,7 +18,6 @@ export class AlarmService {
   getAllVehicleType(): Observable<any> {
     return this.http.get<any>(`${this.url}/VehicleType/`);
   }
-
   getAllDeviceType(): Observable<any> {
     return this.http.get<any>(`${this.url}/DeviceType/`);
   }
