@@ -100,11 +100,11 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     this.selectedDeviceId = this.selectedDevice.deviceId;
   }
 
-  changeAlarmType(e) {
+  changeAlarmType(e, isManual) {
+    if(!isManual)
+      this.formGroup.reset();
+
     let val = parseInt(e);
-    // this.formGroup.get("alarmStatus").setValue(0, {
-    //   onlySelf: true,
-    // });
     this.formGroup.get("alarmTypeId").setValue(val, {
       onlySelf: true,
     });
@@ -135,9 +135,9 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       case 1:
         this.valueField.setValidators(Validators.required);
         this.operatorIdField.setValidators(Validators.required);
+        this.operatorIdField.setValue(1);
         this.toleranceField.setValidators(Validators.required);
         this.fieldsState.value = true;
-        this.fieldsState.operatorId = true;
         this.fieldsState.tolerance = true;
         break;
       case 5:
@@ -147,10 +147,10 @@ export class AddAlarmComponent implements OnInit, OnChanges {
 
         break;
       case 10:
-        this.fieldsState.operatorId = true;
         this.fieldsState.startDate = true;
         this.fieldsState.endDate = true;
         this.operatorIdField.setValidators(Validators.required);
+        this.operatorIdField.setValue(4);
         this.startDateField.setValidators(Validators.required);
         this.endDateField.setValidators(Validators.required);
         break;
@@ -204,7 +204,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
     });
 
     if (rowData.alarmTypeId) {
-      this.changeAlarmType(rowData.alarmTypeId);
+      this.changeAlarmType(rowData.alarmTypeId, "manual");
     }
   }
 

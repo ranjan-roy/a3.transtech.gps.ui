@@ -132,14 +132,14 @@ export class AlarmListComponent implements OnInit {
         field: "vehicleType.name",
         sortable: true,
         filter: true,
-        width: 130,
+        width: 150,
       },
       {
-        headerName: "Name",
+        headerName: "Registration",
         field: "name",
         sortable: true,
         filter: true,
-        width: 130,
+        width: 150,
       },
     ];
     this.setActionItem();
@@ -269,5 +269,18 @@ export class AlarmListComponent implements OnInit {
 
   decline(): void {
     this.modalRef.hide();
+  }
+
+  public onRowDataChanged(): void {
+    this.gridApi.forEachNode((node) =>
+      node.rowIndex ? 0 : node.setSelected(true)
+    );
+  }
+
+  public onReady(params) {
+    params.api.sizeColumnsToFit();
+    params.api.forEachNode((node) =>
+      node.rowIndex ? 0 : node.setSelected(true)
+    );
   }
 }
