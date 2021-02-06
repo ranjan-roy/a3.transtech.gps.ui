@@ -6,6 +6,15 @@ import { StorageService } from "../../../core/service/storage.service";
 import { GeofencingService } from "../../geofencing/geofencing.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { AuthService } from "../../../core/service/auth.service";
+import { select, Store } from "@ngrx/store";
+import * as operatorActions from "../../../state/operator/operator.actions";
+import * as deviceActions from "../../../state/device/device.actions";
+import * as userActions from "../../../state/user/user.actions";
+
+import * as deviceReducer from "../../../state/device/device.reducers";
+import * as operatorReducer from "../../../state/operator/operator.reducers";
+import * as userReducer from "../../../state/user/user.reducers";
+
 @Component({
   selector: "app-fencing-list",
   templateUrl: "./fencing-list.component.html",
@@ -19,7 +28,7 @@ export class FencingListComponent implements OnInit {
   columnDefs;
   rowDataClicked1 = {};
   rowDataClicked2 = {};
-  rowData = [];
+  rowData = null;
   actionItems = [
     // { label: "Edit", action: "edit", iconClass: "icon-pencil" },
     // { label: "View", action: "view", iconClass: "icon-eye" },
@@ -36,8 +45,23 @@ export class FencingListComponent implements OnInit {
     private router: Router,
     private storage: StorageService,
     private geofenceSvc: GeofencingService,
-    protected _notificationSvc: NotificationService
-  ) {}
+    protected _notificationSvc: NotificationService,
+    private store: Store<any>
+  ) {
+    // geGeofenceByUser
+    this.store
+      .pipe(select(userReducer.selectGeofenceByUser))
+      .subscribe((res) => {
+        if (res && res.length) {
+          this.rowData = res.map((item) => {
+            return {
+              ...item,
+              address: [item.city, item.state, item.country].join(", "),
+            };
+          });
+        }
+      });
+  }
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -82,12 +106,9 @@ export class FencingListComponent implements OnInit {
   }
   loadData() {
     const userId = this.storage.getItem("userId");
-    this.geofenceSvc.geGeofenceByUser(userId).subscribe((res) => {
-      this.rowData = res.map((item) => {
-        item.address = [item.city, item.state, item.country].join(", ");
-        return item;
-      });
-    });
+    if (!this.rowData) {
+      this.store.dispatch(new userActions.GetGeofenceByUserInitAction(userId));
+    }
   }
   onBtnClick(e) {
     if (e.action === "add") {

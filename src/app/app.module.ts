@@ -59,6 +59,7 @@ import { reducers } from "./state";
 import { UserEffects } from "./state/user/user.effects";
 import { DeviceEffects } from "./state/device/device.effects";
 import { VendorEffects } from "./state/vendor/vendor.effects";
+import { OperatorEffects } from "./state/operator/operator.effects";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -91,7 +92,12 @@ export function tokenGetter() {
     CoreModule,
     // initialize store by providing a set of reducers
     StoreModule.forRoot(reducers, {}),
-    EffectsModule.forRoot([UserEffects, DeviceEffects, VendorEffects]),
+    EffectsModule.forRoot([
+      UserEffects,
+      DeviceEffects,
+      VendorEffects,
+      OperatorEffects,
+    ]),
     // Note that you must instrument after importing StoreModule (non-prod)
     !environment.production
       ? StoreDevtoolsModule.instrument({ maxAge: 15 })

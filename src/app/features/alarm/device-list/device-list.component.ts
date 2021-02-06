@@ -9,8 +9,13 @@ import { AddAlarmComponent } from "../add-alarm/add-alarm.component";
 import { NotificationService } from "../../../core/service/notification.server";
 import { GeofencingService } from "../../geofencing/geofencing.service";
 import { select, Store } from "@ngrx/store";
-import * as actions from "../../../state/device/device.actions";
+import * as operatorActions from "../../../state/operator/operator.actions";
+import * as deviceActions from "../../../state/device/device.actions";
+import * as userActions from "../../../state/user/user.actions";
+
 import * as deviceReducer from "../../../state/device/device.reducers";
+import * as operatorReducer from "../../../state/operator/operator.reducers";
+import * as userReducer from "../../../state/user/user.reducers";
 
 @Component({
   selector: "app-device-list",
@@ -51,10 +56,10 @@ export class AlarmListComponent implements OnInit {
   showList: boolean = true;
   showEdit: boolean = false;
   rowSelection = "single";
-  geofenceList: any[] = [];
-  alarmTypeList: any[] = [];
-  operatorList: any[] = [];
-  alarmStatusList: any[] = [];
+  geofenceList: any[] = null;
+  alarmTypeList: any[] = null;
+  operatorList: any[] = null;
+  alarmStatusList: any[] = null;
 
   constructor(
     public auth: AuthService,
@@ -67,12 +72,37 @@ export class AlarmListComponent implements OnInit {
     private store: Store<any>
   ) {
     const navigation = this.router.getCurrentNavigation();
+    this.subscribeEvents();
+  }
+
+  subscribeEvents() {
     this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
-      console.log(res.device);
+      console.log("subscribeEvents", res.device);
       this.rowData = res.device;
       if (this.selectedDevice) {
         this.preSelectRow();
       }
+    });
+
+    // geGeofenceByUser
+    this.store
+      .pipe(select(userReducer.selectGeofenceByUser))
+      .subscribe((res) => {
+        this.geofenceList = res;
+      });
+    // getOperator
+    this.store.pipe(select(operatorReducer.selectOperator)).subscribe((res) => {
+      this.operatorList = res;
+    });
+    // getAlarmStatus
+    this.store
+      .pipe(select(deviceReducer.selectAlarmStatus))
+      .subscribe((res) => {
+        this.alarmStatusList = res;
+      });
+    // getAllAlarmType
+    this.store.pipe(select(deviceReducer.selectAlarmTypes)).subscribe((res) => {
+      this.alarmTypeList = res;
     });
   }
 
@@ -85,6 +115,7 @@ export class AlarmListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const userId = this.storage.getItem("userId");
     this.columnDefs = [
       {
         headerName: "",
@@ -110,25 +141,24 @@ export class AlarmListComponent implements OnInit {
       },
     ];
     this.setActionItem();
-    this.deviceSvc.getOperator().subscribe((res) => {
-      this.operatorList = res;
-    });
-    this.deviceSvc.getAlarmStatus().subscribe((res) => {
-      this.alarmStatusList = res;
-    });
-    this.deviceSvc.getAllAlarmType().subscribe((res) => {
-      this.alarmTypeList = res;
-    });
-    const userId = this.storage.getItem("userId");
-    this.geofenceSvc.geGeofenceByUser(userId).subscribe((res) => {
-      this.geofenceList = res;
-    });
+    if (!this.operatorList) {
+      this.store.dispatch(new operatorActions.GetOperatorInitAction({}));
+    }
+    if (!this.alarmStatusList) {
+      this.store.dispatch(new deviceActions.GetaLAlarmStatusInitAction({}));
+    }
+    if (!this.alarmTypeList) {
+      this.store.dispatch(new deviceActions.GetaLAlarmTypeInitAction({}));
+    }
+    if (!this.geofenceList) {
+      this.store.dispatch(new userActions.GetGeofenceByUserInitAction(userId));
+    }
   }
 
   loadData() {
     const userId = this.storage.getItem("userId");
     if (!this.rowData) {
-      this.store.dispatch(new actions.GetDeviceInitAction(userId));
+      this.store.dispatch(new deviceActions.GetDeviceInitAction(userId));
     }
   }
   onBtnClick(e, row, id) {
