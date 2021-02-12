@@ -4,7 +4,42 @@ import { PositionService } from "../../../services/position.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 import * as actions from "../../../state/device/device.actions";
 import * as deviceReducer from "../../../state/device/device.reducers";
-
+const mockData = [
+  {
+    vehicleType: {
+      vehicleTypeId: 5,
+      name: "Truck",
+    },
+    deviceType: {
+      deviceTypeId: 2,
+      name: "Spotter PRO",
+    },
+    serial: "865725031263680",
+    name: "MH 12 SD 1432",
+    maxSpeed: 41,
+    averageSpeed: 23,
+    distanceCovered: 28,
+    idealTime: "21:51:26",
+    runningTime: "02:08:33",
+  },
+  {
+    vehicleType: {
+      vehicleTypeId: 4,
+      name: "Mini Truck",
+    },
+    deviceType: {
+      deviceTypeId: 3,
+      name: "Teltonika FMB 920",
+    },
+    serial: "359632106727289",
+    name: "MH 12 LP 0638",
+    maxSpeed: 44,
+    averageSpeed: 21,
+    distanceCovered: 25,
+    idealTime: "22:21:29",
+    runningTime: "01:38:30",
+  },
+];
 @Component({
   selector: "app-vehicle-summary",
   templateUrl: "./vehicle-summary.component.html",
@@ -21,7 +56,7 @@ export class VehicleSummaryComponent implements OnInit {
   frameworkComponents: any;
   rowDataClicked1 = {};
   rowDataClicked2 = {};
-  rowData = [];
+  rowData = mockData;
   actionItems = [];
   defaultActionItem = [];
   showAction: boolean = false;
@@ -97,17 +132,23 @@ export class VehicleSummaryComponent implements OnInit {
   loadData() {
     this.startDate = "2021-01-05 00:12:49";
     this.endDate = "2021-01-06 00:12:49";
-    this.positionSvc
-      .getDeviceSummary(this.startDate, this.endDate)
-      .subscribe((res) => {
-        this.deviceList = res;
-        this.rowData = res.map((item) => {
-          return {
-            ...item,
-            vehicleTypeId: item.vehicleType.vehicleTypeId,
-          };
-        });
-      });
+    this.rowData = mockData.map((item) => {
+      return {
+        ...item,
+        vehicleTypeId: item.vehicleType.vehicleTypeId,
+      };
+    });
+    // this.positionSvc
+    //   .getDeviceSummary(this.startDate, this.endDate)
+    //   .subscribe((res) => {
+    //     this.deviceList = res;
+    //     this.rowData = res.map((item) => {
+    //       return {
+    //         ...item,
+    //         vehicleTypeId: item.vehicleType.vehicleTypeId,
+    //       };
+    //     });
+    //   });
   }
 
   onSetDeviceFilter(filterQuery) {
