@@ -58,4 +58,8 @@ export class VehicleSummaryComponent implements OnInit {
     );
   }
 
+  onShowMap(e) {
+
+  }
+
 }
