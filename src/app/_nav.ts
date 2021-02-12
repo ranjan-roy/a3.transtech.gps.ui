@@ -34,4 +34,16 @@ export const navItems: INavData[] = [
     url: "/Geofencing",
     icon: "fa fa-map",
   },
+  {
+    name: "Report",
+    url: "/Report",
+    icon: "fa fa-map",
+    children: [
+      {
+        name: "VehicleSummary",
+        url: "/Report/VehicleSummary",
+        icon: "icon-speedometer",
+      },
+    ]
+  },
 ];

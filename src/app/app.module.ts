@@ -60,6 +60,7 @@ import { UserEffects } from "./state/user/user.effects";
 import { DeviceEffects } from "./state/device/device.effects";
 import { VendorEffects } from "./state/vendor/vendor.effects";
 import { OperatorEffects } from "./state/operator/operator.effects";
+import { ReportModule } from "./features/report/report.module";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -90,6 +91,7 @@ export function tokenGetter() {
     }),
     SharedModule,
     CoreModule,
+    ReportModule,
     // initialize store by providing a set of reducers
     StoreModule.forRoot(reducers, {}),
     EffectsModule.forRoot([
@@ -120,4 +122,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

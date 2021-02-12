@@ -1,0 +1,16 @@
+<div class="animated fadeIn">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">Vehicle Summary</div>
+                <div class="card-body">
+                    <app-report-filter></app-report-filter>
+                    <div class="border-bottom">
+                        <app-vehicle-info [deviceList]="rows" (showMap)="onShowMap($event)">
+                        </app-vehicle-info>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
