@@ -1,16 +1,16 @@
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { VendorRoutingModule } from './vendor-routing.module';
-import { VendorListComponent } from './vendor-list/vendor-list.component';
+import { VendorRoutingModule } from "./vendor-routing.module";
+import { VendorListComponent } from "./vendor-list/vendor-list.component";
 
-import { AgGridModule } from 'ag-grid-angular';
+import { AgGridModule } from "ag-grid-angular";
 
-import { AddEditComponent } from './add-edit/add-edit.component';
-import { VendorService } from './vendor.service';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { CellActionComponent } from '../../shared/table/cell-action/cell-action.component';
-import { SharedModule } from '../../shared/shared.module';
+import { AddEditComponent } from "./add-edit/add-edit.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
+import { SharedModule } from "../../shared/shared.module";
+import { VendorService } from "../../services/vendor.service";
 
 @NgModule({
   declarations: [VendorListComponent, AddEditComponent],
@@ -20,11 +20,10 @@ import { SharedModule } from '../../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     SharedModule,
-    AgGridModule.forRoot([CellActionComponent])
+    AgGridModule.forRoot([CellActionComponent]),
   ],
   providers: [VendorService],
 
-  bootstrap: [VendorListComponent]
-
+  bootstrap: [VendorListComponent],
 })
-export class VendorModule { }
+export class VendorModule {}

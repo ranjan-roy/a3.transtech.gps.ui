@@ -3,7 +3,6 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";
-import { GeofencingService } from "../../geofencing/geofencing.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { AuthService } from "../../../core/service/auth.service";
 import { select, Store } from "@ngrx/store";
@@ -14,6 +13,7 @@ import * as userActions from "../../../state/user/user.actions";
 import * as deviceReducer from "../../../state/device/device.reducers";
 import * as operatorReducer from "../../../state/operator/operator.reducers";
 import * as userReducer from "../../../state/user/user.reducers";
+import { GeofencingService } from "../../../services/geofencing.service";
 
 @Component({
   selector: "app-fencing-list",

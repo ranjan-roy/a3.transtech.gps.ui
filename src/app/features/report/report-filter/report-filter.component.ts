@@ -1,9 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 
 @Component({
-  selector: 'app-report-filter',
-  templateUrl: './report-filter.component.html',
-  styleUrls: ['./report-filter.component.css']
+  selector: "app-report-filter",
+  templateUrl: "./report-filter.component.html",
+  styleUrls: ["./report-filter.component.css"],
 })
 export class ReportFilterComponent implements OnInit {
   @Input() deviceList: any[] = [];
@@ -19,10 +19,9 @@ export class ReportFilterComponent implements OnInit {
     name: "",
   };
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
   onSearchTextChanges($event) {
     if (this.searchText) {
       this.filterQuery.name = this.searchText.toLowerCase();

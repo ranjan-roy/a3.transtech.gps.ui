@@ -5,11 +5,11 @@ import {
   ElementRef,
   NgZone,
 } from "@angular/core";
-import { GeofencingService } from "../geofencing.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
+import { GeofencingService } from "../../../services/geofencing.service";
 declare const google: any;
 
 @Component({

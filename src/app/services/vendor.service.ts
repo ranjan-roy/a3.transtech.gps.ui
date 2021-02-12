@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment';
-import { HttpClient } from '@angular/common/http';
-import { LoginPayload } from '../../core/service/interface';
-import { Observable } from 'rxjs';
-import 'rxjs/add/observable/forkJoin';
+import { Injectable } from "@angular/core";
+import { environment } from "../../environments/environment";
+import { HttpClient } from "@angular/common/http";
+import { LoginPayload } from "../core/service/interface";
+import { Observable } from "rxjs";
+import "rxjs/add/observable/forkJoin";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class VendorService {
-
   url = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getVendor(): Observable<any> {
     return this.http.get<any>(`${this.url}/Vendor/GetFilteredVendor`);
@@ -23,7 +22,6 @@ export class VendorService {
   }
 
   addVendor(payload) {
-
     return this.http.post(`${this.url}/Vendor`, payload);
   }
 

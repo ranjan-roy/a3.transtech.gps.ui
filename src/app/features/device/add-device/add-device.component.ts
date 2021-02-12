@@ -5,14 +5,14 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
-import { DeviceService } from "../device.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
-import { VendorService } from "../../vendor/vendor.service";
-import { UserService } from "../../user/user.service";
 import { select, Store } from "@ngrx/store";
 import * as actions from "../../../state/device/device.actions";
+import { DeviceService } from "../../../services/device.service";
+import { UserService } from "../../../services/user.service";
+import { VendorService } from "../../../services/vendor.service";
 
 @Component({
   selector: "app-add-device",

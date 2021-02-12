@@ -12,10 +12,10 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
-import { AlarmService } from "../alarm.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
+import { AlarmService } from "../../../services/alarm.service";
 
 @Component({
   selector: "app-add-alarm",
@@ -101,8 +101,7 @@ export class AddAlarmComponent implements OnInit, OnChanges {
   }
 
   changeAlarmType(e, isManual) {
-    if(!isManual)
-      this.formGroup.reset();
+    if (!isManual) this.formGroup.reset();
 
     let val = parseInt(e);
     this.formGroup.get("alarmTypeId").setValue(val, {

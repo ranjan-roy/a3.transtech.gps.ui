@@ -1,13 +1,11 @@
 import { Component, OnInit, TemplateRef, ViewChild } from "@angular/core";
 import { BsModalService, BsModalRef } from "ngx-bootstrap/modal";
-import { AlarmService } from "../alarm.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
 import { AddAlarmComponent } from "../add-alarm/add-alarm.component";
 import { NotificationService } from "../../../core/service/notification.server";
-import { GeofencingService } from "../../geofencing/geofencing.service";
 import { select, Store } from "@ngrx/store";
 import * as operatorActions from "../../../state/operator/operator.actions";
 import * as deviceActions from "../../../state/device/device.actions";
@@ -16,6 +14,8 @@ import * as userActions from "../../../state/user/user.actions";
 import * as deviceReducer from "../../../state/device/device.reducers";
 import * as operatorReducer from "../../../state/operator/operator.reducers";
 import * as userReducer from "../../../state/user/user.reducers";
+import { AlarmService } from "../../../services/alarm.service";
+import { GeofencingService } from "../../../services/geofencing.service";
 
 @Component({
   selector: "app-device-list",

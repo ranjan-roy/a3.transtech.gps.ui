@@ -2,8 +2,8 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Effect, Actions, ofType } from "@ngrx/effects";
 import { switchMap, map, catchError } from "rxjs/operators";
-import { GeofencingService } from "../../features/geofencing/geofencing.service";
-import { UserService } from "../../features/user/user.service";
+import { GeofencingService } from "../../services/geofencing.service";
+import { UserService } from "../../services/user.service";
 import { User } from "../../interface/common.interface";
 
 import { BaseEffects } from "../base.effects";

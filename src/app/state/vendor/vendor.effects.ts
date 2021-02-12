@@ -4,7 +4,7 @@ import { Effect, Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { switchMap, map, catchError } from "rxjs/operators";
-import { VendorService } from "../../features/vendor/vendor.service";
+import { VendorService } from "../../services/vendor.service";
 
 import { BaseEffects } from "../base.effects";
 

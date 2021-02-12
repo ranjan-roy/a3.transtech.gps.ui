@@ -4,8 +4,8 @@ import { Effect, Actions, ofType } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { switchMap, map, catchError } from "rxjs/operators";
-import { AlarmService } from "../../features/alarm/alarm.service";
-import { DeviceService } from "../../features/device/device.service";
+import { AlarmService } from "../../services/alarm.service";
+import { DeviceService } from "../../services/device.service";
 
 import { BaseEffects } from "../base.effects";
 

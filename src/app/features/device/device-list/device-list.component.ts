@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { DeviceService } from "../device.service";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AuthService } from "../../../core/service/auth.service";
@@ -7,6 +6,7 @@ import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-
 import { select, Store } from "@ngrx/store";
 import * as actions from "../../../state/device/device.actions";
 import * as deviceReducer from "../../../state/device/device.reducers";
+import { DeviceService } from "../../../services/device.service";
 
 @Component({
   selector: "app-device-list",

@@ -1,13 +1,14 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
 
-import { ReportRoutingModule } from './report-routing.module';
-import { VehicleSummaryComponent } from './vehicle-summary/vehicle-summary.component';
-import { SharedModule } from '../../shared/shared.module';
-import { ReportFilterComponent } from './report-filter/report-filter.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ButtonsModule } from 'ngx-bootstrap/buttons';
-
+import { ReportRoutingModule } from "./report-routing.module";
+import { VehicleSummaryComponent } from "./vehicle-summary/vehicle-summary.component";
+import { SharedModule } from "../../shared/shared.module";
+import { ReportFilterComponent } from "./report-filter/report-filter.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ButtonsModule } from "ngx-bootstrap/buttons";
+import { AgGridModule } from "ag-grid-angular";
+import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
 
 @NgModule({
   declarations: [VehicleSummaryComponent, ReportFilterComponent],
@@ -17,7 +18,8 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    ButtonsModule.forRoot()
-  ]
+    ButtonsModule.forRoot(),
+    AgGridModule.forRoot([CellActionComponent]),
+  ],
 })
-export class ReportModule { }
+export class ReportModule {}
