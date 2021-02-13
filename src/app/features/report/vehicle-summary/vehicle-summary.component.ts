@@ -192,6 +192,6 @@ export class VehicleSummaryComponent implements OnInit {
     var selectedRows = this.gridApi.getSelectedRows();
     this.selectedRow = selectedRows[0];
     this.showAction = true;
-    this.router.navigate(['router/VehiclePosition']);
+    this.router.navigate(['Report/VehiclePosition']);
   }
 }
