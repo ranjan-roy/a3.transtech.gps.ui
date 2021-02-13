@@ -9,9 +9,10 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ButtonsModule } from "ngx-bootstrap/buttons";
 import { AgGridModule } from "ag-grid-angular";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
+import { VehiclePositionComponent } from './vehicle-position/vehicle-position.component';
 
 @NgModule({
-  declarations: [VehicleSummaryComponent, ReportFilterComponent],
+  declarations: [VehicleSummaryComponent, ReportFilterComponent, VehiclePositionComponent],
   imports: [
     CommonModule,
     ReportRoutingModule,

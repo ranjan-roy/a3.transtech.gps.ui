@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { PositionService } from "../../../services/position.service";
 import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
@@ -65,7 +66,7 @@ export class VehicleSummaryComponent implements OnInit {
   gridColumnApi;
   rowSelection = "single";
 
-  constructor(private positionSvc: PositionService) { }
+  constructor(private positionSvc: PositionService, private router: Router) { }
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -191,5 +192,6 @@ export class VehicleSummaryComponent implements OnInit {
     var selectedRows = this.gridApi.getSelectedRows();
     this.selectedRow = selectedRows[0];
     this.showAction = true;
+    this.router.navigate(['router/VehiclePosition']);
   }
 }
