@@ -65,7 +65,7 @@ export class VehicleSummaryComponent implements OnInit {
   gridColumnApi;
   rowSelection = "single";
 
-  constructor(private positionSvc: PositionService) {}
+  constructor(private positionSvc: PositionService) { }
 
   ngOnInit(): void {
     this.columnDefs = [
@@ -84,47 +84,49 @@ export class VehicleSummaryComponent implements OnInit {
         filter: true,
       },
       {
-        headerName: "Device Type",
-        field: "deviceType.name",
-        sortable: true,
-        filter: true,
-      },
-      {
-        headerName: "Company",
-        field: "user.companyName",
-        sortable: true,
-        filter: true,
-      },
-      {
-        headerName: "Vendor",
-        field: "vendor.name",
-        sortable: true,
-        filter: true,
-      },
-      {
-        headerName: "Serial Number",
+        headerName: "Serial",
         field: "serial",
         sortable: true,
         filter: true,
       },
-
       {
         headerName: "Name",
         field: "name",
         sortable: true,
         filter: true,
       },
+      {
+        headerName: "Max Speed",
+        field: "maxSpeed",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Average Speed",
+        field: "averageSpeed",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Distance Covered",
+        field: "vehicleType.name",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Ideal Time",
+        field: "idealTime",
+        sortable: true,
+        filter: true,
+      },
+      {
+        headerName: "Running Time",
+        field: "runningTime",
+        sortable: true,
+        filter: true,
+      },
 
-      // {
-      //   headerName: "Actions",
-      //   field: "action",
-      //   cellRenderer: "buttonRenderer",
-      //   cellRendererParams: {
-      //     label: "Edit",
-      //     onClick: this.onBtnClick.bind(this),
-      //   },
-      //   actionItems: [{ label: "Edit", action: "edit" }],
-      // },
+
     ];
     // this.loadData();
   }
@@ -179,7 +181,7 @@ export class VehicleSummaryComponent implements OnInit {
     return match.isNameMatchRequired === match.name;
   }
 
-  onShowMap(e) {}
+  onShowMap(e) { }
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;
