@@ -9,10 +9,15 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ButtonsModule } from "ngx-bootstrap/buttons";
 import { AgGridModule } from "ag-grid-angular";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
-import { VehiclePositionComponent } from './vehicle-position/vehicle-position.component';
+import { VehiclePositionComponent } from "./vehicle-position/vehicle-position.component";
+import { CellViewAddressRendererComponent } from "../../shared/table/cell-action/cell-view-address.renderer";
 
 @NgModule({
-  declarations: [VehicleSummaryComponent, ReportFilterComponent, VehiclePositionComponent],
+  declarations: [
+    VehicleSummaryComponent,
+    ReportFilterComponent,
+    VehiclePositionComponent,
+  ],
   imports: [
     CommonModule,
     ReportRoutingModule,
@@ -20,7 +25,10 @@ import { VehiclePositionComponent } from './vehicle-position/vehicle-position.co
     ReactiveFormsModule,
     FormsModule,
     ButtonsModule.forRoot(),
-    AgGridModule.forRoot([CellActionComponent]),
+    AgGridModule.forRoot([
+      CellActionComponent,
+      CellViewAddressRendererComponent,
+    ]),
   ],
 })
 export class ReportModule {}

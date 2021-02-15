@@ -1,19 +1,26 @@
 <div class="row mb-3">
-    <div class="col-sm-9">
+    <div class="col-sm-6">
         <input name="searchText" [(ngModel)]="searchText" type="text" class="form-control"
             aria-label="Text input with dropdown button" placeholder="Search by name"
             (keyup)="onSearchTextChanges($event)" />
     </div>
     <!--/.col-->
-    <div class="col-sm-3">
+    <div class="col-sm-6">
         <div class="btn-group btn-group-toggle float-right " data-toggle="buttons">
-            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" btnRadio="1" id="option1">1 d</label>
-            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" btnRadio="2" id="option1">2 d</label>
-            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" btnRadio="3" id="option1">3 d</label>
-            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" btnRadio="4" id="option1">4 d</label>
-            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" btnRadio="5" id="option1">5 d</label>
-            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" btnRadio="6" id="option1">6 d</label>
-            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" btnRadio="7" id="option1">7 d</label>
+            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"
+                btnRadio="1" id="option1">1 d</label>
+            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"
+                btnRadio="2" id="option1">2 d</label>
+            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"
+                btnRadio="3" id="option1">3 d</label>
+            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"
+                btnRadio="4" id="option1">4 d</label>
+            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"
+                btnRadio="5" id="option1">5 d</label>
+            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"
+                btnRadio="6" id="option1">6 d</label>
+            <label class="btn btn-outline-secondary" [(ngModel)]="dateRange" (ngModelChange)="onChange($event)"
+                btnRadio="7" id="option1">7 d</label>
         </div>
     </div>
     <!--/.col-->

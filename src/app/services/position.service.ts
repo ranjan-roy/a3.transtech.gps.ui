@@ -11,9 +11,15 @@ export class PositionService {
 
   constructor(private http: HttpClient) {}
 
-  getDeviceSummary(startdate, enddate): Observable<any> {
+  getVehicleSummary({ startDate, endDate }): Observable<any> {
     return this.http.get<any>(
-      `${this.url}/Position/DeviceSummary/${startdate}/${enddate}`
+      `${this.url}/Position/DeviceSummary/${startDate}/${endDate}`
+    );
+  }
+
+  getPositionData({ deviceId, startDate, endDate }): Observable<any> {
+    return this.http.get<any>(
+      `${this.url}/Position/${deviceId}/${startDate}/${endDate}`
     );
   }
 }

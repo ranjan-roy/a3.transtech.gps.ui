@@ -61,6 +61,7 @@ import { DeviceEffects } from "./state/device/device.effects";
 import { VendorEffects } from "./state/vendor/vendor.effects";
 import { OperatorEffects } from "./state/operator/operator.effects";
 import { ReportModule } from "./features/report/report.module";
+import { ReportEffects } from "./state/report/report.effects";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -99,6 +100,7 @@ export function tokenGetter() {
       DeviceEffects,
       VendorEffects,
       OperatorEffects,
+      ReportEffects,
     ]),
     // Note that you must instrument after importing StoreModule (non-prod)
     !environment.production
@@ -122,4 +124,4 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

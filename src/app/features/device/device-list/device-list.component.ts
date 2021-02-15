@@ -89,17 +89,6 @@ export class DeviceListComponent implements OnInit {
         sortable: true,
         filter: true,
       },
-
-      // {
-      //   headerName: "Actions",
-      //   field: "action",
-      //   cellRenderer: "buttonRenderer",
-      //   cellRendererParams: {
-      //     label: "Edit",
-      //     onClick: this.onBtnClick.bind(this),
-      //   },
-      //   actionItems: [{ label: "Edit", action: "edit" }],
-      // },
     ];
     this.setActionItem();
   }
