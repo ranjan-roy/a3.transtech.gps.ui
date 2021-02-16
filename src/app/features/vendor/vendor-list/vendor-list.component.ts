@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { VendorService } from "../vendor.service";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { Router } from "@angular/router";
 import { AuthService } from "../../../core/service/auth.service";
 import { select, Store } from "@ngrx/store";
 import * as actions from "../../../state/vendor/vendor.actions";
 import * as vendorReducer from "../../../state/vendor/vendor.reducers";
+import { VendorService } from "../../../services/vendor.service";
 
 @Component({
   selector: "app-vendor-list",

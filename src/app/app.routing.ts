@@ -93,6 +93,14 @@ export const routes: Routes = [
             (m) => m.GeofencingModule
           ),
       },
+      {
+        path: "Report",
+        canActivate: [AuthGuardService],
+        loadChildren: () =>
+          import("./features/report/report.module").then(
+            (m) => m.ReportModule
+          ),
+      },
     ],
   },
   {
@@ -106,4 +114,4 @@ export const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

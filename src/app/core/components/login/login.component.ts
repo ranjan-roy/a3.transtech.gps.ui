@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private store: StorageService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -86,8 +86,22 @@ export class LoginComponent implements OnInit {
     this.isSubmitted = true;
     this.loginService.screen(id).subscribe((res) => {
       if (res) {
+        const entitlements = [
+          ...res
+          , {
+            "screenId": 6,
+            "name": "Report",
+            "description": "Report Management Screen",
+            "path": "string",
+            "moduleId": 0,
+            "parentId": 0,
+            "level": 0,
+            "accessLevel": 1,
+            "permissions": ["Add", "Edit", "View", "Delete"]
+          }];
+
         this.loading = false;
-        this.store.setItem("entitlement", JSON.stringify(res));
+        this.store.setItem("entitlement", JSON.stringify(entitlements));
         this.router.navigate(["Dashboard"]);
       } else {
         this.invalidScreen = false;

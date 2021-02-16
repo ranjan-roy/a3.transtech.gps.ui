@@ -5,7 +5,7 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
-import { VendorService } from "../vendor.service";
+import { VendorService } from "../../../services/vendor.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";

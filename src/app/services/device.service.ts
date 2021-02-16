@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment";
+import { environment } from "../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 
@@ -45,4 +45,14 @@ export class DeviceService {
   getDevicePosition(): Observable<any> {
     return this.http.get<any>(`${this.url}/Device/GetDevicePosition`);
   }
+
+  GetPositionAddress({ lat, lng }): Observable<any> {
+    return this.http.get<any>(`${this.url}/Device/GetPositionAddress`, {
+      params: {
+        lat,
+        lng
+      }
+    });
+  }
+
 }

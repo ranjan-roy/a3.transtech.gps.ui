@@ -5,13 +5,13 @@ import {
   Validators,
   FormControl,
 } from "@angular/forms";
-import { UserService } from "../user.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
-import { VendorService } from "../../vendor/vendor.service";
 import { select, Store } from "@ngrx/store";
 import * as userActions from "../../../state/user/user.actions";
+import { UserService } from "../../../services/user.service";
+import { VendorService } from "../../../services/vendor.service";
 @Component({
   selector: "app-add-user",
   templateUrl: "./add-user.component.html",

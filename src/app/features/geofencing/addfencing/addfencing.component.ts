@@ -5,13 +5,13 @@ import {
   ElementRef,
   NgZone,
 } from "@angular/core";
-import { GeofencingService } from "../geofencing.service";
 import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { Validators, FormGroup, FormBuilder } from "@angular/forms";
-import { VendorService } from '../../vendor/vendor.service';
-import { UserService } from '../../user/user.service';
+import { GeofencingService } from "../../../services/geofencing.service";
+import { UserService } from "../../../services/user.service";
+import { VendorService } from "../../../services/vendor.service";
 declare const google: any;
 
 /** Demo Component for @angular/google-maps/map */
@@ -66,7 +66,7 @@ export class AddfencingComponent implements OnInit {
     },
     srid: "",
     elevation: 0,
-    mapParam: ""
+    mapParam: "",
   };
   addressText: string;
   vendorList: any;
@@ -91,7 +91,10 @@ export class AddfencingComponent implements OnInit {
     if (this.rowData.mapParam)
       this.mapParam = JSON.parse(this.rowData.mapParam);
 
-    this.pointList = this.rowData.polygon.coordinates.map(x => ({ lat: x.latitude, lng: x.longitude }));
+    this.pointList = this.rowData.polygon.coordinates.map((x) => ({
+      lat: x.latitude,
+      lng: x.longitude,
+    }));
     this.createForm(this.rowData);
   }
   get form() {
@@ -111,25 +114,32 @@ export class AddfencingComponent implements OnInit {
   }
 
   initMapParam(position) {
-    this.mapParam = { lat: position.coords.latitude, lng: position.coords.longitude, zoom: 15 };
+    this.mapParam = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude,
+      zoom: 15,
+    };
     this.map.setZoom(this.mapParam.zoom);
-    this.map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
-
+    this.map.setCenter(
+      new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng)
+    );
   }
 
   changeVendor(e) {
-    this.a3FormGroup.get('vendorId').setValue(parseInt(e.target.value), {
-      onlySelf: true
+    this.a3FormGroup.get("vendorId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
 
-    this.userSvc.getUsersByVendorId(this.a3FormGroup.value.vendorId).subscribe((res) => {
-      this.userList = res;
-    });
+    this.userSvc
+      .getUsersByVendorId(this.a3FormGroup.value.vendorId)
+      .subscribe((res) => {
+        this.userList = res;
+      });
   }
 
   changeUser(e) {
-    this.a3FormGroup.get('userId').setValue(parseInt(e.target.value), {
-      onlySelf: true
+    this.a3FormGroup.get("userId").setValue(parseInt(e.target.value), {
+      onlySelf: true,
     });
   }
 
@@ -142,8 +152,7 @@ export class AddfencingComponent implements OnInit {
     this.map = map;
     const self = this;
     let polygonCoords;
-    if (!this.mapParam)
-      this.getLocation();
+    if (!this.mapParam) this.getLocation();
 
     if (this.rowData.polygon.coordinates.length) {
       const polygonCoords = this.rowData.polygon.coordinates.map(
@@ -160,9 +169,10 @@ export class AddfencingComponent implements OnInit {
       });
 
       map.panTo(polygonCoords[0]);
-      if (this.mapParam)
-        map.setZoom(this.mapParam.zoom);
-      map.setCenter(new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng));
+      if (this.mapParam) map.setZoom(this.mapParam.zoom);
+      map.setCenter(
+        new google.maps.LatLng(this.mapParam.lat, this.mapParam.lng)
+      );
 
       myPolygon.setMap(map);
 
@@ -360,7 +370,11 @@ export class AddfencingComponent implements OnInit {
       address: this.addressText,
       alias: "string",
       geofenceTypeId: 1,
-      mapParam: `{"lat":${this.currentMap.getCenter().lat()}, "lng":${this.currentMap.getCenter().lng()}, "zoom":${this.currentMap.getZoom()}}`
+      mapParam: `{"lat":${this.currentMap
+        .getCenter()
+        .lat()}, "lng":${this.currentMap
+        .getCenter()
+        .lng()}, "zoom":${this.currentMap.getZoom()}}`,
     };
 
     if (this.selectedShape) {
@@ -418,9 +432,11 @@ export class AddfencingComponent implements OnInit {
     });
 
     if (this.a3FormGroup.value.vendorId) {
-      this.userSvc.getUsersByVendorId(this.a3FormGroup.value.vendorId).subscribe((res) => {
-        this.userList = res;
-      });
+      this.userSvc
+        .getUsersByVendorId(this.a3FormGroup.value.vendorId)
+        .subscribe((res) => {
+          this.userList = res;
+        });
     }
   }
 }

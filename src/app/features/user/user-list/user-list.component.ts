@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { UserService } from "../user.service";
+import { UserService } from "../../../services/user.service";
 import { Router } from "@angular/router";
 import { CellActionComponent } from "../../../shared/table/cell-action/cell-action.component";
 import { StorageService } from "../../../core/service/storage.service";

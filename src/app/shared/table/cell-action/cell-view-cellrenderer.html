@@ -1,0 +1,6 @@
+<span *ngIf="!address">
+    <a (click)="onBtnClick(params.data)"> <i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+</span>
+<i *ngIf="loading" class="fa fa-circle-o-notch fa-spin"></i>
+<span *ngIf="error" class="danger"> Something went wrong</span>
+<p *ngIf="address" title="{{address}}" class="address">{{address}}</p>
