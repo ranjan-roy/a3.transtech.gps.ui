@@ -4,13 +4,11 @@
             <div class="card">
                 <div class="card-header">Vehicle Position</div>
                 <div class="card-body">
-                    <app-report-filter [deviceList]="deviceList" (setDeviceFilter)="onSetDeviceFilter($event)">
-                    </app-report-filter>
                     <div class="border-bottom">
                         <ag-grid-angular style="width: 100%; height: 500px" class="ag-theme-alpine" [rowData]="rowData"
-                            [columnDefs]="columnDefs" [pagination]="true" [paginationPageSize]="10"
-                            [rowSelection]="rowSelection" (selectionChanged)="onSelectionChanged($event)"
-                            (gridReady)="onGridReady($event)">
+                            [defaultColDef]="defaultColDef" [columnDefs]="columnDefs" [pagination]="true"
+                            [paginationPageSize]="10" [rowSelection]="rowSelection"
+                            (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
                         </ag-grid-angular>
                     </div>
                 </div>

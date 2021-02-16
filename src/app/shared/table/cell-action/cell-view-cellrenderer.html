@@ -1,1 +1,4 @@
-<a (click)="onBtnClick($event)"> <i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+<span *ngIf="!address">
+    <a (click)="onBtnClick(params.data)"> <i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+</span>
+<p *ngIf="address" tooltip="{{address}}" placement="left">{{address}}</p>

@@ -33,25 +33,21 @@ export class VehiclePositionComponent implements OnInit {
   gridApi;
   gridColumnApi;
   rowSelection = "single";
+  defaultColDef = { resizable: true };
 
   constructor(
-    private positionSvc: PositionService,
     private router: Router,
-    private utilSvc: UtilService
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
-      console.log("constructor", this.rowData);
       this.deviceSummary = navigation.extras.state;
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   loadData() {
     this.rowData = mockPositionData().map((item) => {
-      console.log(item);
-
       return {
         ...item,
         vehicleTypeId: item.device.vehicleTypeId,
@@ -71,6 +67,7 @@ export class VehiclePositionComponent implements OnInit {
       //       };
       //     });
       //   });
+      this.gridApi.sizeColumnsToFit()
     }
   }
 
@@ -102,7 +99,7 @@ export class VehiclePositionComponent implements OnInit {
     return match.isNameMatchRequired === match.name;
   }
 
-  onShowMap(e) {}
+  onShowMap(e) { }
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;

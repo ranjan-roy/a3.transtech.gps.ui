@@ -55,4 +55,5 @@ export interface ColumnDefinition {
   sortable?: boolean;
   autoHeight?: boolean;
   cellRendererFramework?: any;
+  minWidth?: number;
 }

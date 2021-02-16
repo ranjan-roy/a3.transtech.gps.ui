@@ -6,6 +6,7 @@ import { AgmCoreModule } from "@agm/core";
 import { environment } from "../../environments/environment";
 import { GoogleMapsComponent } from "./google-maps/google-maps.component";
 import { CellViewAddressRendererComponent } from "./table/cell-action/cell-view-address.renderer";
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { CellViewAddressRendererComponent } from "./table/cell-action/cell-view-
   ],
   imports: [
     CommonModule,
+    TooltipModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: environment.mapKey,
       // To use the Google Maps JavaScript API, you must register your app project on the Google API Console and get a Google API key which you can add to your app
@@ -28,4 +30,4 @@ import { CellViewAddressRendererComponent } from "./table/cell-action/cell-view-
     CellViewAddressRendererComponent,
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

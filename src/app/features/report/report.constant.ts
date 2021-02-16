@@ -101,6 +101,7 @@ export const vehiclePositionColDef: ColumnDefinition[] = [
   {
     headerName: "Address",
     field: "device.name",
+    minWidth: 300,
     cellRendererFramework: CellViewAddressRendererComponent,
   },
 ];
