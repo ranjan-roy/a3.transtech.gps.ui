@@ -12,8 +12,8 @@ console.log(mockReport.mockDeviceSummary());
 export const initialState: State = {
   loading: false,
   error: true,
-  vehicleSummary: mockReport.mockDeviceSummary(),
-  positionData: mockReport.mockPositionData(),
+  vehicleSummary: null, // mockReport.mockDeviceSummary(),
+  positionData: null, //mockReport.mockPositionData(),
 };
 
 export const selectVehicleSummary = (state$) => state$.report.vehicleSummary;

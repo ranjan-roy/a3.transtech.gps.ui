@@ -37,6 +37,8 @@ export class VehiclePositionComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private positionSvc: PositionService,
+    private utilSvc: UtilService
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation.extras.state) {
@@ -44,30 +46,30 @@ export class VehiclePositionComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   loadData() {
-    this.rowData = mockPositionData().map((item) => {
-      return {
-        ...item,
-        vehicleTypeId: item.device.vehicleTypeId,
-      };
-    });
+    // this.rowData = mockPositionData().map((item) => {
+    //   return {
+    //     ...item,
+    //     vehicleTypeId: item.device.vehicleTypeId,
+    //   };
+    // });
     if (this.deviceSummary) {
-      // this.positionSvc
-      //   .getPositionData({
-      //     deviceId: this.deviceSummary.deviceType.deviceTypeId,
-      //     ...this.utilSvc.getHourBehindDateTime(6),
-      //   })
-      //   .subscribe((res) => {
-      //     this.rowData = res.map((item) => {
-      //       return {
-      //         ...item,
-      //         vehicleTypeId: item.vehicleType.vehicleTypeId,
-      //       };
-      //     });
-      //   });
-      this.gridApi.sizeColumnsToFit()
+      this.positionSvc
+        .getPositionData({
+          deviceId: this.deviceSummary.deviceType.deviceTypeId,
+          ...this.utilSvc.getHourBehindDateTime(6),
+        })
+        .subscribe((res) => {
+          this.rowData = res.map((item) => {
+            return {
+              ...item,
+              vehicleTypeId: item.vehicleType.vehicleTypeId,
+            };
+          });
+        });
+      this.gridApi.sizeColumnsToFit();
     }
   }
 
@@ -99,7 +101,7 @@ export class VehiclePositionComponent implements OnInit {
     return match.isNameMatchRequired === match.name;
   }
 
-  onShowMap(e) { }
+  onShowMap(e) {}
   onGridReady(params) {
     this.gridApi = params.api;
     this.gridColumnApi = params.columnApi;

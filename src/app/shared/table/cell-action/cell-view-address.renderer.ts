@@ -3,33 +3,39 @@ import { DeviceService } from "../../../services/device.service";
 
 @Component({
   selector: "app-view-address-renderer",
-  styles: [`
-  .address {
-      fill: #ff9933;
-  }
-`],
+  styles: [
+    `
+      .address {
+        font-size: 10px;
+        color: #000;
+        font-weight: bold;
+      }
+    `,
+  ],
   templateUrl: "./cell-view-cellrenderer.html",
 })
 export class CellViewAddressRendererComponent {
   params: any;
   address: string = null;
-  /**
-   *
-   */
-  constructor(private deviceSvc: DeviceService) {
-
-
-  }
+  loading = false;
+  error = false;
+  constructor(private deviceSvc: DeviceService) {}
   agInit(params: any) {
     this.params = params;
   }
   onBtnClick(item) {
-    console.log(item);
-    this.address = "Deb Bhawan, Road Number 1, Ram Nagar, Agartala, Tripura. 69 m from Seva Medical Hall pin-799002 (India)";
-    // this.deviceSvc.GetPositionAddress({ lat: item.latitude, lng: item.longitude }).subscribe(res => {
-    //   if (res.results && res.results.length) {
-    //     this.address = res.results[0].formatted_Address;
-    //   }
-    // })
+    this.loading = true;
+    this.error = false;
+    this.address = null;
+    this.deviceSvc
+      .GetPositionAddress({ lat: item.latitude, lng: item.longitude })
+      .subscribe((res) => {
+        if (res.results && res.results.length) {
+          this.loading = false;
+          this.address = res.results[0].formatted_Address;
+        } else {
+          this.error = true;
+        }
+      });
   }
 }
