@@ -15,6 +15,11 @@ export class UserService {
     return this.http.get<any>(`${this.url}/User/GetByVendor/${id}`);
   }
 
+  getCurrentUser(): Observable<any> {
+    return this.http.get<any>(`${this.url}/User/CurrentUser`);
+  }
+
+  
   getAccessableUsers(): Observable<any> {
     return this.http.get<any>(`${this.url}/User/Get`);
   }
