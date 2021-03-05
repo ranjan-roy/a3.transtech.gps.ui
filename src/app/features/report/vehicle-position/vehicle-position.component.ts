@@ -49,12 +49,6 @@ export class VehiclePositionComponent implements OnInit {
   ngOnInit(): void {}
 
   loadData() {
-    // this.rowData = mockPositionData().map((item) => {
-    //   return {
-    //     ...item,
-    //     vehicleTypeId: item.device.vehicleTypeId,
-    //   };
-    // });
     if (this.deviceSummary) {
       this.positionSvc
         .getPositionData({
@@ -65,9 +59,10 @@ export class VehiclePositionComponent implements OnInit {
           this.rowData = res.map((item) => {
             return {
               ...item,
-              vehicleTypeId: item.vehicleType.vehicleTypeId,
+              vehicleTypeId: item.device.vehicleTypeId,
             };
           });
+          console.log(this.rowData);
         });
       this.gridApi.sizeColumnsToFit();
     }
