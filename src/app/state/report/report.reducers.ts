@@ -7,13 +7,12 @@ export interface State {
   vehicleSummary: any[];
   positionData: any[];
 }
-console.log(mockReport.mockDeviceSummary());
 
 export const initialState: State = {
   loading: false,
   error: true,
-  vehicleSummary: null, // mockReport.mockDeviceSummary(),
-  positionData: null, //mockReport.mockPositionData(),
+  vehicleSummary: null,
+  positionData: null,
 };
 
 export const selectVehicleSummary = (state$) => state$.report.vehicleSummary;

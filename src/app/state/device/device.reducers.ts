@@ -1,6 +1,4 @@
-import { Store, select } from "@ngrx/store";
-import { Observable } from "rxjs";
-import { mockDeviceList } from "../../features/dashboard/dashboard.constant";
+import { select } from "@ngrx/store";
 import { DeviceActions, ActionTypes } from "./device.actions";
 
 export interface State {
@@ -19,7 +17,7 @@ export const initialState: State = {
   loading: false,
   device: null,
   alarmTypes: null,
-  devicePositions: mockDeviceList,
+  devicePositions: null,
   loadDeviceError: false,
   loadDevicePosError: false,
   loadAlarmTypeError: false,
