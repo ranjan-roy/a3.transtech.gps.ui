@@ -24,7 +24,7 @@
                                         <tbody>
                                             <tr *ngFor="let row of rowData; index as i;">
                                                 <td class="col-name">{{row.device.name}}</td>
-                                                <td class="col-date">{{row.dateTime}}</td>
+                                                <td class="col-date">{{row.dateTime | date:'medium'}}</td>
                                                 <td class="col-ignition">{{row.ignition}}</td>
                                                 <td class="col-milage">{{row.mileage}}</td>
                                                 <td class="col-speed">{{row.speed}}</td>
