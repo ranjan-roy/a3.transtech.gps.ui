@@ -42,8 +42,8 @@ export class UtilService {
     const splitSD = sd.split("/");
 
     const d = {
-      endDate: `${splitED[0]} ${this.convertTime12to24(splitED[1])}`,
-      startDate: `${splitSD[0]} ${this.convertTime12to24(splitSD[1])}`,
+      startDate: `${splitED[0]} ${this.convertTime12to24(splitED[1])}`,
+      endDate: `${splitSD[0]} ${this.convertTime12to24(splitSD[1])}`,
     };
     console.log(d);
 

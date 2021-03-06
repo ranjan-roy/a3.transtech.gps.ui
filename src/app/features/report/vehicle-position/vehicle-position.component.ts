@@ -72,6 +72,8 @@ export class VehiclePositionComponent implements OnInit {
       const { startDate, endDate } = this.utilSvc.getHourBehindDateTime(this.startHr, this.startHr + 6);
 
       this.startHr = this.startHr + 6;
+      console.log(startDate, endDate);
+
       this.positionSvc
         .getPositionData({
           deviceId: this.deviceSummary.deviceType.deviceTypeId,
