@@ -11,7 +11,14 @@ import { AgGridModule } from "ag-grid-angular";
 import { CellActionComponent } from "../../shared/table/cell-action/cell-action.component";
 import { VehiclePositionComponent } from "./vehicle-position/vehicle-position.component";
 import { CellViewAddressRendererComponent } from "../../shared/table/cell-action/cell-view-address.renderer";
-
+import {
+  PerfectScrollbarConfigInterface,
+  PerfectScrollbarModule,
+  PERFECT_SCROLLBAR_CONFIG,
+} from "ngx-perfect-scrollbar";
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true,
+};
 @NgModule({
   declarations: [
     VehicleSummaryComponent,
@@ -29,6 +36,13 @@ import { CellViewAddressRendererComponent } from "../../shared/table/cell-action
       CellActionComponent,
       CellViewAddressRendererComponent,
     ]),
+    PerfectScrollbarModule,
+  ],
+  providers: [
+    {
+      provide: PERFECT_SCROLLBAR_CONFIG,
+      useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG,
+    },
   ],
 })
 export class ReportModule {}

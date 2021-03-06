@@ -1,15 +1,22 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
+import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { ColumnDefinition } from "../../../interface/common.interface";
 import { mockPositionData } from "../../../mockdata/report.mock";
+import { DeviceService } from "../../../services/device.service";
 import { PositionService } from "../../../services/position.service";
 import { UtilService } from "../../../services/util.service";
-import { ImageFormatterComponent } from "../../../shared/table/cell-action/cell-image.component";
-import * as actions from "../../../state/device/device.actions";
-import * as deviceReducer from "../../../state/device/device.reducers";
 import { vehiclePositionColDef } from "../report.constant";
 
+interface Marker {
+  lat: number;
+  lng: number;
+  label?: string;
+  draggable: boolean;
+  title: string;
+  www: string;
+}
 @Component({
   selector: "app-vehicle-Position",
   templateUrl: "./vehicle-Position.component.html",
@@ -25,7 +32,7 @@ export class VehiclePositionComponent implements OnInit {
   paginationPageSize: "10";
   frameworkComponents: any;
   deviceSummary: any = null;
-  rowData = null;
+  rowData = [];
   actionItems = [];
   defaultActionItem = [];
   showAction: boolean = false;
@@ -34,10 +41,20 @@ export class VehiclePositionComponent implements OnInit {
   gridColumnApi;
   rowSelection = "single";
   defaultColDef = { resizable: true };
+  startHr = 0;
+  address: string = null;
+  loadingAddress = false;
+  errorAddress = false;
+  zoom: number = 15;
+  markers: Marker[] = [];
+  viewMap: boolean = false;
+
+  public config: PerfectScrollbarConfigInterface = {};
 
   constructor(
     private router: Router,
     private positionSvc: PositionService,
+    private deviceSvc: DeviceService,
     private utilSvc: UtilService
   ) {
     const navigation = this.router.getCurrentNavigation();
@@ -46,25 +63,35 @@ export class VehiclePositionComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadData();
+  }
 
-  loadData() {
+  loadData(more: boolean = false) {
     if (this.deviceSummary) {
+      this.startHr = this.startHr + 6;
       this.positionSvc
         .getPositionData({
           deviceId: this.deviceSummary.deviceType.deviceTypeId,
-          ...this.utilSvc.getHourBehindDateTime(6),
+          ...this.utilSvc.getHourBehindDateTime(this.startHr, this.startHr + 6),
         })
         .subscribe((res) => {
-          this.rowData = res.map((item) => {
-            return {
-              ...item,
-              vehicleTypeId: item.device.vehicleTypeId,
-            };
-          });
-          console.log(this.rowData);
+          if (res) {
+            const result = res.map((item) => {
+              return {
+                ...item,
+                vehicleTypeId: item.device.vehicleTypeId,
+              };
+            });
+            if (!more) {
+              this.rowData = result;
+            } else {
+              result.forEach((item) => {
+                this.rowData.push(item);
+              });
+            }
+          }
         });
-      this.gridApi.sizeColumnsToFit();
     }
   }
 
@@ -95,17 +122,54 @@ export class VehiclePositionComponent implements OnInit {
 
     return match.isNameMatchRequired === match.name;
   }
-
-  onShowMap(e) {}
-  onGridReady(params) {
-    this.gridApi = params.api;
-    this.gridColumnApi = params.columnApi;
-    this.loadData();
+  hideMap() {
+    this.viewMap = false;
   }
+  onShowMap(value) {
+    this.deviceSummary.lat = value.latitude;
+    this.deviceSummary.lng = value.longitude;
+    this.viewMap = true;
+    this.markers = [
+      {
+        lat: value.latitude,
+        lng: value.longitude,
+        label: "S",
+        draggable: false,
+        title: value.name,
+        www: "",
+      },
+    ];
+  }
+
   onSelectionChanged(e) {
     var selectedRows = this.gridApi.getSelectedRows();
     this.selectedRow = selectedRows[0];
     this.showAction = true;
     this.router.navigate(["Report/VehiclePosition"]);
+  }
+
+  onScroll(event: any) {
+    if (
+      event.target.offsetHeight + event.target.scrollTop >=
+      event.target.scrollHeight
+    ) {
+      console.log("On Scroll End");
+      this.loadData(true);
+    }
+  }
+  onBtnClick(item, i) {
+    this.rowData[i].loadingAddress = true;
+    this.rowData[i].errorAddress = false;
+    this.rowData[i].address = null;
+    this.deviceSvc
+      .GetPositionAddress({ lat: item.latitude, lng: item.longitude })
+      .subscribe((res) => {
+        if (res.results && res.results.length) {
+          this.rowData[i].loadingAddress = false;
+          this.rowData[i].address = res.results[0].formatted_Address;
+        } else {
+          this.rowData[i].errorAddress = true;
+        }
+      });
   }
 }

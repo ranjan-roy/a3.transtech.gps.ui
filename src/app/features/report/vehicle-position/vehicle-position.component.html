@@ -5,11 +5,66 @@
                 <div class="card-header">Vehicle Position</div>
                 <div class="card-body">
                     <div class="border-bottom">
-                        <ag-grid-angular style="width: 100%; height: 500px" class="ag-theme-alpine" [rowData]="rowData"
-                            [defaultColDef]="defaultColDef" [columnDefs]="columnDefs" [pagination]="true"
-                            [paginationPageSize]="10" [rowSelection]="rowSelection"
-                            (selectionChanged)="onSelectionChanged($event)" (gridReady)="onGridReady($event)">
-                        </ag-grid-angular>
+                        <div class="row">
+                            <div [ngClass]="{ 'col-lg-8': viewMap, 'col-lg-12': !viewMap }">
+                                <div class="ps autoScroll" (scroll)="onScroll($event)" [perfectScrollbar]="config">
+
+                                    <table class="table table-striped">
+                                        <thead class="sticky-header">
+                                            <tr>
+                                                <th class="col-name">Name</th>
+                                                <th class="col-date">Data Time</th>
+                                                <th class="col-ignition">Ignition</th>
+                                                <th class="col-milage">Mileage</th>
+                                                <th class="col-speed">Speed</th>
+                                                <th class="col-online">Online</th>
+                                                <th class="col-address">Address</th>
+                                                <th class="col-address"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr *ngFor="let row of rowData; index as i;">
+                                                <td class="col-name">{{row.device.name}}</td>
+                                                <td class="col-date">{{row.dateTime}}</td>
+                                                <td class="col-ignition">{{row.ignition}}</td>
+                                                <td class="col-milage">{{row.mileage}}</td>
+                                                <td class="col-speed">{{row.speed}}</td>
+                                                <td class="col-online">{{row.device.online}}</td>
+                                                <td class="col-address">
+                                                    <span *ngIf="!row.address">
+                                                        <a (click)="onBtnClick(row, i)">
+                                                            <i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                                    </span>
+                                                    <i *ngIf="row.loadingAddress"
+                                                        class="fa fa-circle-o-notch fa-spin"></i>
+                                                    <span *ngIf="row.errorAddress" class="danger"> Something went
+                                                        wrong</span>
+                                                    <p *ngIf="row.address" title="{{row.address}}" class="address">
+                                                        {{row.address}}</p>
+                                                </td>
+                                                <td class="col-online">
+                                                    <button (click)="onShowMap(row,i)"
+                                                        class="btn btn-dark float-right mb-2" type="button">
+                                                        <i class="fa fa-map-marker text-primary pr-2"></i>
+                                                        Map
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- *ngIf="viewMap" -->
+                            <div class="col-lg-4" *ngIf="viewMap">
+                                <h5><small><a class="link" (click)="hideMap()"><i
+                                                class="fa fa-chevron-left pr-2"></i></a></small>
+                                    Map</h5>
+                                <google-maps [markers]="markers" [lat]="deviceSummary.lat" [lng]="deviceSummary.lng"
+                                    [zoom]="zoom">
+                                </google-maps>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -43,10 +43,10 @@ const mockDeviceSummary = (): any[] => {
 };
 const mockPositionData = (): any[] => {
   let list = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 72; i++) {
     list.push({
       positionId: 60803,
-      deviceId: 1,
+      deviceId: i,
       device: {
         deviceId: 1,
         userId: 3,
@@ -59,7 +59,7 @@ const mockPositionData = (): any[] => {
         deviceType: null,
         deviceAlarms: [],
         serial: "359632106727289",
-        name: "MH 12 LP 0638",
+        name: "MH 12 LP 0638" + i,
         dateTime: "2021-02-02T14:44:59",
         ignition: false,
         mileage: 59,
@@ -97,5 +97,3 @@ const mockPositionData = (): any[] => {
   return list;
 };
 export { mockDeviceSummary, mockPositionData };
-// xz+ nexon grey - petrol
-// ev+

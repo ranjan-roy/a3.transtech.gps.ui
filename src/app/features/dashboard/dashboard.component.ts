@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from "@angular/core";
 import { mockDeviceList } from "./dashboard.constant";
 import { select, Store } from "@ngrx/store";
 import * as actions from "../../state/device/device.actions";
-import * as deviceReducer from '../../state/device/device.reducers';
+import * as deviceReducer from "../../state/device/device.reducers";
 
 interface Marker {
   lat: number;
@@ -33,18 +33,16 @@ export class DashboardComponent implements OnInit {
   zoom: number = 15;
   markers: Marker[] = [];
   viewMap: boolean = false;
-  constructor(
-    private store: Store<any>
-  ) {
-    this.store.pipe(select(deviceReducer.selectDevice)).subscribe(res => {
+  constructor(private store: Store<any>) {
+    this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
       if (res.devicePositions && res.devicePositions.length) {
         console.log(res);
         this.loadData(res.devicePositions);
       }
-    })
+    });
   }
 
-  onMapReady() { }
+  onMapReady() {}
 
   ngOnInit(): void {
     if (!this.deviceList.length) {

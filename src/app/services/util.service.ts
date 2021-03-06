@@ -14,10 +14,14 @@ export class UtilService {
     };
   }
 
-  getHourBehindDateTime(hour: number = 1) {
+  getHourBehindDateTime(startHour: number = 6, endHour = 0) {
     return {
-      startDate: moment().subtract(hour, "hours").format("YYYY-MM-DD hh:mm:ss"),
-      endDate: moment().format("YYYY-MM-DD hh:mm:ss"),
+      endDate: moment()
+        .subtract(endHour, "hours")
+        .format("YYYY-MM-DD hh:mm:ss"),
+      startDate: moment()
+        .subtract(startHour, "hours")
+        .format("YYYY-MM-DD hh:mm:ss"),
     };
   }
 }
