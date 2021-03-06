@@ -43,6 +43,7 @@ th {
   font-size: 10px;
   color: #000;
   font-weight: bold;
+  max-width: 200px;
 }
 .link {
   cursor: pointer;
