@@ -1,0 +1,49 @@
+.autoScroll {
+  position: relative;
+  max-height: 600px;
+  min-height: 500px;
+}
+.sticky-header {
+  background: white;
+  box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+}
+table {
+  text-align: left;
+  position: relative;
+  border-collapse: collapse;
+}
+th {
+  background: white;
+  position: sticky;
+  top: -1px; /* Don't forget this, required for the stickiness */
+}
+
+.col-name {
+  width: 100;
+}
+.col-date {
+  width: 100;
+}
+.col-ignition {
+  width: 100;
+}
+.col-milage {
+  width: 100;
+}
+.col-speed {
+  width: 100;
+}
+.col-online {
+  width: 100;
+}
+.col-address {
+  width: 100;
+}
+.address {
+  font-size: 10px;
+  color: #000;
+  font-weight: bold;
+}
+.link {
+  cursor: pointer;
+}

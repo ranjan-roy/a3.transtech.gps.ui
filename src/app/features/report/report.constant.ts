@@ -67,7 +67,7 @@ export const vehiclePositionColDef: ColumnDefinition[] = [
     field: "device.name",
     sortable: true,
     filter: true,
-    width: 150,
+    width: 200,
   },
   {
     headerName: "Data Time",
