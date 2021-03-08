@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
+import * as moment from "moment";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 import { ColumnDefinition } from "../../../interface/common.interface";
 import { mockPositionData } from "../../../mockdata/report.mock";
@@ -25,8 +26,7 @@ interface Marker {
 export class VehiclePositionComponent implements OnInit {
   deviceList: any;
   rows: any;
-  startDate: string;
-  endDate: string;
+  lastFetchDateTime: Date;
   columnDefs: ColumnDefinition[] = vehiclePositionColDef;
   pagination = "true";
   paginationPageSize: "10";
@@ -69,16 +69,23 @@ export class VehiclePositionComponent implements OnInit {
 
   loadData(more: boolean = false) {
     if (this.deviceSummary) {
-      const { startDate, endDate } = this.utilSvc.getHourBehindDateTime(this.startHr, this.startHr + 6);
+      let endDate;
+      if(more)
+        endDate = this.lastFetchDateTime;
+      else
+        endDate = new Date();
+      
+      var endTime = moment(endDate);
+      var startTime = moment(endDate).subtract(6, 'h');
 
-      this.startHr = this.startHr + 6;
-      console.log(startDate, endDate);
-
+      this.lastFetchDateTime = startTime.toDate();
+      console.log("enddate: "+endTime.format());
+      console.log("startdate: "+startTime.format());
       this.positionSvc
         .getPositionData({
           deviceId: this.deviceSummary.deviceType.deviceTypeId,
-          startDate,
-          endDate
+          startDate: startTime.format(),
+          endDate: endTime.format(),
         })
         .subscribe((res) => {
           if (res) {
