@@ -44,6 +44,8 @@ export class VehicleSummaryComponent implements OnInit {
           this.rowData = res.map((item) => {
             return {
               ...item,
+              averageSpeed: `${item.averageSpeed} km/h`,
+              maxSpeed: `${item.maxSpeed} km/h`,
               vehicleTypeId: item.vehicleType.vehicleTypeId,
             };
           });

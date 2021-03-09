@@ -19,30 +19,31 @@ th {
 }
 
 .col-name {
-  width: 100;
+  width: 60px;
 }
 .col-date {
-  width: 100;
+  width: 100px;
 }
 .col-ignition {
-  width: 100;
+  width: 60px;
 }
 .col-milage {
-  width: 100;
+  width: 60px;
 }
 .col-speed {
-  width: 100;
+  width: 60px;
 }
 .col-online {
-  width: 100;
+  width: 60px;
 }
 .col-address {
-  width: 100;
+  width: 100px;
 }
 .address {
   font-size: 10px;
   color: #000;
   font-weight: bold;
+  max-width: 200px;
 }
 .link {
   cursor: pointer;

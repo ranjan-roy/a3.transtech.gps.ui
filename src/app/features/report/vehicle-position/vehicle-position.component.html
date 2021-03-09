@@ -24,11 +24,21 @@
                                         <tbody>
                                             <tr *ngFor="let row of rowData; index as i;">
                                                 <td class="col-name">{{row.device.name}}</td>
-                                                <td class="col-date">{{row.dateTime}}</td>
-                                                <td class="col-ignition">{{row.ignition}}</td>
-                                                <td class="col-milage">{{row.mileage}}</td>
-                                                <td class="col-speed">{{row.speed}}</td>
-                                                <td class="col-online">{{row.device.online}}</td>
+                                                <td class="col-date">{{row.dateTime | date:'medium'}}</td>
+                                                <td>
+                                                    <span *ngIf="row.ignition == true"><i
+                                                            class="fa fa-power-off text-success pr-2"></i>ON</span>
+                                                    <span *ngIf="row.ignition == false"><i
+                                                            class="fa fa-power-off text-danger pr-2"></i>OFF</span>
+                                                </td>
+                                                <td class="col-milage">{{row.mileage}} km/h</td>
+                                                <td class="col-speed">{{row.speed}} km/h</td>
+                                                <td>
+                                                    <span *ngIf="row.device.online == true"><i
+                                                            class="fa fa-circle text-success pr-2"></i></span>
+                                                    <span *ngIf="row.device.online == false"><i
+                                                            class="fa fa-circle text-danger pr-2"></i></span>
+                                                </td>
                                                 <td class="col-address">
                                                     <span *ngIf="!row.address">
                                                         <a (click)="onBtnClick(row, i)">
@@ -51,7 +61,9 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div *ngIf="!rowData.length" class="text-center"> No Data</div>
+                                    <div *ngIf="loading " class="text-center">Loading <i
+                                            class="fa fa-circle-o-notch fa-spin"></i></div>
+                                    <div *ngIf="!rowData.length && !loading" class="text-center"> No Data</div>
                                 </div>
                             </div>
                             <div class="col-lg-4" *ngIf="viewMap">
