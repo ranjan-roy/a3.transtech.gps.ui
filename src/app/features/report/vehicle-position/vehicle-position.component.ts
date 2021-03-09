@@ -48,6 +48,7 @@ export class VehiclePositionComponent implements OnInit {
   zoom: number = 15;
   markers: Marker[] = [];
   viewMap: boolean = false;
+  loading = false;
 
   public config: PerfectScrollbarConfigInterface = {};
 
@@ -70,17 +71,16 @@ export class VehiclePositionComponent implements OnInit {
   loadData(more: boolean = false) {
     if (this.deviceSummary) {
       let endDate;
-      if(more)
-        endDate = this.lastFetchDateTime;
-      else
-        endDate = new Date();
-      
+      if (more) endDate = this.lastFetchDateTime;
+      else endDate = new Date();
+
       var endTime = moment(endDate);
-      var startTime = moment(endDate).subtract(6, 'h');
+      var startTime = moment(endDate).subtract(6, "h");
 
       this.lastFetchDateTime = startTime.toDate();
-      console.log("enddate: "+endTime.format());
-      console.log("startdate: "+startTime.format());
+      console.log("enddate: " + endTime.format());
+      console.log("startdate: " + startTime.format());
+      this.loading = true;
       this.positionSvc
         .getPositionData({
           deviceId: this.deviceSummary.deviceType.deviceTypeId,
@@ -103,6 +103,7 @@ export class VehiclePositionComponent implements OnInit {
               });
             }
           }
+          this.loading = false;
         });
     }
   }
