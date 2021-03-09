@@ -10,6 +10,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { LoaderService } from '../loader/loader.service';
+import { LoaderInterceptor } from '../loader/loader.interceptor';
 
 
 
@@ -33,6 +35,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }]
+    },
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi: true },]
 })
 export class CoreModule { }

@@ -42,7 +42,7 @@ import { AppRoutingModule } from "./app.routing";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ChartsModule } from "ng2-charts";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthGuardService } from "./core/service/auth-guard.service";
 import { AuthService } from "./core/service/auth.service";
@@ -62,6 +62,9 @@ import { VendorEffects } from "./state/vendor/vendor.effects";
 import { OperatorEffects } from "./state/operator/operator.effects";
 import { ReportModule } from "./features/report/report.module";
 import { ReportEffects } from "./state/report/report.effects";
+import { LoaderService } from "./loader/loader.service";
+import { LoaderInterceptor } from "./loader/loader.interceptor";
+import { LoaderComponent } from "./loader/loader.component";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -113,6 +116,7 @@ export function tokenGetter() {
     P404Component,
     P500Component,
     ImageFormatterComponent,
+    LoaderComponent
   ],
   providers: [
     AuthGuardService,
