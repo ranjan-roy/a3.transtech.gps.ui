@@ -8,17 +8,17 @@
                         <div class="row">
                             <div [ngClass]="{ 'col-lg-8': viewMap, 'col-lg-12': !viewMap }">
                                 <div class="ps autoScroll" (scroll)="onScroll($event)" [perfectScrollbar]="config">
-                                    <table class="table table-striped">
-                                        <thead class="sticky-header">
+                                    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                                        <thead class="thead-light">
                                             <tr>
-                                                <th class="col-name">Name</th>
-                                                <th class="col-date">Data Time</th>
+                                                <th class="col-name">Vehicle No.</th>
+                                                <th class="col-date">Last Seen</th>
                                                 <th class="col-ignition">Ignition</th>
-                                                <th class="col-milage">Mileage</th>
+                                                <!-- <th class="col-milage">Mileage</th> -->
                                                 <th class="col-speed">Speed</th>
                                                 <th class="col-online">Online</th>
-                                                <th class="col-address">Address</th>
-                                                <th class="col-address"></th>
+                                                <th class="col-address">Location</th>
+                                                <th class="col-map"></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -31,7 +31,7 @@
                                                     <span *ngIf="row.ignition == false"><i
                                                             class="fa fa-power-off text-danger pr-2"></i>OFF</span>
                                                 </td>
-                                                <td class="col-milage">{{row.mileage}} km/h</td>
+                                                <!-- <td class="col-milage">{{row.mileage}} km/h</td> -->
                                                 <td class="col-speed">{{row.speed}} km/h</td>
                                                 <td>
                                                     <span *ngIf="row.device.online == true"><i
@@ -40,9 +40,9 @@
                                                             class="fa fa-circle text-danger pr-2"></i></span>
                                                 </td>
                                                 <td class="col-address">
-                                                    <span *ngIf="!row.address">
+                                                    <span *ngIf="!row.address && !row.loadingAddress">
                                                         <a (click)="onBtnClick(row, i)">
-                                                            <i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                                            <i class="fa fa-eye-slash link" aria-hidden="true"></i></a>
                                                     </span>
                                                     <i *ngIf="row.loadingAddress"
                                                         class="fa fa-circle-o-notch fa-spin"></i>
@@ -61,8 +61,6 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    <div *ngIf="loading " class="text-center">Loading <i
-                                            class="fa fa-circle-o-notch fa-spin"></i></div>
                                     <div *ngIf="!rowData.length && !loading" class="text-center"> No Data</div>
                                 </div>
                             </div>

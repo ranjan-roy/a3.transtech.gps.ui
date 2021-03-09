@@ -22,7 +22,7 @@ th {
   width: 60px;
 }
 .col-date {
-  width: 100px;
+  width: 150px;
 }
 .col-ignition {
   width: 60px;
@@ -38,6 +38,9 @@ th {
 }
 .col-address {
   width: 100px;
+}
+.col-map {
+  width: 10px;
 }
 .address {
   font-size: 10px;

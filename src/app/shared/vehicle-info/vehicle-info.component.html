@@ -5,7 +5,7 @@
         <tr>
           <th class="vehicle-type"></th>
           <th class="vehicle">Vehicle</th>
-          <th>Date/Time</th>
+          <th>Last Seen</th>
           <th>Speed</th>
           <th>Ignition</th>
           <th></th>
@@ -41,7 +41,7 @@
             <i class="nav-icon icon-speedometer ng-star-inserted text-primary "></i>
             {{ device.speed }} km/hr
           </td>
-          <td class="text-center">
+          <td>
             <p class="card-text">
               <span *ngIf="device.ignition == true"
                 ><i class="fa fa-power-off text-success pr-2"></i>ON</span
