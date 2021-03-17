@@ -31,7 +31,6 @@ export function reducer(state = initialState, action: OperatorActions): State {
       });
     }
     case ActionTypes.GET_OPERATOR_SUCCESS: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         operators: action.payload,
@@ -39,7 +38,6 @@ export function reducer(state = initialState, action: OperatorActions): State {
       });
     }
     case ActionTypes.GET_OPERATOR_FAIL: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         operators: null,

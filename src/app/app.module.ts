@@ -8,7 +8,6 @@ import { EffectsModule } from "@ngrx/effects";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 
 import { PerfectScrollbarModule } from "ngx-perfect-scrollbar";
-import { PERFECT_SCROLLBAR_CONFIG } from "ngx-perfect-scrollbar";
 import { PerfectScrollbarConfigInterface } from "ngx-perfect-scrollbar";
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -22,8 +21,6 @@ import { DefaultLayoutComponent } from "./layouts";
 
 import { P404Component } from "./core/components/error/404.component";
 import { P500Component } from "./core/components/error/500.component";
-import { LoginComponent } from "./core/components/login/login.component";
-import { RegisterComponent } from "./core/components/register/register.component";
 
 const APP_CONTAINERS = [DefaultLayoutComponent];
 
@@ -42,16 +39,13 @@ import { AppRoutingModule } from "./app.routing";
 import { BsDropdownModule } from "ngx-bootstrap/dropdown";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { ChartsModule } from "ng2-charts";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { AuthGuardService } from "./core/service/auth-guard.service";
 import { AuthService } from "./core/service/auth.service";
 import { JwtModule } from "@auth0/angular-jwt";
-import { LogoutComponent } from "./core/components/logout/logout.component";
 import { CoreModule } from "./core/core.module";
 import { SharedModule } from "./shared/shared.module";
-import { GeofencingModule } from "./features/geofencing/geofencing.module";
-import { ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 import { ImageFormatterComponent } from "./shared/table/cell-action/cell-image.component";
 import { AgGridModule } from "ag-grid-angular";
 import { environment } from "../environments/environment";
@@ -62,9 +56,8 @@ import { VendorEffects } from "./state/vendor/vendor.effects";
 import { OperatorEffects } from "./state/operator/operator.effects";
 import { ReportModule } from "./features/report/report.module";
 import { ReportEffects } from "./state/report/report.effects";
-import { LoaderService } from "./loader/loader.service";
-import { LoaderInterceptor } from "./loader/loader.interceptor";
 import { LoaderComponent } from "./loader/loader.component";
+import { NotificationEffects } from "./state/notifications/notification.effects";
 
 export function tokenGetter() {
   return sessionStorage.getItem("access_token");
@@ -104,6 +97,7 @@ export function tokenGetter() {
       VendorEffects,
       OperatorEffects,
       ReportEffects,
+      NotificationEffects,
     ]),
     // Note that you must instrument after importing StoreModule (non-prod)
     !environment.production
@@ -112,11 +106,11 @@ export function tokenGetter() {
   ],
   declarations: [
     AppComponent,
-    ...APP_CONTAINERS,
+    DefaultLayoutComponent,
     P404Component,
     P500Component,
     ImageFormatterComponent,
-    LoaderComponent
+    LoaderComponent,
   ],
   providers: [
     AuthGuardService,

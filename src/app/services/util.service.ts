@@ -13,7 +13,7 @@ export class UtilService {
       endDate: moment().format("YYYY-MM-DD hh:mm:ss"),
     };
   }
-  convertTime12to24 = time12h => {
+  convertTime12to24 = (time12h) => {
     const [time, modifier] = time12h.split(" ");
 
     let [hours, minutes, second] = time.split(":");
@@ -29,8 +29,6 @@ export class UtilService {
   };
 
   getHourBehindDateTime(startHour, endHour) {
-    console.log(startHour, endHour);
-
     const ed = moment()
       .subtract(endHour, "hours")
       .format("YYYY-MM-DD/hh:mm:ss A");
@@ -45,8 +43,6 @@ export class UtilService {
       startDate: `${splitED[0]} ${this.convertTime12to24(splitED[1])}`,
       endDate: `${splitSD[0]} ${this.convertTime12to24(splitSD[1])}`,
     };
-    console.log(d);
-
     return d;
   }
 }

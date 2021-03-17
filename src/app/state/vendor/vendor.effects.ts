@@ -29,7 +29,6 @@ export class VendorEffects extends BaseEffects {
   getVendor$: Observable<any> = this.actions$.pipe(
     ofType(ActionTypes.GET_VENDOR_INIT),
     switchMap((action: GetVendorInitAction) => {
-      console.log(action);
       return this.vendorService.getVendor().pipe(
         map((payload) => {
           if (payload) {

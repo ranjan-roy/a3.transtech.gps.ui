@@ -77,7 +77,6 @@ export class AlarmListComponent implements OnInit {
 
   subscribeEvents() {
     this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
-      console.log("subscribeEvents", res.device);
       if (res.device) {
         this.rowData = res.device;
         if (this.selectedDevice && this.rowData) {

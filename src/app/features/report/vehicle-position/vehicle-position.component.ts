@@ -78,8 +78,6 @@ export class VehiclePositionComponent implements OnInit {
       var startTime = moment(endDate).subtract(6, "h");
 
       this.lastFetchDateTime = startTime.toDate();
-      console.log("enddate: " + endTime.format());
-      console.log("startdate: " + startTime.format());
       this.loading = true;
       this.positionSvc
         .getPositionData({
@@ -115,8 +113,6 @@ export class VehiclePositionComponent implements OnInit {
         filteredRows.push(item);
       }
     });
-    console.log(filterQuery, filteredRows);
-
     this.rows = filteredRows;
   }
 
@@ -166,7 +162,6 @@ export class VehiclePositionComponent implements OnInit {
       event.target.offsetHeight + event.target.scrollTop >=
       event.target.scrollHeight
     ) {
-      console.log("On Scroll End");
       this.loadData(true);
     }
   }

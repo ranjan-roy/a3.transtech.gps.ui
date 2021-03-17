@@ -36,7 +36,6 @@ export class DashboardComponent implements OnInit {
   constructor(private store: Store<any>) {
     this.store.pipe(select(deviceReducer.selectDevice)).subscribe((res) => {
       if (res.devicePositions && res.devicePositions.length) {
-        console.log(res);
         this.loadData(res.devicePositions);
       }
     });
@@ -149,8 +148,6 @@ export class DashboardComponent implements OnInit {
   onSetDeviceFilter(filterQuery) {
     const filteredRows = [];
     this.deviceList.forEach((item) => {
-      console.log(this.checkRule(filterQuery, item));
-
       if (this.checkRule(filterQuery, item)) {
         filteredRows.push(item);
       }

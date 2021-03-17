@@ -9,11 +9,9 @@ import { Observable } from "rxjs";
 export class DeviceService {
   url = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getDeviceByUserId(id): Observable<any> {
-    console.log("getDeviceByUserId", id);
-
     return this.http.get<any>(`${this.url}/Device/GetByUser/${id}`);
   }
 
@@ -50,9 +48,8 @@ export class DeviceService {
     return this.http.get<any>(`${this.url}/Device/GetPositionAddress`, {
       params: {
         lat,
-        lng
-      }
+        lng,
+      },
     });
   }
-
 }
