@@ -1,0 +1,22 @@
+<div class="p-3">
+    <div *ngFor="let notification of notifications; index as i;">
+        <div class="message">
+            <div class="py-3 pb-5 mr-3 float-left">
+                <div class="avatar">
+                    <img width="60" height="50" src='assets/img/vehicleType/{{notification.device.vehicleTypeId}}.svg'
+                        class="img-avatar" alt="{{notification.notificationType.name}}" />
+                </div>
+            </div>
+            <div>
+                <small class="text-muted">{{notification.notificationType.name}}</small>
+                <small class="text-muted float-right mt-1"> {{notification.timeStamp | date:'MMM d, h:mm a'
+                    }}</small>
+            </div>
+            <div class="text-truncate font-weight-bold">
+                {{notification.device.name}}
+            </div>
+            <small class="text-muted"> {{notification.message}}</small>
+        </div>
+        <hr />
+    </div>
+</div>

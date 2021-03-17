@@ -6,7 +6,8 @@ import { AgmCoreModule } from "@agm/core";
 import { environment } from "../../environments/environment";
 import { GoogleMapsComponent } from "./google-maps/google-maps.component";
 import { CellViewAddressRendererComponent } from "./table/cell-action/cell-view-address.renderer";
-import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { NotificationsComponent } from "./notifications/notifications.component";
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     VehicleInfoComponent,
     GoogleMapsComponent,
     CellViewAddressRendererComponent,
+    NotificationsComponent,
   ],
   imports: [
     CommonModule,
@@ -28,6 +30,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
     VehicleInfoComponent,
     GoogleMapsComponent,
     CellViewAddressRendererComponent,
+    NotificationsComponent,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

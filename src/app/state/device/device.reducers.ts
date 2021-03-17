@@ -32,6 +32,8 @@ export const selectAlarmTypes = (state$) => state$.device.alarmTypes;
 export const selectAlarmStatus = (state$) => state$.device.alarmStatus;
 
 export function reducer(state = initialState, action: DeviceActions): State {
+  console.log(action);
+
   switch (action.type) {
     case ActionTypes.GET_DEVICE_INIT: {
       return Object.assign({}, state, {
