@@ -32,8 +32,6 @@ export const selectAlarmTypes = (state$) => state$.device.alarmTypes;
 export const selectAlarmStatus = (state$) => state$.device.alarmStatus;
 
 export function reducer(state = initialState, action: DeviceActions): State {
-  console.log(action);
-
   switch (action.type) {
     case ActionTypes.GET_DEVICE_INIT: {
       return Object.assign({}, state, {
@@ -43,7 +41,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_DEVICE_SUCCESS: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         device: action.payload,
@@ -51,7 +48,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_DEVICE_FAIL: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         device: null,
@@ -67,7 +63,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_DEVICE_POSITION_SUCCESS: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         devicePositions: action.payload,
@@ -75,7 +70,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_DEVICE_POSITION_FAIL: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         devicePositions: null,
@@ -91,7 +85,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_ALARM_TYPE_SUCCESS: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         alarmTypes: action.payload,
@@ -99,7 +92,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_ALARM_TYPE_FAIL: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         alarmTypes: null,
@@ -115,7 +107,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_ALARM_STATUS_SUCCESS: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         alarmStatus: action.payload,
@@ -123,7 +114,6 @@ export function reducer(state = initialState, action: DeviceActions): State {
       });
     }
     case ActionTypes.GET_ALARM_STATUS_FAIL: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         alarmStatus: null,

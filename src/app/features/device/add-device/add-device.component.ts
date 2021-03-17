@@ -45,9 +45,7 @@ export class AddDeviceComponent implements OnInit {
     private store: Store<any>
   ) {
     const navigation = this.router.getCurrentNavigation();
-    console.log("constructor", navigation);
     if (navigation.extras.state) {
-      console.log("constructor", this.rowData);
       this.rowData = navigation.extras.state;
     }
     this.createForm(this.rowData);

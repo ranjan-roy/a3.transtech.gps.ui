@@ -29,7 +29,6 @@ export class OperatorEffects extends BaseEffects {
   getOperator$: Observable<any> = this.actions$.pipe(
     ofType(ActionTypes.GET_OPERATOR_INIT),
     switchMap((action: GetOperatorInitAction) => {
-      console.log(action);
       return this.operatorService.getOperator().pipe(
         map((payload) => {
           if (payload) {

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { Effect, Actions, ofType } from "@ngrx/effects";
 import { Observable } from "rxjs";
-import { switchMap, map, catchError } from "rxjs/operators";
+import { switchMap, map, catchError, tap } from "rxjs/operators";
 import { NotificationService } from "../../services/notification.service";
 
 import { BaseEffects } from "../base.effects";
@@ -13,6 +13,7 @@ import {
   GetNotificationSuccessAction,
   ActionTypes,
   GetNotificationAppendAction,
+  GetNotificationAppendInitAction,
 } from "./notification.actions";
 
 @Injectable()
@@ -44,14 +45,6 @@ export class NotificationEffects extends BaseEffects {
         }),
         catchError((err) => this.handleError(err))
       );
-    })
-  );
-
-  @Effect()
-  appendNotification$: Observable<any> = this.actions$.pipe(
-    ofType(ActionTypes.GET_NOTIFICATION_APPEND),
-    map((action: GetNotificationAppendAction) => {
-      return new GetNotificationSuccessAction(action);
     })
   );
 }

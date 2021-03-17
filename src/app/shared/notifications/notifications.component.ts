@@ -25,8 +25,6 @@ export class NotificationsComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.notifications) {
-      console.log("ngOnInit");
-
       this.store.dispatch(new actions.GetNotificationInitAction({}));
     }
   }

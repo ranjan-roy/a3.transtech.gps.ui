@@ -22,8 +22,6 @@ export function reducer(
   state = initialState,
   action: NotificationActions
 ): State {
-  console.log(action);
-
   switch (action.type) {
     case ActionTypes.GET_NOTIFICATION_INIT: {
       return Object.assign({}, state, {
@@ -33,7 +31,6 @@ export function reducer(
       });
     }
     case ActionTypes.GET_NOTIFICATION_SUCCESS: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         notifications: action.payload,
@@ -41,7 +38,6 @@ export function reducer(
       });
     }
     case ActionTypes.GET_NOTIFICATION_FAIL: {
-      console.log(action);
       return Object.assign({}, state, {
         loading: false,
         notifications: null,
@@ -49,13 +45,11 @@ export function reducer(
       });
     }
     case ActionTypes.GET_NOTIFICATION_APPEND: {
-      console.log(action);
-      let notifications = state.notifications;
-      notifications.unshift(action.payload);
+      let notifications = [action.payload, ...state.notifications];
       return Object.assign({}, state, {
         loading: false,
         notifications: notifications,
-        error: true,
+        error: false,
       });
     }
     default: {

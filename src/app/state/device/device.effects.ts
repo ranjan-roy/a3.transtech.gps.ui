@@ -40,7 +40,6 @@ export class DeviceEffects extends BaseEffects {
   getDevice$: Observable<any> = this.actions$.pipe(
     ofType(ActionTypes.GET_DEVICE_INIT),
     switchMap((action: GetDeviceInitAction) => {
-      console.log(action);
       return this.deviceService.getDeviceByUserId(action.payload).pipe(
         map((payload) => {
           if (payload) {
@@ -58,7 +57,6 @@ export class DeviceEffects extends BaseEffects {
   getDevicePosition$: Observable<any> = this.actions$.pipe(
     ofType(ActionTypes.GET_DEVICE_POSITION_INIT),
     switchMap((action: GetDevicePositionInitAction) => {
-      console.log(action);
       return this.deviceService.getDevicePosition().pipe(
         map((payload) => {
           if (payload) {
@@ -75,7 +73,6 @@ export class DeviceEffects extends BaseEffects {
   getAllAlarmType$: Observable<any> = this.actions$.pipe(
     ofType(ActionTypes.GET_ALARM_TYPE_INIT),
     switchMap((action: GetaLAlarmTypeInitAction) => {
-      console.log(action);
       return this.alarmService.getAllAlarmType().pipe(
         map((payload) => {
           if (payload) {
@@ -93,7 +90,6 @@ export class DeviceEffects extends BaseEffects {
   getAlarmStatus$: Observable<any> = this.actions$.pipe(
     ofType(ActionTypes.GET_ALARM_STATUS_INIT),
     switchMap((action: GetaLAlarmStatusInitAction) => {
-      console.log(action);
       return this.alarmService.getAlarmStatus().pipe(
         map((payload) => {
           if (payload) {

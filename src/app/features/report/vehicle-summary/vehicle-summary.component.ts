@@ -61,7 +61,6 @@ export class VehicleSummaryComponent implements OnInit {
   }
 
   onSetDeviceFilter(filterQuery) {
-    console.log(filterQuery);
     const filteredRows = [];
     this.rowData.forEach((item) => {
       if (this.checkRule(filterQuery, item)) {

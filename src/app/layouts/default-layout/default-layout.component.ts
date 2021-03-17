@@ -14,6 +14,7 @@ import {
   HubConnectionBuilder,
   LogLevel,
 } from "@microsoft/signalr";
+import * as signalR from "@microsoft/signalr";
 @Component({
   selector: "app-dashboard",
   templateUrl: "./default-layout.component.html",
@@ -57,15 +58,19 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.renderer.addClass(document.body, "aside-menu-show");
     this.userService.getCurrentUser().subscribe((x) => {
       this.currentUser = x;
       this._hubConnection = new HubConnectionBuilder()
-        .withUrl(`${environment.apiUrl}/notifierhub`)
+        .withUrl(`${environment.apiUrl}/notifierhub`, {
+          accessTokenFactory: () => this.storage.getToken(),
+        })
+        .withAutomaticReconnect()
+        .configureLogging(signalR.LogLevel.Debug)
         .build();
+      this._hubConnection.keepAliveIntervalInMilliseconds = 1000 * 60 * 3; // Three minutes
+      this._hubConnection.serverTimeoutInMilliseconds = 1000 * 60 * 6; // Six minutes
 
       this._hubConnection.on("broadcastNotification", (message) => {
-        console.log("broadcastNotification", message);
         this.store.dispatch(
           new actions.GetNotificationAppendAction(message[0])
         );
@@ -74,8 +79,8 @@ export class DefaultLayoutComponent implements OnInit {
       this._hubConnection
         .start()
         .then(() => {
-          this._hubConnection.invoke("OnConnected", x.userId); //1 = UserId
-          console.log("SignalR connection started");
+          //this._hubConnection.invoke("OnConnected", x.userId); //1 = UserId
+          console.info("SignalR connection started");
         })
         .catch((err) =>
           console.log("error while establishing signalr connection: " + err)
