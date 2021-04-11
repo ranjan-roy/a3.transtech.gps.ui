@@ -76,6 +76,15 @@ export class DefaultLayoutComponent implements OnInit {
         );
       });
 
+      this._hubConnection.onclose(() => {
+        this._hubConnection.start()
+          .then(() => {
+            //this._hubConnection.invoke("OnConnected", x.userId); //1 = UserId
+            console.info('SignalR connection started');
+          })
+          .catch((err) => console.log('error while establishing signalr connection: ' + err));
+      });
+      
       this._hubConnection
         .start()
         .then(() => {

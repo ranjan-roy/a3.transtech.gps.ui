@@ -37,12 +37,12 @@ export const navItems: INavData[] = [
   {
     name: "Report",
     url: "/Report",
-    icon: "fa fa-map",
+    icon: "fa fa-file",
     children: [
       {
         name: "VehicleSummary",
         url: "/Report/VehicleSummary",
-        icon: "icon-speedometer",
+        icon: "fa fa-superscript",
       },
     ]
   },
