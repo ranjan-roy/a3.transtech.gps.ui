@@ -92,7 +92,7 @@
               </div>
               </div>
             </div>
-            <div class="form-row">
+            <div class="form-row" *ngIf="!userForm.get('password').disabled">
               <label class="col-form-label">Password</label>
               <input
                 type="password"
@@ -119,24 +119,6 @@
               </div>
               </div>
             </div>
-
-           <!-- <div class="form-row">
-              <label class="col-form-label" for="phone">Phone </label>
-              <input
-                type="text"
-                formControlName="phone"
-                class="form-control"
-                [ngClass]="{
-                  'is-invalid': form.phone.touched && form.phone.errors
-                }"
-              />
-              <div
-                *ngIf="form.phone.touched && form.phone.errors"
-                class="invalid-feedback"
-              >
-                <div *ngIf="form.phone.errors.required">phone is required</div>
-              </div>
-            </div>-->
 
             <div class="form-row">
               <label class="col-form-label" for="contactPrimary">Contact Primary</label>
@@ -208,7 +190,7 @@
               </button>
               <button
                 type="button"
-                style="width: 120px; height: 35px; margin-left: 600px;"
+                style="width: 120px; height: 35px; margin-left: 30px;"
                 class="btn btn-block btn-primary">
                 Cancel
               </button>

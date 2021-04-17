@@ -80,7 +80,12 @@ export class AddUserComponent implements OnInit {
       contactPrimary: [rowData.contactPrimary, Validators.required],
       contactSecondary: [rowData.contactSecondary],
       userName: [rowData.userName, Validators.required],
-      password: [rowData.password, Validators.required],
+      password: this.rowData?.userId
+      ? [
+          { value: rowData.password, disabled: true },
+          Validators.required,
+        ]
+      : [rowData.password, Validators.required],
       vendorId: this.rowData?.userId
         ? [
             { value: rowData.vendorId?.toString(), disabled: true },
@@ -142,7 +147,7 @@ export class AddUserComponent implements OnInit {
       userName: formValue.userName,
       password: formValue.password,
       email: formValue.email,
-      //phone: formValue.phone,
+      companyName: formValue.company,
       contactPrimary: formValue.contactPrimary.toString(),
       contactSecondary: formValue.contactSecondary.toString(),
     };

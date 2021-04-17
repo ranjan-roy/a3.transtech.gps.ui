@@ -28,7 +28,7 @@ export class UserService {
     return this.http.post<any>(`${this.url}/User`, user);
   }
   updateUser(user): Observable<any> {
-    return this.http.put<any>(`${this.url}/User/${user.userId}`, user);
+    return this.http.patch<any>(`${this.url}/User/${user.userId}`, user);
   }
 
   addProfile(payload) {
