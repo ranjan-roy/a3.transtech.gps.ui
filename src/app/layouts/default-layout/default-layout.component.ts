@@ -22,7 +22,7 @@ import * as signalR from "@microsoft/signalr";
 export class DefaultLayoutComponent implements OnInit {
   public sidebarMinimized = false;
   public navItems = [];
-  private currentUser;
+  public currentUser;
   userAccessLevel: number;
   private _hubConnection: HubConnection;
   public isAsideMenuOpen = false;
