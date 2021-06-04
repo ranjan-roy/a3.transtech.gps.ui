@@ -81,7 +81,7 @@ export class VehiclePositionComponent implements OnInit {
       this.loading = true;
       this.positionSvc
         .getPositionData({
-          deviceId: this.deviceSummary.deviceType.deviceTypeId,
+          deviceId: this.deviceSummary.deviceId,
           startDate: startTime.format(),
           endDate: endTime.format(),
         })
