@@ -24,7 +24,7 @@
                                         <tbody>
                                             <tr *ngFor="let row of rowData; index as i;">
                                                 <td class="col-name">{{row.device.name}}</td>
-                                                <td class="col-date">{{row.dateTime | date:'medium'}}</td>
+                                                <td class="col-date">{{row.localDateTime | date:'medium'}}</td>
                                                 <td>
                                                     <span *ngIf="row.ignition == true"><i
                                                             class="fa fa-power-off text-success pr-2"></i>ON</span>
