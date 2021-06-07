@@ -50,6 +50,7 @@
     "@ngrx/store": "^10.1.2",
     "@ngrx/store-devtools": "^10.1.2",
     "@types/googlemaps": "3.39.13",
+    "@types/jquery": "^3.5.5",
     "ag-grid-angular": "^23.2.1",
     "ag-grid-community": "^23.2.1",
     "angular-calendar": "^0.28.5",

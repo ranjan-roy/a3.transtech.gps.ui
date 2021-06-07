@@ -59,6 +59,7 @@ export class AddUserComponent implements OnInit {
     this.vendorSvc.getAllVendor().subscribe((res) => {
       this.vendorList = res;
     });
+    //$('#phone').mask('(999) 999-9999');
   }
 
   changeVendor(e) {
