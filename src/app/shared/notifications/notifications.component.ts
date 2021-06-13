@@ -18,7 +18,7 @@ export class NotificationsComponent implements OnInit {
       .pipe(select(notificationReducer.selectNotifications))
       .subscribe((notifications) => {
         if (notifications) {
-          this.notifications = notifications;
+          this.notifications = notifications.slice(0, notifications.length >= 100 ? 100 : notifications.length);
         }
       });
   }

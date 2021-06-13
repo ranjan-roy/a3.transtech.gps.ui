@@ -57,3 +57,22 @@ export interface ColumnDefinition {
   cellRendererFramework?: any;
   minWidth?: number;
 }
+
+export interface IUserDetails {
+  accessLevel: number;
+  attemps: number;
+  companyName: string;
+  contactPrimary: null
+  contactSecondary: null
+  createdDate: string;
+  email: string;
+  lastVisit: string;
+  profileId: number;
+  profilePicture: string;
+  style: string;
+  themePreferences: number;
+  userId: number;
+  userName: string;
+  vendor: any;
+  vendorId: number;
+}

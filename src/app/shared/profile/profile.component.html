@@ -1,0 +1,76 @@
+<div class="profile-heading">
+    {{currentUser?.userName}}
+</div>
+<div class="profile-pic">
+    <img class="profile-img" [src]="currentUser?.profilePicture" />
+</div>
+<div class="profile-heading">
+    {{currentUser?.userName}}
+</div>
+<div class="m-3">
+    <div>
+
+    </div>
+    <div *ngIf="emailForm">
+        <form [formGroup]="emailForm">
+            <div class="mb-3">
+                <label class="col-form-label">Email</label>
+                <div class="input-group is-invalid">
+
+                    <input type="text" formControlName="email" class="form-control" [ngClass]="{
+                        'is-invalid': emailForm.get('email').touched && emailForm.get('email').errors
+                      }" [readonly]="emailFormSubmitted" />
+                    <div class="input-group-prepend ">
+                        <span class="input-group-text " id="validatedInputGroupPrepend"
+                            [ngClass]="{'bg-primary': !emailFormSubmitted}">
+                            <a type="button" class=" btn-link">
+                                <i class="icon-pencil" *ngIf="emailFormSubmitted" (click)="editEmail()"></i>
+                                <i class="fa fa-save " *ngIf="!emailFormSubmitted" (click)="onSubmitEmailForm()"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="emailForm.get('email').touched && emailForm.get('email').errors" class="invalid-feedback">
+                    <div *ngIf="emailForm.get('email').errors.required">
+                        *Email is required.
+                    </div>
+                    <div *ngIf="emailForm.get('email').errors.pattern">
+                        *Please Provide Valid Email address.
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+    <div *ngIf="phoneForm">
+        <form [formGroup]="phoneForm" (ngSubmit)="onSubmitPhoneForm()">
+            <div class="form-row">
+                <label class="col-form-label">Phone</label>
+                <div class="input-group is-invalid">
+                    <input type="text" formControlName="phone" class="form-control" [ngClass]="{
+                        'is-invalid': phoneForm.get('phone').touched && phoneForm.get('phone').errors
+                      }" [readonly]="phoneFormSubmitted" />
+                    <div class="input-group-prepend ">
+
+                        <span class="input-group-text " id="validatedInputGroupPrepend"
+                            [ngClass]="{'bg-primary': !phoneFormSubmitted}">
+                            <a type="button" class=" btn-link">
+                                <i class="icon-pencil link" *ngIf="phoneFormSubmitted" (click)="editPhone()"></i>
+                                <i class="fa fa-save " *ngIf="!phoneFormSubmitted" (click)="onSubmitPhoneForm()"></i>
+                            </a>
+                        </span>
+                    </div>
+                </div>
+
+                <div *ngIf="phoneForm.get('phone').touched && phoneForm.get('phone').errors" class="invalid-feedback">
+                    <div *ngIf="phoneForm.get('phone').errors.required">
+                        *Phone is required.
+                    </div>
+                    <div *ngIf="phoneForm.get('phone').errors.pattern">
+                        *Please Provide Valid Phone Number.
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

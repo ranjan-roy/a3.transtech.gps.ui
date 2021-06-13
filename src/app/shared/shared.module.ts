@@ -8,6 +8,8 @@ import { GoogleMapsComponent } from "./google-maps/google-maps.component";
 import { CellViewAddressRendererComponent } from "./table/cell-action/cell-view-address.renderer";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { NotificationsComponent } from "./notifications/notifications.component";
+import { ProfileComponent } from './profile/profile.component';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -16,9 +18,12 @@ import { NotificationsComponent } from "./notifications/notifications.component"
     GoogleMapsComponent,
     CellViewAddressRendererComponent,
     NotificationsComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     TooltipModule.forRoot(),
     AgmCoreModule.forRoot({
       apiKey: environment.mapKey,
@@ -31,6 +36,7 @@ import { NotificationsComponent } from "./notifications/notifications.component"
     GoogleMapsComponent,
     CellViewAddressRendererComponent,
     NotificationsComponent,
+    ProfileComponent
   ],
 })
-export class SharedModule {}
+export class SharedModule { }

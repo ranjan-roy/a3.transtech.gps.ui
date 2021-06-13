@@ -33,7 +33,7 @@
         <i class="icon-logout"></i>
       </a>
     </li>
-    
+
   </ul>
 </app-header>
 <div class="app-body">
@@ -59,6 +59,7 @@
     <tabset>
       <tab>
         <ng-template tabHeading><i class="icon-list"></i></ng-template>
+        <app-profile [user]="currentUser"></app-profile>
       </tab>
       <tab [active]="activeAsideTab=='notification'">
         <ng-template tabHeading><i class=" icon-speech"></i></ng-template>
