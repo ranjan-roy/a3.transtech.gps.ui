@@ -16,7 +16,7 @@ import { NotificationService } from "../../../core/service/notification.server";
 import { Router } from "@angular/router";
 import { StorageService } from "../../../core/service/storage.service";
 import { AlarmService } from "../../../services/alarm.service";
-
+import * as moment from "moment";
 @Component({
   selector: "app-add-alarm",
   templateUrl: "./add-alarm.component.html",
@@ -285,8 +285,8 @@ export class AddAlarmComponent implements OnInit, OnChanges {
       tolerance: parseInt(formValue.tolerance),
       operatorId: parseInt(formValue.operatorId),
       alarmStatus: parseInt(formValue.alarmStatus || 0),
-      startDate: formValue.startDate || new Date(),
-      endDate: formValue.endDate || new Date(),
+      startDate: formValue.startDate ? moment(formValue.startDate).toISOString()  : new Date(),
+      endDate: formValue.endDate ? moment(formValue.endDate).toISOString()  : new Date(),
     };
 
     this.alarmSvc.putAlarm(alarm.deviceAlarmId, alarm).subscribe((res) => {
