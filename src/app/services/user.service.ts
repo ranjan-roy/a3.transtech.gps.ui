@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { environment } from "../../environments/environment";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root",
@@ -19,7 +20,6 @@ export class UserService {
     return this.http.get<any>(`${this.url}/User/CurrentUser`);
   }
 
-  
   getAccessableUsers(): Observable<any> {
     return this.http.get<any>(`${this.url}/User/Get`);
   }
@@ -59,5 +59,17 @@ export class UserService {
       groupId: groupId,
     };
     return this.http.post(`${this.url}/UserGroup`, payload);
+  }
+  updateUserFields(userId, payload): Observable<any> {
+    return this.http.patch<any>(`${this.url}/User/${userId}`, payload);
+  }
+  updateProfilePicture(formData: any) {
+    let headers = new HttpHeaders();
+    headers.append("Content-Type", "multipart/form-data");
+    let options = { headers: headers, responseType: "text" as const };
+
+    return this.http
+      .put(`${this.url}/User/UpdateProfilePicture`, formData, options)
+      .pipe(map((data) => data));
   }
 }

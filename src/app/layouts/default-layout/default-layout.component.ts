@@ -48,7 +48,8 @@ export class DefaultLayoutComponent implements OnInit {
     this.sidebarMinimized = e;
   }
 
-  toggleAside() {
+  toggleAside(tabIndex) {
+    this.activeAsideTab = tabIndex;
     if (this.isAsideMenuOpen) {
       this.renderer.removeClass(document.body, "aside-menu-show");
     } else {
@@ -77,14 +78,17 @@ export class DefaultLayoutComponent implements OnInit {
       });
 
       this._hubConnection.onclose(() => {
-        this._hubConnection.start()
+        this._hubConnection
+          .start()
           .then(() => {
             //this._hubConnection.invoke("OnConnected", x.userId); //1 = UserId
-            console.info('SignalR connection started');
+            console.info("SignalR connection started");
           })
-          .catch((err) => console.log('error while establishing signalr connection: ' + err));
+          .catch((err) =>
+            console.log("error while establishing signalr connection: " + err)
+          );
       });
-      
+
       this._hubConnection
         .start()
         .then(() => {

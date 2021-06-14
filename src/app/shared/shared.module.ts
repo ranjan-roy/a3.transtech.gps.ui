@@ -8,8 +8,10 @@ import { GoogleMapsComponent } from "./google-maps/google-maps.component";
 import { CellViewAddressRendererComponent } from "./table/cell-action/cell-view-address.renderer";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { NotificationsComponent } from "./notifications/notifications.component";
-import { ProfileComponent } from './profile/profile.component';
+import { ProfileComponent } from "./profile/profile.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { ImageCropperModule } from "ngx-image-cropper";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
       apiKey: environment.mapKey,
       // To use the Google Maps JavaScript API, you must register your app project on the Google API Console and get a Google API key which you can add to your app
     }),
+    ModalModule.forRoot(),
+    ImageCropperModule,
   ],
   exports: [
     CellActionComponent,
@@ -36,7 +40,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
     GoogleMapsComponent,
     CellViewAddressRendererComponent,
     NotificationsComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
 })
-export class SharedModule { }
+export class SharedModule {}

@@ -1,18 +1,30 @@
-.profile-heading{
-    height: 40px;
-    text-align: center;
-    background-color: gray;
-    background-color: #EAEDEF;
-    font-size: 18px;
-    padding: 5px;
+.profile-heading {
+  height: 40px;
+  text-align: center;
+  background-color: gray;
+  background-color: #eaedef;
+  font-size: 18px;
+  padding: 5px;
 }
-.profile-pic{
-    text-align: center;
-    padding: 30px 0;
+.profile-pic {
+  text-align: center;
+  padding: 30px 0;
 }
-.profile-img{
-    height: 100px;
-    width: 100px;
-    background-color: gray;
-    border-radius: 50%;
+.profile-img {
+  height: 100px;
+  width: 100px;
+  background-color: gray;
+  border-radius: 50%;
+}
+.profile-edit .form-control:disabled,
+.form-control[readonly] {
+  background-color: #fff;
+  opacity: 1;
+  border: #fff;
+}
+.modal-backdrop.show {
+  z-index: 1;
+}
+.overlay-pic {
+  text-align: center;
 }
