@@ -73,6 +73,7 @@
     "ng2-charts": "^2.3.0",
     "ng2-dragula": "^2.1.1",
     "ngx-bootstrap": "^5.6.1",
+    "ngx-image-cropper": "^3.3.5",
     "ngx-perfect-scrollbar": "^9.0.0",
     "ngx-quill": "^8.1.3",
     "quill": "^1.3.7",
