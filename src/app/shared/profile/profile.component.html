@@ -30,7 +30,14 @@
             {{fileError}}
         </div>
         <br />
-        <button (click)="handleUpload()" class="btn btn-primary  btn-block">Upload</button>
+        <div class="row">
+            <div class="col">
+                <button (click)="handleUpload()" class="btn btn-primary  btn-block">Upload</button>
+            </div>
+            <div class="col">
+                <button (click)="editPicCancel()" class="btn btn-secondary   btn-block">Cancel</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -54,6 +61,9 @@
                             <i class="icon-pencil" *ngIf="emailFormSubmitted" (click)="editEmail()"></i>
                             <i class="fa fa-save " *ngIf="!emailFormSubmitted" (click)="onSubmitEmailForm()"></i>
                         </button>
+                    </div>
+                    <div class="input-group-append" *ngIf="!emailFormSubmitted">
+                        <button (click)="editEmailCancel()" class="btn btn-secondary ">Cancel</button>
                     </div>
                 </div>
                 <div *ngIf="emailForm.get('email').touched && emailForm.get('email').errors" class="invalid-feedback">
@@ -85,6 +95,9 @@
                             <i class="icon-pencil" *ngIf="phoneFormSubmitted" (click)="editPhone()"></i>
                             <i class="fa fa-save " *ngIf="!phoneFormSubmitted" (click)="onSubmitPhoneForm()"></i>
                         </button>
+                    </div>
+                    <div class="input-group-append" *ngIf="!phoneFormSubmitted">
+                        <button (click)="editPhoneCancel()" class="btn btn-secondary ">Cancel</button>
                     </div>
                 </div>
                 <div *ngIf="phoneForm.get('phone').touched && phoneForm.get('phone').errors" class="invalid-feedback">

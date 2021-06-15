@@ -59,6 +59,16 @@ export class DefaultLayoutComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.init();
+  }
+
+  handleProfileAvatarChange(url) {
+    if (url) {
+      this.init();
+    }
+  }
+
+  init() {
     this.userService.getCurrentUser().subscribe((x) => {
       this.currentUser = x;
       this._hubConnection = new HubConnectionBuilder()

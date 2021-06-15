@@ -54,7 +54,7 @@
     <tabset>
       <tab [active]="activeAsideTab=='profile'">
         <ng-template tabHeading><i class="icon-user"></i></ng-template>
-        <app-profile [user]="currentUser"></app-profile>
+        <app-profile [user]="currentUser" (onProfileAvatarChange)="handleProfileAvatarChange($event)"></app-profile>
       </tab>
       <tab [active]="activeAsideTab=='notification'">
         <ng-template tabHeading><i class=" icon-speech"></i></ng-template>

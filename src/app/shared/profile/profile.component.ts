@@ -3,8 +3,10 @@ import {
   Input,
   OnChanges,
   OnInit,
+  Output,
   TemplateRef,
   ViewChild,
+  EventEmitter,
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NotificationService } from "../../core/service/notification.server";
@@ -22,10 +24,9 @@ const maxFileSize = 5 * 1024 * 1024;
   styleUrls: ["./profile.component.css"],
 })
 export class ProfileComponent implements OnInit, OnChanges {
-  @ViewChild("modaltemplate") templateRef: TemplateRef<any>;
-  modalRef: BsModalRef;
-
   @Input() user: IUserDetails;
+  @Output() onProfileAvatarChange = new EventEmitter();
+
   url = environment.apiUrl;
   emailForm: FormGroup;
   emailFormSubmitted = true;
@@ -102,8 +103,14 @@ export class ProfileComponent implements OnInit, OnChanges {
   loadImageFailed() {
     // show message
   }
+
   editPic() {
     this.imageEdit = true;
+  }
+  editPicCancel() {
+    this.imageChangedEvent = null;
+    this.croppedImage = this.user.profilePicture;
+    this.imageEdit = false;
   }
 
   handleUpload() {
@@ -117,6 +124,7 @@ export class ProfileComponent implements OnInit, OnChanges {
           "Profile Picture updated successfully"
         );
         this.imageEdit = false;
+        this.onProfileAvatarChange.emit(res);
       },
       (error) => {
         this._notificationSvc.success("Error", "Some error occured" + error);
@@ -139,21 +147,27 @@ export class ProfileComponent implements OnInit, OnChanges {
     }
   }
 
-  openModal() {
-    this.modalRef = this.modalService.show(this.templateRef, {
-      class: "modal-sm",
-    });
-  }
-  hideModal(template: TemplateRef<any>) {
-    this.modalRef.hide();
-  }
-
   ngOnInit(): void {}
   editEmail() {
     this.emailFormSubmitted = false;
   }
   editPhone() {
     this.phoneFormSubmitted = false;
+  }
+  editPhoneCancel() {
+    this.phone = this.user.contactPrimary;
+    this.phoneForm.setValue({
+      phone: this.phone,
+    });
+    this.phoneFormSubmitted = true;
+  }
+
+  editEmailCancel() {
+    this.email = this.user.email;
+    this.emailForm.setValue({
+      email: this.email,
+    });
+    this.emailFormSubmitted = true;
   }
 
   createForm() {
