@@ -1,11 +1,14 @@
 <div class="profile-heading">
-    {{currentUser?.userName}}
+    {{currentUser?.companyName}}
 </div>
 <div *ngIf="!imageEdit">
     <div class="profile-pic">
         <img class="profile-img" [src]="croppedImage" />
+        <div class="text-muted font-weight-bold">
+            {{currentUser?.accessLevelInfo?.name}}
+        </div>
         <div class="overlay-pic">
-            <a style="cursor: pointer;" (click)="editPic()">Edit <i class="icon-pencil"></i></a>
+            <a style="cursor: pointer;" (click)="editPic()"><i class="icon-camera"></i></a>
         </div>
     </div>
 </div>
@@ -35,7 +38,7 @@
                 <button (click)="handleUpload()" class="btn btn-primary  btn-block">Upload</button>
             </div>
             <div class="col">
-                <button (click)="editPicCancel()" class="btn btn-secondary   btn-block">Cancel</button>
+                <button (click)="editPicCancel()" class="btn btn-danger   btn-block">Cancel</button>
             </div>
         </div>
     </div>
@@ -63,7 +66,7 @@
                         </button>
                     </div>
                     <div class="input-group-append" *ngIf="!emailFormSubmitted">
-                        <button (click)="editEmailCancel()" class="btn btn-secondary ">Cancel</button>
+                        <button (click)="editEmailCancel()" class="btn btn-danger "><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div *ngIf="emailForm.get('email').touched && emailForm.get('email').errors" class="invalid-feedback">
@@ -97,7 +100,7 @@
                         </button>
                     </div>
                     <div class="input-group-append" *ngIf="!phoneFormSubmitted">
-                        <button (click)="editPhoneCancel()" class="btn btn-secondary ">Cancel</button>
+                        <button (click)="editPhoneCancel()" class="btn btn-danger "><i class="fa fa-times"></i></button>
                     </div>
                 </div>
                 <div *ngIf="phoneForm.get('phone').touched && phoneForm.get('phone').errors" class="invalid-feedback">
