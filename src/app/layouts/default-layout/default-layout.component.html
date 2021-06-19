@@ -17,15 +17,15 @@
     <li class="nav-item dropdown" dropdown placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" dropdownToggle
         (click)="toggleAside('profile')">
-        <div class="avatar">
-          <img class="avatar-img" [src]="currentUser?.profilePicture">
+        <div class="avatar avatar-custom">
+          <img class="avatar-img avatar-border" [src]="currentUser?.profilePicture">
         </div>
       </a>
     </li>
     <li class="nav-item dropdown d-md-down-none" placement="bottom right">
       <a class="nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
         [routerLink]="['/logout']">
-        <i class="icon-logout"></i>
+        <i class="icon-logout"></i><span class="logout-txt">Logout</span> 
       </a>
     </li>
 
@@ -67,6 +67,6 @@
   </app-aside>
 </div>
 <app-footer>
-  <span><a href="#">Easy go</a> &copy; 2020.</span>
-  <span class="ml-auto">Powered by <a href="#">A3 Transtech</a></span>
+  <span><a href="https://gps.a3transtech.com/">Easy go</a> &copy; 2020.</span>
+  <span class="ml-auto">Powered by <a href="https://a3transtech.com/">A3 Transtech</a></span>
 </app-footer>

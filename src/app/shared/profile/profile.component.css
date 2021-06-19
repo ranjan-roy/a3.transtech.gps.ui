@@ -29,5 +29,13 @@
 .overlay-pic {
   text-align: center;
   position: relative;
-  bottom: 50px;
+  bottom: 40px;
+}
+
+.verification-status{
+  margin-left: 10px;
+}
+
+.hover-status{
+  cursor:pointer;
 }

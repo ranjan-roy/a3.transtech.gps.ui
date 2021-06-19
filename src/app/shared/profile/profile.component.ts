@@ -104,6 +104,14 @@ export class ProfileComponent implements OnInit, OnChanges {
     // show message
   }
 
+  verifyPhone(){
+    console.log("verify phone called.");
+  }
+
+  verifyEmail(){
+    console.log("verify email called.");
+  }
+
   editPic() {
     this.imageEdit = true;
   }
