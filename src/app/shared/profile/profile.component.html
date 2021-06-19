@@ -97,7 +97,7 @@
                     <div class="input-group-prepend" *ngIf="!phoneFormSubmitted">
                         <span class="input-group-text">+91</span>
                     </div>
-                    <input type="text" formControlName="phone" class="form-control" placeholder="91XXXXXXXXXX"
+                    <input type="text" formControlName="phone" class="form-control" placeholder="XXXXXXXXXX"
                         [ngClass]="{
                         'is-invalid': phoneForm.get('phone').touched && phoneForm.get('phone').errors
                       }" [readonly]="phoneFormSubmitted" />
@@ -119,7 +119,7 @@
                         *Phone is required.
                     </div>
                     <div *ngIf="phoneForm.get('phone').errors.pattern">
-                        *Please Provide Valid Phone Number 91xxxxxxxxxx.
+                        *Please Provide Valid Phone Number.
                     </div>
                 </div>
             </div>

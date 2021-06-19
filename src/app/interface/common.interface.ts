@@ -75,4 +75,6 @@ export interface IUserDetails {
   userName: string;
   vendor: any;
   vendorId: number;
+  phoneVerified:boolean;
+  emailVerified:boolean;
 }

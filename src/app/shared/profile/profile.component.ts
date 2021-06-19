@@ -194,7 +194,7 @@ export class ProfileComponent implements OnInit, OnChanges {
         this.phone,
         [
           Validators.required,
-          Validators.pattern("(91)[0-9]{10}"),
+          Validators.pattern("[7-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]"),
           Validators.minLength(10),
           Validators.maxLength(12),
         ],
@@ -212,6 +212,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             "Success",
             "Email updated successfully"
           );
+          this.user.emailVerified=false;
           this.emailFormSubmitted = true;
         });
     }
@@ -227,6 +228,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             "Success",
             "Phone updated successfully"
           );
+          this.user.phoneVerified=false;
           this.phoneFormSubmitted = true;
         });
     }
