@@ -5,7 +5,7 @@
     <div class="profile-pic">
         <img class="profile-img" [src]="croppedImage" />
         <div class="text-muted font-weight-bold">
-            {{currentUser?.accessLevel}}
+            {{userType}}
         </div>
         <div class="overlay-pic">
             <a style="cursor: pointer;" (click)="editPic()"><i class="icon-camera"></i></a>

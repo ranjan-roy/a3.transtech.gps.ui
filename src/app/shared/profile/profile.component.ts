@@ -42,6 +42,7 @@ export class ProfileComponent implements OnInit, OnChanges {
   croppedImage: any = "";
   imageEdit = false;
   fileError: string;
+  userType: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -104,11 +105,11 @@ export class ProfileComponent implements OnInit, OnChanges {
     // show message
   }
 
-  verifyPhone(){
+  verifyPhone() {
     console.log("verify phone called.");
   }
 
-  verifyEmail(){
+  verifyEmail() {
     console.log("verify email called.");
   }
 
@@ -152,10 +153,21 @@ export class ProfileComponent implements OnInit, OnChanges {
         phone: this.phone,
       });
       this.croppedImage = this.user.profilePicture;
+
+      if (this.currentUser.accessLevel == 1) {
+        this.userType = "Admin"
+      } else if (this.currentUser.accessLevel == 2) {
+        this.userType = "Vendor Admin"
+      } else if (this.currentUser.accessLevel == 3) {
+        this.userType = "General User"
+      }
     }
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    
+  }
+
   editEmail() {
     this.emailFormSubmitted = false;
   }
@@ -212,7 +224,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             "Success",
             "Email updated successfully"
           );
-          this.user.emailVerified=false;
+          this.user.emailVerified = false;
           this.emailFormSubmitted = true;
         });
     }
@@ -228,7 +240,7 @@ export class ProfileComponent implements OnInit, OnChanges {
             "Success",
             "Phone updated successfully"
           );
-          this.user.phoneVerified=false;
+          this.user.phoneVerified = false;
           this.phoneFormSubmitted = true;
         });
     }
