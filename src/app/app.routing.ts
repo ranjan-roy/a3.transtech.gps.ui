@@ -80,7 +80,7 @@ export const routes: Routes = [
           import("./features/device/device.module").then((m) => m.DeviceModule),
       },
       {
-        path: "DeviceAlarm",
+        path: "Device Alarm",
         canActivate: [AuthGuardService],
         loadChildren: () =>
           import("./features/alarm/alarm.module").then((m) => m.AlarmModule),

@@ -25,8 +25,8 @@ export const navItems: INavData[] = [
     icon: "fa fa-usb",
   },
   {
-    name: "DeviceAlarm",
-    url: "/DeviceAlarm",
+    name: "Device Alarm",
+    url: "/Device Alarm",
     icon: "fa fa-bell",
   },
   {
@@ -40,8 +40,8 @@ export const navItems: INavData[] = [
     icon: "fa fa-file",
     children: [
       {
-        name: "VehicleSummary",
-        url: "/Report/VehicleSummary",
+        name: "Vehicle Summary",
+        url: "/Report/Vehicle Summary",
         icon: "fa fa-superscript",
       },
     ]

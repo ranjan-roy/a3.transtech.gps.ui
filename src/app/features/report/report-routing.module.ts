@@ -6,7 +6,7 @@ import { VehicleSummaryComponent } from './vehicle-summary/vehicle-summary.compo
 
 const routes: Routes = [
   {
-    path: "VehicleSummary",
+    path: "Vehicle Summary",
     component: VehicleSummaryComponent
   },
   {
