@@ -164,7 +164,7 @@
               </div>
             </div>
             <div class="form-row">
-              <label class="col-form-label" for="phone">Phone </label>
+              <label class="col-form-label" for="phone">Primary Contact </label>
               <input
                 type="text"
                 formControlName="phone"
@@ -178,7 +178,7 @@
                 *ngIf="form.phone.touched && form.phone.errors"
                 class="invalid-feedback">
               <div *ngIf="form.phone.errors.required">
-                *phone is required
+                *Primary Contact is required
               </div>
               <div *ngIf="form.phone.errors.pattern">
                 *Please provide valid Phone Number.
@@ -186,7 +186,7 @@
               </div>
             </div>
             <div class="form-row">
-              <label class="col-form-label" for="mobile">Mobile </label>
+              <label class="col-form-label" for="mobile">Secondary Contact </label>
               <input
                 type="text"
                 formControlName="mobile"
@@ -200,7 +200,7 @@
                 *ngIf="form.mobile.touched && form.mobile.errors"
                 class="invalid-feedback">
               <div *ngIf="form.mobile.errors.required">
-                *Mobile is required.
+                *Secondary Contact is required.
               </div>
               <div *ngIf="form.mobile.errors.pattern">
                 *Please provide valid Mobile Number.

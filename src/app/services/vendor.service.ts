@@ -25,6 +25,10 @@ export class VendorService {
     return this.http.post(`${this.url}/Vendor`, payload);
   }
 
+  checkIfUserExists(payload) {
+    return this.http.post(`${this.url}/User/exists`, payload);
+  }
+
   addProfile(payload) {
     return this.http.post(`${this.url}/Profile`, payload);
   }

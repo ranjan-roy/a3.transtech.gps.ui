@@ -103,31 +103,45 @@ export class AddEditComponent implements OnInit {
       phone: formValue.phone,
       mobile: formValue.mobile,
     };
-    this.vendorSvc.addVendor(vendor).subscribe((v) => {
-      if (v) {
-        this.vendorSvc
-          .addUser({
-            name: v["name"],
-            vendorId: v["vendorId"],
-            accessLevel: 2,
-            companyName: v["name"],
-            userName: formValue.userName,
-            password: formValue.password,
-            email: v["mail"],
-            phone: v["phone"],
-            userId: 0,
-          })
-          .subscribe((profile) => {
-            this._notificationSvc.success(
-              "Success",
-              "Vendor added successfully"
-            );
-            this.vendorForm.reset();
-            this.store.dispatch(new vendorActions.GetVendorInitAction({}));
-            this.router.navigate(["/Vendor"]);
-          });
+    this.vendorSvc.checkIfUserExists({
+      name: formValue.name,
+      companyName: formValue.name,
+      userName: formValue.userName,
+      password: formValue.password,
+      email: formValue.email,
+      contactPrimary: formValue.phone,
+      contactSecondary: formValue.mobile,
+    }).subscribe((result) => {
+      if(!result){
+        this.vendorSvc.addVendor(vendor).subscribe((v) => {
+          if (v) {
+            this.vendorSvc
+              .addUser({
+                name: v["name"],
+                vendorId: v["vendorId"],
+                accessLevel: 2,
+                companyName: v["name"],
+                userName: formValue.userName,
+                password: formValue.password,
+                email: v["mail"],
+                contactPrimary: v["phone"],
+                contactSecondary: v["mobile"],
+                userId: 0,
+              })
+              .subscribe((profile) => {
+                this._notificationSvc.success(
+                  "Success",
+                  "Vendor added successfully"
+                );
+                this.vendorForm.reset();
+                this.store.dispatch(new vendorActions.GetVendorInitAction({}));
+                this.router.navigate(["/Vendor"]);
+              });
+          }
+        });
       }
     });
+   
   }
 
   updateVendor(formValue) {
